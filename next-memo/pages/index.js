@@ -2,7 +2,7 @@ import {
   List,
   ListItem,
   VStack,
-  Flex,
+  Flex as Flex,
   IconButton,
   Button,
   Input,
@@ -13,7 +13,9 @@ import { RiTwitchLine } from "react-icons/ri";
 import MemoItem from "../components/MemoItem";
 import MemoInput from "../components/MemoInput";
 // import Memo from "../components/Memo";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import PullToRefresh from "react-simple-pull-to-refresh";
+
 import { BiAddToQueue } from "react-icons/bi";
 import { BsPlusLg } from "react-icons/bs";
 
@@ -21,53 +23,56 @@ import { BsPlusLg } from "react-icons/bs";
 //BsFillPlusSquareFill
 //BsFillPlusCircleFill
 //BsPlusLg
+//IoMdGlobe 지구본
+// IoDocumentTextOutline 문서
 
 export default function Home() {
+  const [memoList, setMemoList] = useState([]);
+
+  const getMemos = async () => {
+    const res = await fetch(`/api/lists`);
+    const memos = await res.json();
+    setMemoList(memos);
+    console.log(memoList);
+  };
+  // pull refresh 함수입니다
+  const handleRefresh = async () => {
+    getMemos();
+    return 0;
+  };
+
+  useEffect(() => {
+    getMemos();
+  }, []);
+
   return (
-    <VStack w="full" justify="center" align="center">
-      {/* <VStack w="full" align="center" mt={3}> */}
-      {/* <VStack w="full" align="center" mx	mt={3}> */}
-      {/* <p>천다원에박자</p> */}
-      {/* 최상단 구분자 */}
-      {/* <Flex>{/1* 추가 인풋 *1/}</Flex> */}
-      <MemoInput />
-      <Flex>{/* 리스트 항목 */}</Flex>
-      {/* <IconButton color="purple.100" icon={<BiAddToQueue />} aria-label="Test" /> */}
-      {/* <IconButton color="purple.100" icon={<RiTwitchLine />} aria-label="Test" /> */}
-      결과론적으로 속아넘어간 것 같습니다
-      {/* <Memo /> */}
-      {/* <Temp /> */}
-      {/* <IconButton */}
-      {/*   color="purple.100" */}
-      {/*   icon={<BiAddToQueue />} */}
-      {/*   aria-label="Test" */}
-      {/* /> */}
-      <List spacing={2}>
-        <ListItem>
-          <MemoItem msg="식초" />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-        <ListItem>
-          <MemoItem />
-        </ListItem>
-      </List>
-    </VStack>
+    <PullToRefresh
+      onRefresh={handleRefresh}
+      justifyContent="center"
+      pullingContent=""
+    >
+      {/* <PullToRefresh onRefresh={handleRefresh} justifyContent='center' pullingContent='당겨서 리프레시'> */}
+      <VStack overflowY='auto' w="full" justify="center" align="center">
+        {/* 메모입력란 */}
+        <MemoInput />
+
+        {/* 메모 항목들 */}
+        <Flex pt={2}>
+          <List spacing={2}>
+            <ListItem>
+              {/*memoList.map((memo) => (
+                <MemoItem msg={memo.text} />
+			  ))*/}
+              {memoList.map((memo) => (
+                <MemoItem memo={memo} />
+              ))}
+            </ListItem>
+            {/* <ListItem> */}
+            {/*   <MemoItem msg="식초" /> */}
+            {/* </ListItem> */}
+          </List>
+        </Flex>
+      </VStack>
+    </PullToRefresh>
   );
 }
