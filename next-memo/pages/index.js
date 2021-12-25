@@ -7,6 +7,7 @@ import {
   Button,
   Input,
   Heading,
+  Box,
 } from "@chakra-ui/react";
 import { RiTwitchLine } from "react-icons/ri";
 // import Temp from "./Temp";
@@ -28,6 +29,7 @@ import { BsPlusLg } from "react-icons/bs";
 
 export default function Home() {
   const [memoList, setMemoList] = useState([]);
+  const [inputText, setInputText] = useState("");
 
   const getMemos = async () => {
     const res = await fetch(`/api/lists`);
@@ -35,9 +37,13 @@ export default function Home() {
     setMemoList(memos);
     console.log(memoList);
   };
-  // pull refresh 함수입니다
+
+  // pull-down refresh 함수입니다
   const handleRefresh = async () => {
-    getMemos();
+    {
+      /* 메모 항목들 */
+    }
+    await getMemos();
     return 0;
   };
 
@@ -52,26 +58,47 @@ export default function Home() {
       pullingContent=""
     >
       {/* <PullToRefresh onRefresh={handleRefresh} justifyContent='center' pullingContent='당겨서 리프레시'> */}
-      <VStack overflowY='auto' w="full" justify="center" align="center">
+      <VStack overflowY="auto" w="full" justify="center" align="center">
         {/* 메모입력란 */}
-        <MemoInput />
+        <MemoInput
+          inputText={inputText}
+          setInputText={setInputText}
+          getMemos={getMemos}
+        />
 
         {/* 메모 항목들 */}
-        <Flex pt={2}>
-          <List spacing={2}>
-            <ListItem>
-              {/*memoList.map((memo) => (
-                <MemoItem msg={memo.text} />
-			  ))*/}
-              {memoList.map((memo) => (
-                <MemoItem memo={memo} />
-              ))}
-            </ListItem>
-            {/* <ListItem> */}
-            {/*   <MemoItem msg="식초" /> */}
-            {/* </ListItem> */}
-          </List>
-        </Flex>
+        <VStack
+          pt={2}
+          justifyContent="center"
+          alignItems="center"
+          flexDirection="column-reverse"
+        >
+          {/* spacing={2} */}
+          {/* w={["10px", "10px"]} */}
+          {/* maxW='10px' */}
+          {/* maxW={['10em', '10em']} */}
+          {console.log(Date.now())}
+          {memoList.map((memo) => (
+            <Box mb={4}>
+              <MemoItem
+                as={Flex}
+                key={memo.time}
+                memo={memo}
+                getMemos={getMemos}
+              />
+            </Box>
+          ))}
+          {/* <List spacing={2}> */}
+          {/*   <ListItem> */}
+          {/*     {memoList.map((memo) => ( */}
+          {/*       <MemoItem key={memo.time} memo={memo} getMemos={getMemos} /> */}
+          {/*     ))} */}
+          {/*   </ListItem> */}
+          {/*   {/1* <ListItem> *1/} */}
+          {/*   {/1*   <MemoItem msg="식초" /> *1/} */}
+          {/*   {/1* </ListItem> *1/} */}
+          {/* </List> */}
+        </VStack>
       </VStack>
     </PullToRefresh>
   );
