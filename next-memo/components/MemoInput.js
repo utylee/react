@@ -11,7 +11,8 @@ const MemoInput = ({ inputText, setInputText, getMemos }) => {
   // 추가 버튼을 클릭할 경우 호출되는 함수입니다
   const handleClick = async () => {
     console.log("clicked");
-    const now = Math.round(Date.now() / 1000);
+    // const now = Math.round(Date.now() / 1000);
+    const now = Date.now();
     console.log(now);
     const requestOptions = {
       method: "POST",
