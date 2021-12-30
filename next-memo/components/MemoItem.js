@@ -28,13 +28,8 @@ import "moment/locale/ko";
 // Moment.globalLocale = "ko";
 // Moment.globalLocal = true;
 
-// const MemoItem = ({ key, memo, children }) => {
 const MemoItem = ({ memo, children, getMemos }) => {
-  // const isIcon =
-  //   // memo.type === 1 ? IoMdGlobe : BsTextLeft;
-  //   memo.type === 1 ? IoMagnetOutline : BsTextLeft;
-  // const isColor = memo.type === 1 ? blue.600" : "gray.400";
-  const isIcon = (() => {
+  const iconType = (() => {
     if (memo.type === 0) {
       return BsTextLeft;
     } else if (memo.type === 1) {
@@ -44,7 +39,32 @@ const MemoItem = ({ memo, children, getMemos }) => {
       return IoMagnet;
     }
   })();
-  const isColor = (() => {
+  const isLink = () => {
+    if (memo.type === 1 || memo.type === 2) {
+      console.log("islink");
+      return true;
+    } else {
+      console.log("isnotlink");
+      return false;
+    }
+  };
+  const isLinkOpen = () => {
+    if (memo.type === 1 || memo.type === 2) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const isLinkClose = () => {
+    if (memo.type === 1 || memo.type === 2) {
+      return true;
+      // return </Link>;
+    } else {
+      return false;
+      // return </>;
+    }
+  };
+  const iconColor = (() => {
     if (memo.type === 0) {
       return "gray.400";
     } else if (memo.type === 1) {
@@ -78,18 +98,16 @@ const MemoItem = ({ memo, children, getMemos }) => {
 
     await getMemos();
   };
-  console.log("clicked");
 
   return (
     <VStack mb={3} align="flex-end" spacing={0}>
+      {/* ------------------------------------------------- */}
       {/* 시간과 메모버블을 모두 포함한 영역 */}
-      {/* 메모버블 */}
+      {/* 메모버블세트 */}
       <Flex
         justifyContent="space-between"
-        w="full"
-        minW="200px"
-        maxW={["100px", "500px"]}
         bg="gray.100"
+        w={["18em", "28em"]}
         rounded="2xl"
         px={2}
         align="center"
@@ -103,28 +121,39 @@ const MemoItem = ({ memo, children, getMemos }) => {
 
         {/* onClick={handleClick} */}
         {/* maxW="300px" */}
+
+        {/* ------------------------------------------------- */}
         {/* 메모타입 */}
-        {console.log(isIcon)}
+        {console.log(iconType)}
         <Flex flexDirection="flex-start">
-          <Icon as={isIcon} color={isColor} />
+          <Icon as={iconType} color={iconColor} />
         </Flex>
         {/* <Icon as={IoMdGlobe} /> */}
         {/* <Icon icon={{ isText }} /> */}
         {/* <IconButton icon={<IoMdGlobe />} /> */}
         {/* <IconButton icon={<BsFillBackspaceFill />} /> */}
 
+        {/* ------------------------------------------------- */}
         {/* 메모 텍스트 */}
-        {/* 링크여부를 판단하여 추가합니다 */}
-        <Link href={memo.text}>
+        {/* 링크여부를 판단하여 앵커를 추가합니다 */}
+        <ConditionalLink
+          condition={isLink}
+          wrapper={(children) => <Link href={memo.text}>{children}</Link>}
+        >
+          {/* {isLinkOpen ? (<Link href={memo.text}>) : null} */}
+          {/* <Link href={memo.text}> */}
           {/* <Link href={memo.text} isExternal> */}
+          {/* maxW={["11em", "18em", "25em", "38em"]} */}
+          {/* maxW={["11em", "18em", "25em"]} */}
+          {/* w="full" */}
+          {/* w={["11em", "18em", "25em"]} */}
           <Text
             as={Box}
             outline="none"
-            w="full"
+            w={["11em", "18em"]}
             color="gray.600"
             fontSize="lg"
             ml={2}
-            maxW="100px"
             overflow="hidden"
             textOverflow="ellipsis"
             whiteSpace={clicked ? "wrap" : "nowrap"}
@@ -133,8 +162,10 @@ const MemoItem = ({ memo, children, getMemos }) => {
           >
             {memo.text}
           </Text>
-        </Link>
+        </ConditionalLink>
+        {/* {isLinkOpen ? (</Link>) : null} */}
 
+        {/* ------------------------------------------------- */}
         {/* 삭제버튼 */}
         <IconButton
           variant="ghost"
@@ -144,32 +175,30 @@ const MemoItem = ({ memo, children, getMemos }) => {
           my={1}
           color="red.200"
           onClick={() => handleRemove()}
-        >
-          {/* 삭제버튼 */}
-        </IconButton>
+        ></IconButton>
         {children}
       </Flex>
 
+      {/* ------------------------------------------------- */}
       {/* 시간 */}
       <Text pr={4} fontSize="xs" color="gray.400">
         {/* <Text pr={4} fontSize="xx-small" color="gray.400"> */}
-        {/* parseInt(memo.time) */}
-        {/* parseInt(memo.time) */}
-        {/* Date.now() */}
-        {/* moment.locale("ko") */}
-        {/* (moment(Date.now())) */}
-        {/* return moment().format("YYYYMMDD HH:mm:ss"); */}
-        {/* (() => { */}
-        {/* moment.locale("ko"); */}
-        {/* })() */}
+
+        {/* 인터벌을 0으로 disable 해주지 않으면 타이머가 동작하는 것 같습니다 */}
         <Moment interval={0} format="MM월 DD일 (dd) HH:mm:ss">
+          {/* 스트링을 숫자로 변환하는 함수합니다 */}
           {parseInt(memo.time)}
         </Moment>
         {/* <Moment>{Date.now()}</Moment> */}
       </Text>
-      {/* 10월31일 (수) 오후 6:41 */}
     </VStack>
   );
+};
+
+const ConditionalLink = ({ wrapper, condition, children }) => {
+  // console.log("conditional link come in");
+  // condition에 ()를 붙여서 함수실행을 하게끔해줘야 했습니다
+  return condition() ? wrapper(children) : children;
 };
 
 export default MemoItem;

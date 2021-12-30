@@ -9,8 +9,8 @@ const MemoInput = ({ inputText, setInputText, getMemos }) => {
   };
 
   // 추가 버튼을 클릭할 경우 호출되는 함수입니다
-  const handleClick = async () => {
-    console.log("clicked");
+  const handleAddClick = async () => {
+    console.log("Add Clicked");
     // const now = Math.round(Date.now() / 1000);
     const now = Date.now();
     console.log(now);
@@ -30,36 +30,47 @@ const MemoInput = ({ inputText, setInputText, getMemos }) => {
 
   // JSX
   return (
-    <HStack
-      w="full"
-      maxW="400px"
-      mx={3}
-      py={4}
-      px={4}
-      justifyContent="space-between"
-      borderBottomWidth={1}
-      borderBottomColor="gray.100"
-      spacing={6}
-    >
-      {/* <Input pr={80} variant="filled" placeholder="추가할 메모" rounded="full" /> */}
-      <Input
-        w="xs"
-        value={inputText}
-        variant="filled"
-        placeholder="메모를 입력하세요"
-        rounded="full"
-        onChange={handleInputText}
-      />
-      <Box pr={2}>
-        <IconButton
-          w="80px"
-          aria-label="memo input"
-          colorScheme="teal"
-          icon={<BsPlusLg />}
-          onClick={handleClick}
+    <>
+      {/* 전체 인풋 row */}
+      <HStack
+        w="full"
+        maxW="25em"
+        mx={3}
+        py={4}
+        px={4}
+        justifyContent="space-between"
+        borderBottomWidth={1}
+        borderBottomColor="gray.100"
+        spacing={6}
+      >
+        {/* <Input pr={80} variant="filled" placeholder="추가할 메모" rounded="full" /> */}
+        <Input
+          w="xs"
+          value={inputText}
+          variant="filled"
+          placeholder="메모를 입력하세요"
+          rounded="full"
+          onInput={handleInputText}
+          onKeyPress={(e) => {
+            e.key === "Enter" ? handleAddClick() : null;
+          }}
         />
-      </Box>
-    </HStack>
+        {/* onKeyPress={(e) => {(e.key === "Enter" ? handleAddClick : null)}} */}
+        {/* onKeyDown={(e) => {(e.key === "Enter" ? console.log("fuck") : null)}} */}
+        {/* onKeyDown={(e) => (e.key === "Enter" ? handleAddClick : null)} */}
+        {/* onChange가 맞는지 onInput이 맞는지는 모르겠습니다 */}
+        {/* onChange={handleInputText} */}
+        <Box pr={2}>
+          <IconButton
+            w="6em"
+            aria-label="memo input"
+            colorScheme="teal"
+            icon={<BsPlusLg />}
+            onClick={handleAddClick}
+          />
+        </Box>
+      </HStack>
+    </>
   );
 };
 

@@ -52,54 +52,58 @@ export default function Home() {
   }, []);
 
   return (
-    <PullToRefresh
-      onRefresh={handleRefresh}
-      justifyContent="center"
-      pullingContent=""
-    >
+    <>
+      {/* 아래로 당길시 리프레시 모듈입니다 */}
       {/* <PullToRefresh onRefresh={handleRefresh} justifyContent='center' pullingContent='당겨서 리프레시'> */}
-      <VStack overflowY="auto" w="full" justify="center" align="center">
-        {/* 메모입력란 */}
-        <MemoInput
-          inputText={inputText}
-          setInputText={setInputText}
-          getMemos={getMemos}
-        />
+      <PullToRefresh
+        onRefresh={handleRefresh}
+        justifyContent="center"
+        pullingContent=""
+      >
+        {/* 총 페이지 */}
+        <VStack overflowY="auto" w="full" justify="center" align="center">
+          {/* 메모입력란 */}
+          <MemoInput
+            inputText={inputText}
+            setInputText={setInputText}
+            getMemos={getMemos}
+          />
 
-        {/* 메모 항목들 */}
-        <VStack
-          pt={2}
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column-reverse"
-        >
-          {/* spacing={2} */}
-          {/* w={["10px", "10px"]} */}
-          {/* maxW='10px' */}
-          {/* maxW={['10em', '10em']} */}
-          {console.log(Date.now())}
-          {memoList.map((memo) => (
-            <Box mb={4}>
-              <MemoItem
-                as={Flex}
-                key={memo.time}
-                memo={memo}
-                getMemos={getMemos}
-              />
-            </Box>
-          ))}
-          {/* <List spacing={2}> */}
-          {/*   <ListItem> */}
-          {/*     {memoList.map((memo) => ( */}
-          {/*       <MemoItem key={memo.time} memo={memo} getMemos={getMemos} /> */}
-          {/*     ))} */}
-          {/*   </ListItem> */}
-          {/*   {/1* <ListItem> *1/} */}
-          {/*   {/1*   <MemoItem msg="식초" /> *1/} */}
-          {/*   {/1* </ListItem> *1/} */}
-          {/* </List> */}
+          {/* 메모 항목들 */}
+          <VStack
+            pt={2}
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column-reverse"
+          >
+            {/* spacing={2} */}
+            {/* w={["10px", "10px"]} */}
+            {/* maxW='10px' */}
+            {/* maxW={['10em', '10em']} */}
+            {console.log(Date.now())}
+            {memoList.map((memo) => (
+              <Box mb={4}>
+                <MemoItem
+                  as={Flex}
+                  key={memo.time}
+                  memo={memo}
+                  getMemos={getMemos}
+                />
+              </Box>
+            ))}
+            {/* <List spacing={2}> */}
+            {/*   <ListItem> */}
+            {/*     {memoList.map((memo) => ( */}
+            {/*       <MemoItem key={memo.time} memo={memo} getMemos={getMemos} /> */}
+            {/*     ))} */}
+            {/*   </ListItem> */}
+            {/*   {/1* <ListItem> *1/} */}
+            {/*   {/1*   <MemoItem msg="식초" /> *1/} */}
+            {/*   {/1* </ListItem> *1/} */}
+            {/* </List> */}
+          </VStack>
         </VStack>
-      </VStack>
-    </PullToRefresh>
+      </PullToRefresh>
+    </>
   );
 }
