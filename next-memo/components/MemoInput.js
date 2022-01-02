@@ -14,14 +14,20 @@ const MemoInput = ({ inputText, setInputText, getMemos }) => {
     // const now = Math.round(Date.now() / 1000);
     const now = Date.now();
     console.log(now);
+    const uid = Math.floor(Math.random() * 10000000);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       // body: JSON.stringify({ time: now, text: inputText.trim()"pink head", type: 0 }),
-      body: JSON.stringify({ time: now, text: inputText.trim(), type: 0 }),
+      body: JSON.stringify({
+        uid: uid,
+        time: now,
+        text: inputText.trim(),
+        type: 0,
+      }),
     };
 
-    const res = await fetch("/api/postjs", requestOptions);
+    const res = await fetch("/api/addjs", requestOptions);
     const test = await res.json();
     console.log(test);
     setInputText("");
@@ -40,12 +46,13 @@ const MemoInput = ({ inputText, setInputText, getMemos }) => {
         px={4}
         justifyContent="space-between"
         borderBottomWidth={1}
-        borderBottomColor="gray.100"
+        borderBottomColor="gray.700"
         spacing={6}
       >
         {/* <Input pr={80} variant="filled" placeholder="추가할 메모" rounded="full" /> */}
         <Input
           w="xs"
+          backgroundColor="gray.700"
           value={inputText}
           variant="filled"
           placeholder="메모를 입력하세요"

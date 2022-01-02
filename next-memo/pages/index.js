@@ -27,12 +27,29 @@ import { BsPlusLg } from "react-icons/bs";
 //IoMdGlobe 지구본
 // IoDocumentTextOutline 문서
 
-export default function Home() {
-  const [memoList, setMemoList] = useState([]);
+// SSR, SSG 용 함수입니다
+export async function getStaticProps() {
+  const res = await fetch(`http://localhost/api/listjs`);
+  const memos = await res.json();
+  return {
+    props: {
+      memos,
+    },
+	  // 주기를 20초로 하긴했지만, next export에서는 의미없습니다
+	  // next build 후 next start로 node js 서버가 돌아갈때나 의미있습니다
+    revalidate: 20,
+  };
+}
+
+
+export default function Home({ memos }) {
+  // export default function Home() {
+  // const [memoList, setMemoList] = useState([]);
+  const [memoList, setMemoList] = useState(memos);
   const [inputText, setInputText] = useState("");
 
   const getMemos = async () => {
-    const res = await fetch(`/api/lists`);
+    const res = await fetch(`/api/listjs`);
     const memos = await res.json();
     setMemoList(memos);
     console.log(memoList);
@@ -82,15 +99,16 @@ export default function Home() {
             {/* maxW={['10em', '10em']} */}
             {console.log(Date.now())}
             {memoList.map((memo) => (
-              <Box mb={4}>
+              <Box key={memo.uid} mb={4}>
                 <MemoItem
                   as={Flex}
-                  key={memo.time}
+                  key={memo.uid}
                   memo={memo}
                   getMemos={getMemos}
                 />
               </Box>
             ))}
+            {/* <Box key={memo.time} mb={4}> */}
             {/* <List spacing={2}> */}
             {/*   <ListItem> */}
             {/*     {memoList.map((memo) => ( */}
@@ -107,3 +125,5 @@ export default function Home() {
     </>
   );
 }
+
+

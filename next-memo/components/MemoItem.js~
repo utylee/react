@@ -39,35 +39,42 @@ const MemoItem = ({ memo, children, getMemos }) => {
       return IoMagnet;
     }
   })();
-  const isLink = () => {
+  const isLinkOpen = () => {
     if (memo.type === 1 || memo.type === 2) {
-      // console.log("islink");
-      return true;
+      // return true;
+      return (<Link>);
     } else {
-      // console.log("isnotlink");
       return false;
+      // return (<>);
+    }
+  };
+  const isLinkClose = () => {
+    if (memo.type === 1 || memo.type === 2) {
+      return true;
+      // return </Link>;
+    } else {
+      return false;
+      // return </>;
     }
   };
   const iconColor = (() => {
     if (memo.type === 0) {
-      return "gray.500";
-      // return "gray";
+      return "gray.400";
     } else if (memo.type === 1) {
       return "blue.600";
     } else if (memo.type === 2) {
       return "purple.400";
     }
   })();
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(0);
   const handleClick = () => {
-    console.log("clicked:", clicked);
-    setClicked(() => (clicked = !clicked));
-    setClicked(!clicked);
-    // setClicked(1);
+    console.log(clicked);
+    // setClicked(!clicked);
+    setClicked(1);
   };
   const handleMouseOut = () => {
-    console.log("clicked,mouseout:", clicked);
-    setClicked(false);
+    console.log(clicked);
+    setClicked(0);
   };
   const handleRemove = async () => {
     const requestOptions = {
@@ -75,7 +82,7 @@ const MemoItem = ({ memo, children, getMemos }) => {
       headers: { "Content-Type": "appication/json" },
       body: JSON.stringify({
         // id: key,
-        uid: memo.uid,
+        time: memo.time,
         text: "갑니까",
       }),
     };
@@ -88,17 +95,14 @@ const MemoItem = ({ memo, children, getMemos }) => {
   return (
     <VStack mb={3} align="flex-end" spacing={0}>
       {/* ------------------------------------------------- */}
-      {/* 시간과 메모버블을 모두 포함한 전체영역 */}
-
-      {/* ------------------------------------------------- */}
+      {/* 시간과 메모버블을 모두 포함한 영역 */}
       {/* 메모버블세트 */}
       <Flex
         justifyContent="space-between"
+        bg="gray.100"
         w={["18em", "28em"]}
-        color="black"
-        bg="gray.700"
         rounded="2xl"
-        px={0}
+        px={2}
         align="center"
         overflow="hidden"
         textOverflow="ellipsis"
@@ -112,19 +116,9 @@ const MemoItem = ({ memo, children, getMemos }) => {
         {/* maxW="300px" */}
 
         {/* ------------------------------------------------- */}
-        {/* 메모타입 아이콘*/}
-
+        {/* 메모타입 */}
         {console.log(iconType)}
-        <Flex
-          pl={[3, 5]}
-          flexDirection="flex-start"
-          bg="gray.700"
-          onClick={handleClick}
-          _focus={{ boxShadow: "none" }}
-        >
-          {/* 위는 버튼 focus시에 추한 파한색 테투리를 제거하는 요령입니다 */}
-          {/* https://github.com/chakra-ui/chakra-ui/issues/708#issuecomment-899069227 */}
-          {/* as={Button} */}
+        <Flex flexDirection="flex-start">
           <Icon as={iconType} color={iconColor} />
         </Flex>
         {/* <Icon as={IoMdGlobe} /> */}
@@ -134,40 +128,29 @@ const MemoItem = ({ memo, children, getMemos }) => {
 
         {/* ------------------------------------------------- */}
         {/* 메모 텍스트 */}
-
         {/* 링크여부를 판단하여 앵커를 추가합니다 */}
-        <ConditionalLink
-          condition={isLink}
-          wrapper={(children) => (
-            <Link color="white" href={memo.text}>
-              {children}
-            </Link>
-          )}
+        {/* {isLinkOpen ? (<Link href={memo.text}>) : null} */}
+        {/* <Link href={memo.text}> */}
+        {/* <Link href={memo.text} isExternal> */}
+        {/* maxW={["11em", "18em", "25em", "38em"]} */}
+        {/* maxW={["11em", "18em", "25em"]} */}
+        {/* w="full" */}
+        {/* w={["11em", "18em", "25em"]} */}
+        <Text
+          as={Box}
+          outline="none"
+          w={["11em", "18em"]}
+          color="gray.600"
+          fontSize="lg"
+          ml={2}
+          overflow="hidden"
+          textOverflow="ellipsis"
+          whiteSpace={clicked ? "wrap" : "nowrap"}
+          _hover={{ cursor: "pointer" }}
+          onClick={handleClick}
         >
-          {/* {isLinkOpen ? (<Link href={memo.text}>) : null} */}
-          {/* <Link href={memo.text}> */}
-          {/* <Link href={memo.text} isExternal> */}
-          {/* maxW={["11em", "18em", "25em", "38em"]} */}
-          {/* maxW={["11em", "18em", "25em"]} */}
-          {/* w="full" */}
-          {/* w={["11em", "18em", "25em"]} */}
-          {/* color="gray.600" */}
-          <Text
-            as={Box}
-            outline="none"
-            w={["11em", "18em"]}
-            fontSize="lg"
-            color="gray.300"
-            ml={[0, 2]}
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace={clicked ? "wrap" : "nowrap"}
-            _hover={{ cursor: "pointer" }}
-            onClick={handleClick}
-          >
-            {memo.text}
-          </Text>
-        </ConditionalLink>
+          {memo.text}
+        </Text>
         {/* {isLinkOpen ? (</Link>) : null} */}
 
         {/* ------------------------------------------------- */}
@@ -176,19 +159,17 @@ const MemoItem = ({ memo, children, getMemos }) => {
           variant="ghost"
           fontSize="1.4em"
           icon={<BsFillBackspaceFill />}
-          mr={[1, 3]}
+          mx={0}
           my={1}
           color="red.200"
           onClick={() => handleRemove()}
-          _focus={{ boxShadow: "none", background: "none" }}
         ></IconButton>
         {children}
       </Flex>
 
       {/* ------------------------------------------------- */}
       {/* 시간 */}
-
-      <Text pr={4} fontSize="xs" color="gray.600">
+      <Text pr={4} fontSize="xs" color="gray.400">
         {/* <Text pr={4} fontSize="xx-small" color="gray.400"> */}
 
         {/* 인터벌을 0으로 disable 해주지 않으면 타이머가 동작하는 것 같습니다 */}
@@ -200,12 +181,6 @@ const MemoItem = ({ memo, children, getMemos }) => {
       </Text>
     </VStack>
   );
-};
-
-// 상황에 따라 링크를 추가하려 할 때 컴포넌트를 통해 래핑하는 기술입니다
-const ConditionalLink = ({ wrapper, condition, children }) => {
-  // condition에 ()를 붙여서 함수실행을 하게끔해줘야 했습니다
-  return condition() ? wrapper(children) : children;
 };
 
 export default MemoItem;
