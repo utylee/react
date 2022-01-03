@@ -28,6 +28,7 @@ import "moment/locale/ko";
 // Moment.globalLocale = "ko";
 // Moment.globalLocal = true;
 
+// const MemoItem = React.memo(({ memo, children, getMemos }) => {
 const MemoItem = ({ memo, children, getMemos }) => {
   const iconType = (() => {
     if (memo.type === 0) {
@@ -115,6 +116,7 @@ const MemoItem = ({ memo, children, getMemos }) => {
         {/* 메모타입 아이콘*/}
 
         {console.log(iconType)}
+        {console.log('item렌더')}
         <Flex
           pl={[3, 5]}
           flexDirection="flex-start"

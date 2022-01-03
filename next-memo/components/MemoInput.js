@@ -1,14 +1,49 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Input, Flex as Box, HStack, IconButton } from "@chakra-ui/react";
 import { BsPlusLg } from "react-icons/bs";
 
-const MemoInput = ({ inputText, setInputText, getMemos }) => {
+// const MemoInput = React.memo(({ inputText, setInputText, getMemos }) => {
+// const MemoInput = React.memo(({ getMemos }) => {
+const MemoInput = ({ getMemos }) => {
+  const [inputText, setInputText] = useState("");
   // 인풋에 키입력을 할때 마다 호출되는 함수입니다
+  // const handleInputText = useCallback(
+  //   (e) => {
+  //     console.log("handleInputText");
+  //     setInputText(e.target.value);
+  //   },
+  //   [inputText]
+  // );
   const handleInputText = (e) => {
+    console.log("handleInputText");
     setInputText(e.target.value);
   };
 
   // 추가 버튼을 클릭할 경우 호출되는 함수입니다
+  // const handleAddClick = useCallback(async () => {
+  //   console.log("Add Clicked");
+  //   // const now = Math.round(Date.now() / 1000);
+  //   const now = Date.now();
+  //   console.log(now);
+  //   const uid = Math.floor(Math.random() * 10000000);
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     // body: JSON.stringify({ time: now, text: inputText.trim()"pink head", type: 0 }),
+  //     body: JSON.stringify({
+  //       uid: uid,
+  //       time: now,
+  //       text: inputText.trim(),
+  //       type: 0,
+  //     }),
+  //   };
+  // const res = await fetch("/api/addjs", requestOptions);
+  // const test = await res.json();
+  // console.log(test);
+  // setInputText("");
+  // await getMemos();
+  // }, [inputText]);
+
   const handleAddClick = async () => {
     console.log("Add Clicked");
     // const now = Math.round(Date.now() / 1000);

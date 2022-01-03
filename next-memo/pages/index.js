@@ -14,7 +14,7 @@ import { RiTwitchLine } from "react-icons/ri";
 import MemoItem from "../components/MemoItem";
 import MemoInput from "../components/MemoInput";
 // import Memo from "../components/Memo";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PullToRefresh from "react-simple-pull-to-refresh";
 
 import { BiAddToQueue } from "react-icons/bi";
@@ -35,20 +35,28 @@ export async function getStaticProps() {
     props: {
       memos,
     },
-	  // 주기를 20초로 하긴했지만, next export에서는 의미없습니다
-	  // next build 후 next start로 node js 서버가 돌아갈때나 의미있습니다
+    // 주기를 20초로 하긴했지만, next export에서는 의미없습니다
+    // next build 후 next start로 node js 서버가 돌아갈때나 의미있습니다
     revalidate: 20,
   };
 }
 
-
-export default function Home({ memos }) {
-  // export default function Home() {
+// export default React.memo(function Home({ memos }) {
+export default function Home({memos}) {
   // const [memoList, setMemoList] = useState([]);
   const [memoList, setMemoList] = useState(memos);
-  const [inputText, setInputText] = useState("");
+  // const [inputText, setInputText] = useState("");
 
+  // const getMemos = useCallback(async () => {
+  //   console.log("getMemos rendered");
+  //   const res = await fetch(`/api/listjs`);
+  //   const memos = await res.json();
+  //   setMemoList(memos);
+  //   console.log(memoList);
+  // }, [memoList]);
+	
   const getMemos = async () => {
+    console.log("getMemos rendered");
     const res = await fetch(`/api/listjs`);
     const memos = await res.json();
     setMemoList(memos);
@@ -56,10 +64,23 @@ export default function Home({ memos }) {
   };
 
   // pull-down refresh 함수입니다
+  // const handleRefresh = useCallback(async () => {
+  //   {
+  //     /* 메모 항목들 */
+  //   }
+  //   console.log("handeRefresh rendered");
+  //   await getMemos();
+  //   return 0;
+  // }, [memoList]);
+
+  // useEffect(() => {
+  //   getMemos();
+  // }, []);
   const handleRefresh = async () => {
     {
       /* 메모 항목들 */
     }
+    console.log("handeRefresh rendered");
     await getMemos();
     return 0;
   };
@@ -79,12 +100,11 @@ export default function Home({ memos }) {
       >
         {/* 총 페이지 */}
         <VStack overflowY="auto" w="full" justify="center" align="center">
+          {console.log("all page rendered")}
           {/* 메모입력란 */}
-          <MemoInput
-            inputText={inputText}
-            setInputText={setInputText}
-            getMemos={getMemos}
-          />
+          <MemoInput getMemos={getMemos} />
+          {/* inputText={inputText} */}
+          {/* setInputText={setInputText} */}
 
           {/* 메모 항목들 */}
           <VStack
@@ -97,7 +117,8 @@ export default function Home({ memos }) {
             {/* w={["10px", "10px"]} */}
             {/* maxW='10px' */}
             {/* maxW={['10em', '10em']} */}
-            {console.log(Date.now())}
+            {/* {console.log(Date.now())} */}
+            {console.log("all page item box part")}
             {memoList.map((memo) => (
               <Box key={memo.uid} mb={4}>
                 <MemoItem
@@ -125,5 +146,3 @@ export default function Home({ memos }) {
     </>
   );
 }
-
-
