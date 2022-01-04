@@ -1,24 +1,20 @@
-import {
-  List,
-  ListItem,
-  VStack,
-  Flex as Flex,
-  IconButton,
-  Button,
-  Input,
-  Heading,
-  Box,
-} from "@chakra-ui/react";
-import { RiTwitchLine } from "react-icons/ri";
+import { VStack, Flex as Flex, Box } from "@chakra-ui/react";
+// List,
+// ListItem,
+// IconButton,
+// Button,
+// Input,
+// Heading,
 // import Temp from "./Temp";
 import MemoItem from "../components/MemoItem";
 import MemoInput from "../components/MemoInput";
 // import Memo from "../components/Memo";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+// useCallback
 import PullToRefresh from "react-simple-pull-to-refresh";
 
-import { BiAddToQueue } from "react-icons/bi";
-import { BsPlusLg } from "react-icons/bs";
+// import { BiAddToQueue } from "react-icons/bi";
+// import { BsPlusLg } from "react-icons/bs";
 
 //BiAddToQueu
 //BsFillPlusSquareFill
@@ -42,8 +38,7 @@ export async function getStaticProps() {
 }
 
 // export default React.memo(function Home({ memos }) {
-export default function Home({memos}) {
-  // const [memoList, setMemoList] = useState([]);
+export default function Home({ memos }) {
   const [memoList, setMemoList] = useState(memos);
   // const [inputText, setInputText] = useState("");
 
@@ -54,7 +49,7 @@ export default function Home({memos}) {
   //   setMemoList(memos);
   //   console.log(memoList);
   // }, [memoList]);
-	
+
   const getMemos = async () => {
     console.log("getMemos rendered");
     const res = await fetch(`/api/listjs`);
