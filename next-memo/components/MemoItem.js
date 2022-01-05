@@ -80,7 +80,8 @@ const MemoItem = ({ memo, children, getMemos }) => {
         text: "갑니까",
       }),
     };
-    const res = await fetch("/api/removejs", requestOptions);
+    // const res = await fetch("/api/removejs", requestOptions);
+    const res = await fetch("/memo/api/removejs", requestOptions);
     //const resultJson = await res.json();
 
     await getMemos();

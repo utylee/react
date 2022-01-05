@@ -25,7 +25,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 
 // SSR, SSG 용 함수입니다
 export async function getStaticProps() {
-  const res = await fetch(`http://localhost/api/listjs`);
+  const res = await fetch(`http://localhost/memo/api/listjs`);
   const memos = await res.json();
   return {
     props: {
@@ -52,7 +52,8 @@ export default function Home({ memos }) {
 
   const getMemos = async () => {
     console.log("getMemos rendered");
-    const res = await fetch(`/api/listjs`);
+    const res = await fetch(`/memo/api/listjs`);
+    // const res = await fetch(`/api/listjs`);
     const memos = await res.json();
     setMemoList(memos);
     console.log(memoList);
