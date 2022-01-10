@@ -61,13 +61,13 @@ const MemoItem = ({ memo, children, getMemos }) => {
   })();
   const [clicked, setClicked] = useState(false);
   const handleClick = () => {
-    console.log("clicked:", clicked);
+    // console.log("clicked:", clicked);
     setClicked(() => (clicked = !clicked));
     setClicked(!clicked);
     // setClicked(1);
   };
   const handleMouseOut = () => {
-    console.log("clicked,mouseout:", clicked);
+    // console.log("clicked,mouseout:", clicked);
     setClicked(false);
   };
   const handleRemove = async () => {
@@ -116,8 +116,8 @@ const MemoItem = ({ memo, children, getMemos }) => {
         {/* ------------------------------------------------- */}
         {/* 메모타입 아이콘*/}
 
-        {console.log(iconType)}
-        {console.log('item렌더')}
+        {/* {console.log(iconType)} */}
+        {/* {console.log('item렌더')} */}
         <Flex
           pl={[3, 5]}
           flexDirection="flex-start"

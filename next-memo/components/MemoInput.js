@@ -19,7 +19,7 @@ const MemoInput = ({ getMemos }) => {
     // 아무입력값이 없으면 실행하지 않습니다
     if (!text) return;
     // const handleAddClick = async (text, setText) => {
-    console.log("Add Clicked");
+    // console.log("Add Clicked");
     // const now = Math.round(Date.now() / 1000);
     const now = Date.now();
     const uid = Math.floor(Math.random() * 10000000);
@@ -39,7 +39,7 @@ const MemoInput = ({ getMemos }) => {
     const res = await fetch("/memo/api/addjs", requestOptions);
     // const res = await fetch("/api/addjs", requestOptions);
     const test = await res.json();
-    console.log("addjs got messages: ", test);
+    // console.log("addjs got messages: ", test);
     await getMemos();
     inputRef.current.value = "";
     // setInputText("");
