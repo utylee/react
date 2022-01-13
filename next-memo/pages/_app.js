@@ -9,7 +9,8 @@ function MyApp({ Component, pageProps }) {
         styles: {
           global: {
             body: {
-              bg: "#fcf7ff",
+              // bg: "#fcf7ff",
+              bg: "#2b2a33", // 파폭 다크모드 바탕 색깔을 사용해봤습니다
             },
           },
         },

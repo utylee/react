@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Input, Flex as Box, HStack, IconButton } from "@chakra-ui/react";
 import { BsPlusLg } from "react-icons/bs";
 
+
 const MemoInput = ({ getMemos }) => {
   // useState대신 useRef를 쓰는 것이 버튼리렌더링도 피하고 간편한 방법 같습니다
   // const [inputText, setInputText] = useState("");
