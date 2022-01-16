@@ -9,9 +9,10 @@ const Planter = () => {
   return (
     <>
       {/* <Flex direction="column"> */}
-      <Flex direction="column" p={3} border="1px" borderRadius="lg">
+      {/* <Flex direction="column" p={3} border="1px" borderRadius="lg"> */}
+      <Flex direction="column" p={3} bg='teal.100' minW='3em' borderRadius="lg">
         <span>하하하하</span>
-        <span>천보천보</span>
+        <span>천천</span>
       </Flex>
     </>
   );
