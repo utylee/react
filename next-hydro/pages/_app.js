@@ -9,7 +9,8 @@ function MyApp({ Component, pageProps }) {
         styles: {
           global: {
             body: {
-              bg: "#fcf7ff",
+              // bg: "#fcf7ff",
+              bg: "#2b2a33",
               color: "white",
               // 그라데이션 테스트입다
               // backgroundImage:
