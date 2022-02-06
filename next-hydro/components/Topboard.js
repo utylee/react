@@ -9,7 +9,7 @@ const Topboard = ({ plantName, piecess }) => {
         {piecess.map((pieces, key1) => {
           console.log("normalBoard " + piecess);
           return (
-            <HStack key={key1} px={1} py="0.5" w="full" justify='space-between'>
+            <HStack key={key1} px={1} py="0.5" w="full" justify="space-between">
               {pieces.map((piece, key2) => {
                 console.log("normalBoard " + piece);
                 return (
@@ -30,30 +30,6 @@ const Topboard = ({ plantName, piecess }) => {
       </>
     );
   };
-  // piecess.map((pieces, key1) => {
-  //   console.log("normalBoard " + piecess);
-  // return <><span color='white' opacity='100%'>하하</span></>;
-
-  // return (
-  //   <Flex key={key1} px={1} py="0.5" w="10em">
-  //     {pieces.map((piece, key2) => {
-  //       console.log("normalBoard " + piece);
-  //       return (
-  //         <Box
-  //           key={key1 * 4 + key2}
-  //           borderRadius="50%"
-  //           w={3.5}
-  //           h={3.5}
-  //           borderWidth={1}
-  //           borderColor="gray.600"
-  //           bg={piece ? "green.600" : "gray.700"}
-  //         ></Box>
-  //       );
-  //     })}
-  //   </Flex>
-  // );
-  // });
-  // };
   const seedlingBoard = () => {
     return (
       <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
@@ -85,6 +61,8 @@ const Topboard = ({ plantName, piecess }) => {
       justify="space-between"
     >
       {/* 행렬과 map을 어떻게 병용할까 고민하다가 이중배열과 이중 map을 사용하기로 했습니다 */}
+
+      {/* 배열개수에 따라서 일반상판과 모종상판을 구분하기로 합니다 */}
       {piecess.length === 3 ? normalBoard() : seedlingBoard()}
     </VStack>
   );
