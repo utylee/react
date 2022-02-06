@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -11,26 +12,12 @@ import {
 } from "@chakra-ui/react";
 
 const ModalPlanter = ({ planter }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
+  console.log("???");
   return (
     <>
-      <Modal closeOnOverlayClick={true} isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <Lorem count={2} />
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {console.log("come in")}
+      {console.log("come in")}
     </>
   );
 };

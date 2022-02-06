@@ -8,9 +8,15 @@ import ModalPlanter from "../../components/ModalPlanter";
 export default function Home() {
   const [planters, setPlanters] = useState([]);
   const [gems, setGems] = useState([]);
-  const makeModal = ({ plant }) => {
-    console.log("makeModal");
-    return;
+  const makeModal = (planter) => {
+    // console.log("makeModal");
+    console.log(planter);
+
+    return (
+      <>
+        <ModalPlanter planter={planter} />
+      </>
+    );
   };
   const handleRefresh = async () => {
     console.log("handleRefresh");

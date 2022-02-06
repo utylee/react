@@ -17,7 +17,7 @@ const Planter = ({ planter, makeModal }) => {
   const dateToString = (time) => {
     return 0;
   };
-  const onHandleClick = () => {
+  const onHandleClick = (planter) => {
     makeModal(planter);
   };
   const plantIcon = (len) => {
@@ -51,7 +51,8 @@ const Planter = ({ planter, makeModal }) => {
         mx={[2, 1, 4]}
         spacing={0}
         onClick={() => {
-          onHandleClick();
+          // 클릭시 모달을 띄웁니다
+          onHandleClick(planter);
         }}
         _hover={{ cursor: "pointer" }}
       >
