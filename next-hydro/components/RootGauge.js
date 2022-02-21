@@ -2,24 +2,38 @@ import React from "react";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { GiTreeRoots } from "react-icons/gi";
 
-const RootGauge = ({ gauge }) => {
+const RootGauge = ({ gauge, isModal }) => {
+  const borderLeft = [5, 5];
+  const borderRight = [6, 6];
   return (
-    <Flex w="full" pt={1}>
+    <Flex w="full" pt={isModal ? [3, 2] : 1}>
       {/* 아이콘 */}
       <Flex align="center">
-        <Icon fontSize="0.8em" as={GiTreeRoots} color="yellow.700" />
+        <Icon
+          fontSize={isModal ? ["1.2em", "1.4em"] : "0.8em"}
+          as={GiTreeRoots}
+          color="yellow.700"
+        />
         {/* <Icon fontSize="md" as={GiTreeRoots} color="gray.400" /> */}
       </Flex>
 
       {/* 게이지 바탕 */}
-      <Flex align='center' w="full" bg="yellow.900" h={2} borderRadius="3" ml={1} mr={2}>
+      <Flex
+        align="center"
+        w="full"
+        bg="yellow.900"
+        h={isModal ? [5, 6] : 2}
+        borderRadius={isModal ? borderLeft : 3}
+        ml={isModal ? 2 : 1}
+        mr={isModal ? 3 : 2}
+      >
         <Flex position="relative" overflow="hidden" w="100%" h="100%">
           {/* 게이지 알맹이 */}
           <Flex
             bg="yellow.600"
             w={() => gauge + "%"}
-            borderLeftRadius="3"
-            borderRightRadius="2"
+            borderLeftRadius={isModal ? borderLeft : 3}
+            borderRightRadius={isModal ? borderRight : 2}
           ></Flex>
           <Flex
             left="50%"

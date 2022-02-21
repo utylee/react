@@ -1,27 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Box, HStack, VStack, Flex } from "@chakra-ui/react";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import Planter from "../../components/Planter";
 import Germinaty from "../../components/Germinaty";
 import ModalPlanter from "../../components/ModalPlanter";
+import {
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 export default function Home() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [planters, setPlanters] = useState([]);
   const [gems, setGems] = useState([]);
-  const makeModal = (planter) => {
-    // console.log("makeModal");
-    console.log(planter);
 
-    return (
-      <>
-        <ModalPlanter planter={planter} />
-      </>
-    );
-  };
+  // const [curPlanter, setCurPlanter] = useState({});
+  const curPlanter = useRef({});
+  // const typePlanter = useRef({});
   const handleRefresh = async () => {
     console.log("handleRefresh");
     return 0;
   };
+  // const typeModal = useRef("modal");
   /*
 	'id', sa.Intege
 	'kind', sa.Stri
@@ -35,6 +43,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    // setCurPlanter({ ...planters[0] });
     setPlanters([
       {
         id: 1,
@@ -158,13 +167,19 @@ export default function Home() {
         {/* <HStack mx="6em" justify="space-between"> */}
         {/* <HStack ml="4em" flexWrap='wrap' spacing={6}> */}
         {/* <Flex ml={0} flexWrap="wrap" spacing={6}> */}
+        {/* setCurPlanter={setCurPlanter} */}
+        {/* typeModal="modal" */}
         <Flex ml={[0, 1, 3]} flexWrap="wrap">
           {/* <Flex ml={0} flexWrap="wrap"> */}
+
+          {/* setTypeModal={setTypeModal} */}
           {planters.map((planter) => (
             <Planter
+              curPlanter={curPlanter}
               key={Math.random()}
               planter={planter}
-              makeModal={makeModal}
+              onOpen={onOpen}
+              isModal={0}
             />
           ))}
           {/* 씨앗 발아기 */}
@@ -176,6 +191,15 @@ export default function Home() {
           </Flex>
         </Flex>
       </VStack>
+      {/* typeModal={typeModal} */}
+      {/* setTypeModal={setTypeModal} */}
+      <ModalPlanter
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+        curPlanter={curPlanter}
+        isModal={1}
+      />
     </PullToRefresh>
   );
 }

@@ -7,11 +7,13 @@ import { RiAlertFill } from "react-icons/ri";
 import Moment from "react-moment";
 import "moment/locale/ko";
 
-const WaterGauge = ({ gauge, time, warning }) => {
+const WaterGauge = ({ isModal, gauge, time, warning }) => {
+  const borderLeft = [5, 5];
+  const borderRight = [6, 6];
   return (
     <>
       {/* 아이콘 + 게이지 */}
-      <Flex w="full" pt={1}>
+      <Flex w="full" pt={isModal ? ["1.6em", "2.2em"] : 1}>
         {/* borderColor={warning ? "red.500" : "gray.200"} */}
         {/* borderWidth={warning ? 3 : 0} */}
         {/* <VStack align="flex-end" w="full" spacing={0}> */}
@@ -22,7 +24,7 @@ const WaterGauge = ({ gauge, time, warning }) => {
           <Icon
             as={ImDroplet}
             color={warning ? "red.700" : "blue.500"}
-            fontSize="0.75em"
+            fontSize={isModal ? ["1.1em", "1.4em"] : "0.75em"}
           />
         </Flex>
 
@@ -31,11 +33,11 @@ const WaterGauge = ({ gauge, time, warning }) => {
         {/* 게이지 바탕 */}
         <Flex
           bg={warning ? "#59110c" : "blue.800"}
-          h={4}
+          h={isModal ? [6, 8] : 4}
           w="full"
-          borderRadius="5"
-          ml={1}
-          mr={2}
+          borderRadius={isModal ? borderLeft : 5}
+          ml={isModal ? 2 : 1}
+          mr={isModal ? 3 : 2}
           position="relative"
         >
           {/* w={() => parseInt(gauge) + "%"} */}
@@ -49,8 +51,8 @@ const WaterGauge = ({ gauge, time, warning }) => {
               bg={warning ? "red.700" : "blue.500"}
               w="30%"
               h="full"
-              borderLeftRadius="5"
-              borderRightRadius="4"
+              borderLeftRadius={isModal ? borderLeft : 5}
+              borderRightRadius={isModal ? borderRight : 4}
               position="absolute"
               zIndex="3"
             ></Flex>
@@ -64,7 +66,11 @@ const WaterGauge = ({ gauge, time, warning }) => {
               align="center"
               display={warning ? "flex" : "none"}
             >
-              <Icon as={RiAlertFill} color="yellow.400" fontSize="1em" />
+              <Icon
+                as={RiAlertFill}
+                color="yellow.400"
+                fontSize={isModal ? ["1.4em", "1.6em"] : "1em"}
+              />
             </Flex>
           </Flex>
           {/* <Flex */}

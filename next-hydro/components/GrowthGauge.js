@@ -4,16 +4,18 @@ import { ImLeaf } from "react-icons/im";
 import { TiLeaf } from "react-icons/ti";
 import { RiLeafLine } from "react-icons/ri";
 
-const GrowthGauge = ({ gauge }) => {
+const GrowthGauge = ({ isModal, gauge }) => {
+  const borderLeft = [4, 5];
+  const borderRight = [5, 6];
   return (
     <>
       {/* 게이지 바탕 */}
       <Flex
         direction="column"
-        ml={1}
-        w="5%"
+        ml={isModal ? [3, 4] : 1}
+        w={isModal ? ["1em", "6"] : "2"}
         h="full"
-        borderRadius="2"
+        borderRadius={isModal ? borderLeft : "2"}
         justify="flex-end"
         align="center"
       >
@@ -41,8 +43,8 @@ const GrowthGauge = ({ gauge }) => {
           w="full"
           h={() => parseInt(gauge) + "%"}
           bg="green.500"
-          borderBottomRadius="2"
-          borderTopRadius="2"
+          borderBottomRadius={isModal ? borderLeft : "2"}
+          borderTopRadius={isModal ? borderRight : "2"}
         ></Flex>
         {/* backgroundImage={ */}
         {/*   <Icon */}
