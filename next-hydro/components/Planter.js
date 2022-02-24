@@ -9,15 +9,18 @@ import { RiLeafFill } from "react-icons/ri";
 import Topboard from "./Topboard";
 import GrowthGauge from "./GrowthGauge";
 import { reducer } from "./ModalPlanter";
+import { useModal } from "../context/UseModal";
 
-const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
+// const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
+const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
+  const { onOpen } = useModal();
   const [water, setWater] = useState();
   const [kind, setKind] = useState();
   const [individual, setIndividual] = useState();
   const [waterdate, setWaterDate] = useState();
   const dateToString = (time) => {
     return 0;
-  };
+  } 
   const onHandleClick = (planter) => {
     makeModal(planter);
   };
@@ -55,9 +58,6 @@ const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
         onClick={() => {
           if (isModal) return;
           else {
-            // setCurPlanter({ ...planter });
-            // alert("come");
-
             curPlanter.current = { ...planter };
             setTypeModal("modal");
             onOpen();

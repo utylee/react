@@ -4,20 +4,21 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import Planter from "../../components/Planter";
 import Germinaty from "../../components/Germinaty";
 import ModalPlanter from "../../components/ModalPlanter";
-import {
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-} from "@chakra-ui/react";
+import MyModal from "../../components/MyModal";
+// import {
+//   Button,
+//   Modal,
+//   ModalOverlay,
+//   ModalContent,
+//   ModalHeader,
+//   ModalFooter,
+//   ModalBody,
+//   ModalCloseButton,
+//   useDisclosure,
+// } from "@chakra-ui/react";
 
 export default function Home() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [planters, setPlanters] = useState([]);
   const [gems, setGems] = useState([]);
@@ -171,14 +172,14 @@ export default function Home() {
         {/* typeModal="modal" */}
         <Flex ml={[0, 1, 3]} flexWrap="wrap">
           {/* <Flex ml={0} flexWrap="wrap"> */}
-
           {/* setTypeModal={setTypeModal} */}
+
+          {/* onOpen={onOpen} */}
           {planters.map((planter) => (
             <Planter
               curPlanter={curPlanter}
               key={Math.random()}
               planter={planter}
-              onOpen={onOpen}
               isModal={0}
             />
           ))}
@@ -191,15 +192,18 @@ export default function Home() {
           </Flex>
         </Flex>
       </VStack>
+      {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
+      <MyModal />
+
       {/* typeModal={typeModal} */}
       {/* setTypeModal={setTypeModal} */}
-      <ModalPlanter
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        curPlanter={curPlanter}
-        isModal={1}
-      />
+      {/* <ModalPlanter */}
+      {/*   isOpen={isOpen} */}
+      {/*   onOpen={onOpen} */}
+      {/*   onClose={onClose} */}
+      {/*   curPlanter={curPlanter} */}
+      {/*   isModal={1} */}
+      {/* /> */}
     </PullToRefresh>
   );
 }
