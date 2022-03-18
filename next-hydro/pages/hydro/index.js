@@ -175,12 +175,12 @@ export default function Home() {
           {/* setTypeModal={setTypeModal} */}
 
           {/* onOpen={onOpen} */}
+          {/* isModal={0} */}
           {planters.map((planter) => (
             <Planter
               curPlanter={curPlanter}
               key={Math.random()}
               planter={planter}
-              isModal={0}
             />
           ))}
           {/* 씨앗 발아기 */}
@@ -193,7 +193,7 @@ export default function Home() {
         </Flex>
       </VStack>
       {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
-      <MyModal />
+      {/* <MyModal /> */}
 
       {/* typeModal={typeModal} */}
       {/* setTypeModal={setTypeModal} */}

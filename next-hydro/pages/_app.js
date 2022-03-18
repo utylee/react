@@ -1,7 +1,7 @@
 // import '../styles/globals.css'
 import Head from "next/head";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import { ModalProvider } from "../context/ModalProvider";
+import ModalProvider from "../context/ModalProvider";
 
 function MyApp({ Component, pageProps }) {
   return (

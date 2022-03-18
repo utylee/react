@@ -1,152 +1,138 @@
-import React, { useReducer } from "react";
-import {
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Flex,
-} from "@chakra-ui/react";
-import Planter from "./Planter";
+import React, { useState } from "react";
+import { Img, Image, Box, Flex, VStack, Text, Icon } from "@chakra-ui/react";
+import WaterGauge from "./WaterGauge";
+import RootGauge from "./RootGauge";
+import Moment from "react-moment";
+import "moment/locale/ko";
+import { ImDroplet } from "react-icons/im";
+import { RiLeafFill } from "react-icons/ri";
 import Topboard from "./Topboard";
 import GrowthGauge from "./GrowthGauge";
+// import { reducer } from "./ModalPlanter";
+import useModal from "../context/useModal";
 
-
-const reducer = (contentModal, { action, payload }) => {
-  switch (action) {
-    case "modal":
-      return (
-        <>
-          <Planter
-            key={Math.random()}
-            planter={curPlanter.current}
-            curPlanter={curPlanter}
-            onOpen={onOpen}
-            isModal={1}
-            setTypeModal={setTypeModal}
-          />
-        </>
-      );
-      break;
-    case "topboard":
-      console.log("topboard?");
-      return (
-        <>
-          <Flex pl={0} w="full" h="full">
-            {/* 상판 */}
-            <Topboard
-              setTypeModal={setTypeModal}
-              isModal={1}
-              piecess={curPlanter.current.pieces}
-            />
-            {/* 식물 성장도 */}
-            {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
-            <GrowthGauge isModal={1} gauge={curPlanter.current.growth} />
-          </Flex>
-        </>
-      );
-      break;
-
-    default:
-      break;
-  }
+const ModalPlanter = () => {
+  return <></>;
 };
 
-const ModalPlanter = ({
-  isOpen,
-  onOpen,
-  onClose,
-  curPlanter,
-  typeModal,
-  setTypeModal,
-}) => {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+// const ModalPlanter = ({ planter, curPlanter, setTypeModal }) => {
+//   const { onOpen } = useModal();
+//   const [water, setWater] = useState();
+//   const [kind, setKind] = useState();
+//   const [individual, setIndividual] = useState();
+//   const [waterdate, setWaterDate] = useState();
+//   const dateToString = (time) => {
+//     return 0;
+//   };
+//   const onHandleClick = (planter) => {
+//     makeModal(planter);
+//   };
+//   const plantIcon = (len) => {
+//     // planter.pieces의 갯수로 모종인지 일반상판인지를 구분합니다
+//     if (len != 3) {
+//       return <Icon as={RiLeafFill} color="gray.300" />;
+//     } else {
+//       return (
+//         <Img
+//           w="100%"
+//           h="100%"
+//           src={"hydro/public/" + planter.plantName + ".png"}
+//         />
+//       );
+//     }
+//   };
 
-  // const [typeModal, setTypeModal] = useState("modal");
-  const [contentModal, dispatch] = useReducer(reducer, []);
-  const modalSelector = (typeModal) => {
-    if (typeModal === "modal") {
-      return (
-        <>
-          <Planter
-            key={Math.random()}
-            planter={curPlanter.current}
-            curPlanter={curPlanter}
-            onOpen={onOpen}
-            isModal={1}
-            setTypeModal={setTypeModal}
-          />
-        </>
-      );
-    } else typeModal === "topboard";
-    {
-      console.log("topboard?");
-      return (
-        <>
-          <Flex pl={0} w="full" h="full">
-            {/* 상판 */}
-            <Topboard
-              setTypeModal={setTypeModal}
-              isModal={1}
-              piecess={curPlanter.current.pieces}
-            />
-            {/* 식물 성장도 */}
-            {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
-            <GrowthGauge isModal={1} gauge={curPlanter.current.growth} />
-          </Flex>
-        </>
-      );
-    }
-  };
-  return (
-    <>
-      {console.log(curPlanter)}
+//   // {
+//   //   id: 7,
+//   //   plantName: "중엽쑥갓",
+//   //   waterGauge: 35,
+//   //   waterDate: 11111111,
+//   //   pieces: 6,
+//   // },
+//   return (
+//     <>
+//       {/* 휴대용 기기에서의 리스폰시브 대응 */}
+//       <VStack
+//         w={["12em", "20em"]}
+//         mb={[5, 8]}
+//         mx={[0, 1, 4]}
+//         // spacing={0}
+//         spacing={[0, 2]}
+//         /* _hover={isModal ? 0 : { cursor: "pointer" }} */
+//       >
+//         {/* 작물 이름 및 작물 포장 사진 */}
+//         <Flex w="full" justify={"center"} pb={["1.4em", "1.8em"]}>
+//           {/* 작물 포장 사진 */}
+//           <Flex
+//             ml={"0em"}
+//             mr={"1em"}
+//             w={["2em", "2.3em"]}
+//             h={["2em", "2.3em"]}
+//             borderRadius="full"
+//             bg="green.500"
+//             borderColor="gray.400"
+//             borderWidth={2}
+//             align="center"
+//             justify="center"
+//             overflow="hidden"
+//           >
+//             {plantIcon(planter.pieces.length)}
+//             {/* <Img */}
+//             {/*   w="100%" */}
+//             {/*   h="100%" */}
+//             {/*   src={"hydro/public/" + planter.plantName + ".png"} */}
+//             {/* /> */}
+//           </Flex>
+//           {/* 작물 이름 */}
+//           <Flex flexWrap="nowrap" justify="center">
+//             {/* <Flex transform='translate(0, 0%)'> */}
+//             <Text
+//               justify="center"
+//               color="green.400"
+//               fontWeight="bold"
+//               // fontSize="1em"
+//               fontSize={["1.2em", "1.3em"]}
+//               whiteSpace="nowrap"
+//               overflow="hidden"
+//               textOverflow="ellipsis"
+//             >
+//               {/* left="50%" */}
+//               {/* top="50%" */}
+//               {/* transform="translate(-10%,0%)" */}
+//               {planter.plantName}
+//             </Text>
+//           </Flex>
+//         </Flex>
 
-      <Modal
-        closeOnOverlayClick={true}
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered
-        _focus={{ boxShadow: "none" }}
-      >
-        <ModalOverlay />
-        <ModalContent w={["15em", "24em"]} bg="#2b2a33">
-          {/* <ModalHeader>{curPlanter.plantName}</ModalHeader> */}
-          {/* <ModalHeader>{curPlanter.plantName}</ModalHeader> */}
-          {/* <ModalHeader></ModalHeader> */}
-          {/* 포커스 focus시에 추한 란색 테두리를 제거합니다 */}
-          <ModalCloseButton _focus={{ boxShadow: "none" }} />
-          {/* setCurPlanter={setCurPlanter} */}
-          <ModalBody mt={["1em", "2em"]} pb={6}>
-            {/* <Flex align="center" justify="center"> */}
-            <Flex>
-              {contentModal}
+//         {/* 상판 및 성장게이지 박스 */}
+//         <Flex pl={0} w="full" h="full">
+//           {/* 상판 */}
+//           <Topboard
+//             setTypeModal={setTypeModal}
+//             isModal={isModal}
+//             piecess={planter.pieces}
+//           />
+//           {/* 식물 성장도 */}
+//           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
+//           <GrowthGauge isModal={isModal} gauge={planter.growth} />
+//         </Flex>
 
-              {/* {modalSelector(typeModal)} */}
+//         {/* 물 현재량 */}
 
-              {/* <Planter */}
-              {/*   key={Math.random()} */}
-              {/*   planter={curPlanter.current} */}
-              {/*   curPlanter={curPlanter} */}
-              {/*   onOpen={onOpen} */}
-              {/*   isModal={1} */}
-              {/* /> */}
-            </Flex>
-          </ModalBody>
+//         <WaterGauge
+//           gauge={planter.waterGauge}
+//           time={planter.waterdate}
+//           warning={planter.warning}
+//           isModal={isModal}
+//         />
 
-          {/* <ModalFooter> */}
-          {/*   <Button colorScheme="teal" onClick={onClose}> */}
-          {/*     닫기 */}
-          {/*   </Button> */}
-          {/* </ModalFooter> */}
-        </ModalContent>
-      </Modal>
-    </>
-  );
-};
+//         {/* 뿌리 현재크기 */}
+//         <Flex w="full">
+//           <RootGauge isModal={isModal} gauge={planter.rootVolume} />
+//         </Flex>
+//       </VStack>
+//     </>
+//   );
+// };
 
 export default ModalPlanter;
