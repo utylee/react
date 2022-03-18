@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ModalStateContext } from "../context/ModalContext";
 import useModal from "../context/useModal";
 import ModalPlanter from "./ModalPlanter";
@@ -19,23 +19,36 @@ import {
 const MyModal = () => {
   const { getIsOpen, openModal, closeModal, setModalType, getModalType } =
     useModal();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // state context 를 소유해서 리프레시를 유도합니다
-  const typeModal = useContext(ModalStateContext);
-  const contentModal = () => {
-    return <></>;
-  };
+  const { isOpen, typeModal } = useContext(ModalStateContext);
   // const contentModal = () => {
-  //   if (getModalType === "planter") {
-  //     return <ModalPlanter />;
-  //   } else if (getModalType === "topboard") {
-  //     return <ModalTopboard />;
-  //   }
+  //   return <></>;
   // };
+  const contentModal = () => {
+    console.log("getmodaltype=", getModalType());
+    if (getModalType() === "planter") {
+      // if (typeModal == "planter") {
+      console.log("modaltype is planter");
+      return <ModalPlanter />;
+      // } else if (getModalType() == "topboard") {
+    } else if (typeModal == "topboard") {
+      console.log("modaltype is topboard");
+      return <ModalTopboard />;
+    }
+  };
   return (
     <>
+      {/* onClose={onClose} */}
+
+      {/* 오브젝트형태로 넘겨주면 리턴값이 value가 아닌 referrence로 넘길수 있다고 해서 */}
+      {/* 한번 해봤습니다 */}
+      {/* isOpen={getIsOpen().isOpen} */}
+
+      {/* isOpen={isOpen} */}
       <Modal
-        isOpen={getIsOpen}
+        isOpen={getIsOpen()}
         closeOnOverlayClick={true}
         onClose={closeModal}
         isCentered
@@ -46,9 +59,7 @@ const MyModal = () => {
           {/* <ModalHeader>{curPlanter.plantName}</ModalHeader> */}
           {/* 포커스 focus시에 추한 란색 테두리를 제거합니다 */}
           <ModalCloseButton _focus={{ boxShadow: "none" }} />
-
-          {contentModal}
-
+          {contentModal()}
           {/* setCurPlanter={setCurPlanter} */}
           {/* <ModalBody mt={["1em", "2em"]} pb={6}> */}
           {/*   <Flex> */}

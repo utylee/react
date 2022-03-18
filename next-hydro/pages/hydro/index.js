@@ -4,6 +4,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import Planter from "../../components/Planter";
 import Germinaty from "../../components/Germinaty";
 import ModalPlanter from "../../components/ModalPlanter";
+import { useDisclosure } from "@chakra-ui/react";
 import MyModal from "../../components/MyModal";
 // import {
 //   Button,
@@ -18,7 +19,7 @@ import MyModal from "../../components/MyModal";
 // } from "@chakra-ui/react";
 
 export default function Home() {
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [planters, setPlanters] = useState([]);
   const [gems, setGems] = useState([]);
@@ -174,10 +175,10 @@ export default function Home() {
           {/* <Flex ml={0} flexWrap="wrap"> */}
           {/* setTypeModal={setTypeModal} */}
 
-          {/* onOpen={onOpen} */}
           {/* isModal={0} */}
           {planters.map((planter) => (
             <Planter
+              onOpen={onOpen}
               curPlanter={curPlanter}
               key={Math.random()}
               planter={planter}
@@ -193,7 +194,7 @@ export default function Home() {
         </Flex>
       </VStack>
       {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
-      {/* <MyModal /> */}
+      <MyModal />
 
       {/* typeModal={typeModal} */}
       {/* setTypeModal={setTypeModal} */}

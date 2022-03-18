@@ -1,7 +1,13 @@
 import React from "react";
 import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
+import useModal from "../context/useModal";
 
-const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
+// const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
+const Topboard = ({ piecess }) => {
+  //{ getIsOpen, getModalType, setModalType, openModal, closeModal };
+  const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
+    useModal();
+
   // 일반 상판입니다
   const normalBoard = () => {
     return (
@@ -10,21 +16,15 @@ const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
           console.log("normalBoard " + piecess);
           return (
             // 각구멍들입니다
-            <HStack
-              key={key1}
-              px={isModal ? [1, 4] : 1}
-              py={isModal ? [1, "0.5em"] : 0.5}
-              w="full"
-              justify="space-between"
-            >
+            <HStack key={key1} px={1} py={0.5} w="full" justify="space-between">
               {pieces.map((piece, key2) => {
                 console.log("normalBoard " + piece);
                 return (
                   <Box
                     key={key1 * 4 + key2}
                     borderRadius="50%"
-                    w={isModal ? [5, 8] : 3.5}
-                    h={isModal ? [5, 8] : 3.5}
+                    w={3.5}
+                    h={3.5}
                     borderWidth={1}
                     borderColor="gray.600"
                     bg={piece ? "green.600" : "gray.700"}
@@ -60,19 +60,15 @@ const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
   };
   return (
     <VStack
-      px={isModal ? ["0.8em", 4] : 3}
-      py={isModal ? ["0.8em", "1.3em"] : 3}
+      px={3}
+      py={3}
       bg="gray.600"
       w="full"
       borderRadius="lg"
       justify="space-between"
-      _hover={isModal ? { cursor: "pointer" } : 0}
       onClick={() => {
-        if (isModal) {
-          // typeModal.current = "topboard";
-          setTypeModal("topboard");
-          console.log("topboard");
-        } else return 0;
+        setModalType("topboard");
+        console.log("topboard");
       }}
     >
       {/* 행렬과 map을 어떻게 병용할까 고민하다가 이중배열과 이중 map을 사용하기로 했습니다 */}

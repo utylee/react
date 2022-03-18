@@ -13,17 +13,19 @@ import useModal from "../context/useModal";
 
 // const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
 // const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
-const Planter = ({ planter, curPlanter}) => {
+const Planter = ({ planter, onOpen, curPlanter }) => {
   // const { onOpen } = useModal();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const [water, setWater] = useState();
   const [kind, setKind] = useState();
   const [individual, setIndividual] = useState();
   const [waterdate, setWaterDate] = useState();
+
+  const { openModal, getIsOpen, setModalType } = useModal();
+  // { getIsOpen, getModalType, setModalType, openModal, closeModal };
+
   const dateToString = (time) => {
     return 0;
-  };
-  const onHandleClick = (planter) => {
-    makeModal(planter);
   };
   const plantIcon = (len) => {
     // planter.pieces의 갯수로 모종인지 일반상판인지를 구분합니다
@@ -56,13 +58,12 @@ const Planter = ({ planter, curPlanter}) => {
         mx={[2, 1, 4]}
         // spacing={0}
         spacing={0}
+        // { getIsOpen, getModalType, setModalType, openModal, closeModal };
         onClick={() => {
-          if (isModal) return;
-          else {
-            curPlanter.current = { ...planter };
-            setTypeModal("modal");
-            onOpen();
-          }
+          curPlanter.current = { ...planter };
+          setModalType("planter");
+          openModal();
+          console.log("getIsOpen():", getIsOpen());
         }}
         _hover={{ cursor: "pointer" }}
       >
@@ -74,13 +75,13 @@ const Planter = ({ planter, curPlanter}) => {
           <Flex
             ml={6}
             mr={1}
-            w={ "1.5em"}
-            h={ "1.5em"}
+            w={"1.5em"}
+            h={"1.5em"}
             borderRadius="full"
             bg="green.500"
             borderColor="gray.400"
             // borderWidth={1}
-            borderWidth={ 1}
+            borderWidth={1}
             align="center"
             justify="center"
             overflow="hidden"
@@ -104,7 +105,7 @@ const Planter = ({ planter, curPlanter}) => {
               color="green.400"
               fontWeight="bold"
               // fontSize="1em"
-              fontSize={ "1em"}
+              fontSize={"1em"}
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"
@@ -116,32 +117,29 @@ const Planter = ({ planter, curPlanter}) => {
             </Text>
           </Flex>
         </Flex>
-
         {/* 상판 및 성장게이지 박스 */}
-        <Flex pl={ 3} w="full" h="full">
+        <Flex pl={3} w="full" h="full">
           {/* 상판 */}
-          <Topboard
-            setTypeModal={setTypeModal}
-            isModal={isModal}
-            piecess={planter.pieces}
-          />
+          {/* setTypeModal={setTypeModal} */}
+          {/* isModal={isModal} */}
+          <Topboard piecess={planter.pieces} />
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
-          <GrowthGauge isModal={isModal} gauge={planter.growth} />
+
+          {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
+          <GrowthGauge gauge={planter.growth} />
         </Flex>
-
         {/* 물 현재량 */}
-
+        {/* isModal={isModal} */}
         <WaterGauge
           gauge={planter.waterGauge}
           time={planter.waterdate}
           warning={planter.warning}
-          isModal={isModal}
         />
-
         {/* 뿌리 현재크기 */}
         <Flex w="full">
-          <RootGauge isModal={isModal} gauge={planter.rootVolume} />
+          {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
+          <RootGauge gauge={planter.rootVolume} />
         </Flex>
       </VStack>
     </>
