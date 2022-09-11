@@ -20,7 +20,7 @@ const GrowthGauge = ({ isModal, gauge }) => {
         align="center"
       >
         {/* bg="gray.900" */}
-        {console.log("growth:" + gauge)}
+        {/* {console.log("growth:" + gauge)} */}
         {/* borderTopRadius="3" */}
 
         {/* 잎 아이콘 */}

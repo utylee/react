@@ -2,6 +2,7 @@
 import Head from "next/head";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ModalProvider from "../context/ModalProvider";
+import PlanterProvider from "../context/PlanterProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -22,10 +23,12 @@ function MyApp({ Component, pageProps }) {
       })}
     >
       <ModalProvider>
-        <Head>
-          <link rel="icon" href="/hydro/favicon.ico" />
-        </Head>
-        <Component {...pageProps} />
+        <PlanterProvider>
+          <Head>
+            <link rel="icon" href="/hydro/favicon.ico" />
+          </Head>
+          <Component {...pageProps} />
+        </PlanterProvider>
       </ModalProvider>
     </ChakraProvider>
   );

@@ -7,12 +7,13 @@ import "moment/locale/ko";
 import { ImDroplet } from "react-icons/im";
 import { RiLeafFill } from "react-icons/ri";
 import ModalTopboard from "./ModalTopboard";
-import GrowthGauge from "./GrowthGauge";
+import ModalGrowthGauge from "./ModalGrowthGauge";
 
 import useModal from "../context/useModal";
 
 // const ModalPlanter = ({ planter, curPlanter, setTypeModal }) => {
-const ModalPlanter = ({ planter, curPlanter }) => {
+// const ModalPlanter = ({ planter, curPlanter }) => {
+const ModalPlanter = ({ planter }) => {
   const { setModalType } = useModal();
   const [water, setWater] = useState();
   const [kind, setKind] = useState();
@@ -49,13 +50,14 @@ const ModalPlanter = ({ planter, curPlanter }) => {
       <VStack
         w={["12em", "20em"]}
         mb={[5, 8]}
+        mt={[4, 6]}
         mx={[0, 1, 4]}
         // spacing={0}
         spacing={[0, 2]}
         /* _hover={isModal ? 0 : { cursor: "pointer" }} */
       >
         {/* 작물 이름 및 작물 포장 사진 */}
-        <Flex w="full" justify={"center"} pb={["1.4em", "1.8em"]}>
+        <Flex w="full" justify={"center"} pb={["1.4em", "1.4em"]}>
           {/* 작물 포장 사진 */}
           <Flex
             ml={"0em"}
@@ -85,7 +87,7 @@ const ModalPlanter = ({ planter, curPlanter }) => {
               color="green.400"
               fontWeight="bold"
               // fontSize="1em"
-              fontSize={["1.2em", "1.3em"]}
+              fontSize={["1.2em", "1.5em"]}
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"
@@ -99,7 +101,8 @@ const ModalPlanter = ({ planter, curPlanter }) => {
         </Flex>
 
         {/* 상판 및 성장게이지 박스 */}
-        <Flex pl={0} w="full" h="full">
+        {/* <Flex pl={'1em'} w="full" h="full"> */}
+        <Flex pl={"1em"} w="full" h={["8em", "14em"]}>
           {/* 상판 */}
 
           {/* <Topboard */}
@@ -111,21 +114,23 @@ const ModalPlanter = ({ planter, curPlanter }) => {
 
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
-          <GrowthGauge isModal={isModal} gauge={planter.growth} />
+          {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
+          <ModalGrowthGauge gauge={planter.growth} />
         </Flex>
 
         {/* 물 현재량 */}
 
+        {/* isModal={isModal} */}
         <WaterGauge
           gauge={planter.waterGauge}
           time={planter.waterdate}
           warning={planter.warning}
-          isModal={isModal}
         />
 
         {/* 뿌리 현재크기 */}
         <Flex w="full">
-          <RootGauge isModal={isModal} gauge={planter.rootVolume} />
+          {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
+          <RootGauge gauge={planter.rootVolume} />
         </Flex>
       </VStack>
     </>

@@ -10,10 +10,12 @@ import Topboard from "./Topboard";
 import GrowthGauge from "./GrowthGauge";
 // import { reducer } from "./ModalPlanter";
 import useModal from "../context/useModal";
+import usePlanter from "../context/usePlanter";
 
 // const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
 // const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
-const Planter = ({ planter, onOpen, curPlanter }) => {
+// const Planter = ({ planter, onOpen, curPlanter }) => {
+const Planter = ({ planter, curPlanter }) => {
   // const { onOpen } = useModal();
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const [water, setWater] = useState();
@@ -22,6 +24,7 @@ const Planter = ({ planter, onOpen, curPlanter }) => {
   const [waterdate, setWaterDate] = useState();
 
   const { openModal, getIsOpen, setModalType } = useModal();
+  const { getCurPlanter, setCurPlanter } = usePlanter();
   // { getIsOpen, getModalType, setModalType, openModal, closeModal };
 
   const dateToString = (time) => {
@@ -59,8 +62,10 @@ const Planter = ({ planter, onOpen, curPlanter }) => {
         // spacing={0}
         spacing={0}
         // { getIsOpen, getModalType, setModalType, openModal, closeModal };
+
+        // curPlanter.current = { ...planter };
         onClick={() => {
-          curPlanter.current = { ...planter };
+          setCurPlanter({ ...planter });
           setModalType("planter");
           openModal();
           console.log("getIsOpen():", getIsOpen());
@@ -133,7 +138,7 @@ const Planter = ({ planter, onOpen, curPlanter }) => {
         {/* isModal={isModal} */}
         <WaterGauge
           gauge={planter.waterGauge}
-          time={planter.waterdate}
+          time={planter.waterDate}
           warning={planter.warning}
         />
         {/* 뿌리 현재크기 */}
