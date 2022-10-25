@@ -8,18 +8,27 @@ import { ImDroplet } from "react-icons/im";
 import { RiLeafFill } from "react-icons/ri";
 import Topboard from "./Topboard";
 import GrowthGauge from "./GrowthGauge";
-import { reducer } from "./ModalPlanter";
+// import { reducer } from "./ModalPlanter";
+import useModal from "../context/useModal";
+import usePlanter from "../context/usePlanter";
 
-const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
+// const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
+// const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
+// const Planter = ({ planter, onOpen, curPlanter }) => {
+const Planter = ({ planter, curPlanter }) => {
+  // const { onOpen } = useModal();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const [water, setWater] = useState();
   const [kind, setKind] = useState();
   const [individual, setIndividual] = useState();
   const [waterdate, setWaterDate] = useState();
+
+  const { openModal, getIsOpen, setModalType } = useModal();
+  const { getCurPlanter, setCurPlanter } = usePlanter();
+  // { getIsOpen, getModalType, setModalType, openModal, closeModal };
+
   const dateToString = (time) => {
     return 0;
-  };
-  const onHandleClick = (planter) => {
-    makeModal(planter);
   };
   const plantIcon = (len) => {
     // planter.pieces의 갯수로 모종인지 일반상판인지를 구분합니다
@@ -47,43 +56,37 @@ const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
     <>
       {/* 휴대용 기기에서의 리스폰시브 대응 */}
       <VStack
-        w={isModal ? ["12em", "20em"] : "9em"}
-        mb={isModal ? [5, 8] : "4em"}
-        mx={isModal ? [0, 1, 4] : [2, 1, 4]}
+        w={"9em"}
+        mb={"4em"}
+        mx={[2, 1, 4]}
         // spacing={0}
-        spacing={isModal ? [0, 2] : 0}
-        onClick={() => {
-          if (isModal) return;
-          else {
-            // setCurPlanter({ ...planter });
-            // alert("come");
+        spacing={0}
+        // { getIsOpen, getModalType, setModalType, openModal, closeModal };
 
-            curPlanter.current = { ...planter };
-            setTypeModal("modal");
-            onOpen();
-          }
+        // curPlanter.current = { ...planter };
+        onClick={() => {
+          setCurPlanter({ ...planter });
+          setModalType("planter");
+          openModal();
+          console.log("getIsOpen():", getIsOpen());
         }}
-        _hover={isModal ? 0 : { cursor: "pointer" }}
+        _hover={{ cursor: "pointer" }}
       >
         {/* 작물 이름 및 작물 포장 사진 */}
-        <Flex
-          w="full"
-          justify={isModal ? "center" : "flex-start"}
-          pb={isModal ? ["1.4em", "1.8em"] : 1}
-        >
+        <Flex w="full" justify={"flex-start"} pb={1}>
           {/* <Flex w="full" justify="center" transform="translate(-5%, 0)" pb={1}> */}
           {/* <Flex w="full" justify="center" pb={1}> */}
           {/* 작물 포장 사진 */}
           <Flex
-            ml={isModal ? "0em" : 6}
-            mr={isModal ? "1em" : 1}
-            w={isModal ? ["2em", "2.3em"] : "1.5em"}
-            h={isModal ? ["2em", "2.3em"] : "1.5em"}
+            ml={6}
+            mr={1}
+            w={"1.5em"}
+            h={"1.5em"}
             borderRadius="full"
             bg="green.500"
             borderColor="gray.400"
             // borderWidth={1}
-            borderWidth={isModal ? 2 : 1}
+            borderWidth={1}
             align="center"
             justify="center"
             overflow="hidden"
@@ -107,7 +110,7 @@ const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
               color="green.400"
               fontWeight="bold"
               // fontSize="1em"
-              fontSize={isModal ? ["1.2em", "1.3em"] : "1em"}
+              fontSize={"1em"}
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"
@@ -119,32 +122,29 @@ const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
             </Text>
           </Flex>
         </Flex>
-
         {/* 상판 및 성장게이지 박스 */}
-        <Flex pl={isModal ? 0 : 3} w="full" h="full">
+        <Flex pl={3} w="full" h="full">
           {/* 상판 */}
-          <Topboard
-            setTypeModal={setTypeModal}
-            isModal={isModal}
-            piecess={planter.pieces}
-          />
+          {/* setTypeModal={setTypeModal} */}
+          {/* isModal={isModal} */}
+          <Topboard piecess={planter.pieces} />
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
-          <GrowthGauge isModal={isModal} gauge={planter.growth} />
+
+          {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
+          <GrowthGauge gauge={planter.growth} />
         </Flex>
-
         {/* 물 현재량 */}
-
+        {/* isModal={isModal} */}
         <WaterGauge
           gauge={planter.waterGauge}
-          time={planter.waterdate}
+          time={planter.waterDate}
           warning={planter.warning}
-          isModal={isModal}
         />
-
         {/* 뿌리 현재크기 */}
         <Flex w="full">
-          <RootGauge isModal={isModal} gauge={planter.rootVolume} />
+          {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
+          <RootGauge gauge={planter.rootVolume} />
         </Flex>
       </VStack>
     </>

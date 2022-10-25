@@ -4,25 +4,28 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import Planter from "../../components/Planter";
 import Germinaty from "../../components/Germinaty";
 import ModalPlanter from "../../components/ModalPlanter";
-import {
-  Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import MyModal from "../../components/MyModal";
+import usePlanter from "../../context/usePlanter";
+// import {
+//   Button,
+//   Modal,
+//   ModalOverlay,
+//   ModalContent,
+//   ModalHeader,
+//   ModalFooter,
+//   ModalBody,
+//   ModalCloseButton,
+//   useDisclosure,
+// } from "@chakra-ui/react";
 
 export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
 
-  const [planters, setPlanters] = useState([]);
-  const [gems, setGems] = useState([]);
+  // const [planters, setPlanters] = useState([]);
+  // const [gems, setGems] = useState([]);
 
-  // const [curPlanter, setCurPlanter] = useState({});
   const curPlanter = useRef({});
   // const typePlanter = useRef({});
   const handleRefresh = async () => {
@@ -48,11 +51,11 @@ export default function Home() {
       {
         id: 1,
         plantName: "신홍적축면",
-        waterGauge: 55,
+        waterGauge: 85,
         // waterDate: Date.now(),
         waterDate: getDate(),
         warning: 0,
-        growth: 35,
+        growth: 65,
         pieces: [
           [1, 0, 1, 0],
           [0, 1, 1, 0],
@@ -63,10 +66,10 @@ export default function Home() {
       {
         id: 2,
         plantName: "중엽쑥갓",
-        waterGauge: 35,
+        waterGauge: 25,
         waterDate: getDate(),
         warning: 1,
-        growth: 35,
+        growth: 45,
         pieces: [
           [0, 1, 0, 1],
           [1, 0, 1, 0],
@@ -77,10 +80,10 @@ export default function Home() {
       {
         id: 3,
         plantName: "진흥쌈케일",
-        waterGauge: 35,
+        waterGauge: 45,
         waterDate: getDate(),
         warning: 0,
-        growth: 35,
+        growth: 25,
         pieces: [
           [0, 1, 0, 1],
           [1, 0, 1, 0],
@@ -91,15 +94,15 @@ export default function Home() {
       {
         id: 4,
         plantName: "리치치커리",
-        waterGauge: 35,
+        waterGauge: 55,
         waterDate: getDate(),
         warning: 0,
         pieces: [
           [0, 1, 0, 1],
           [1, 0, 1, 0],
-          [0, 1, 0, 1],
+          [0, 0, 0, 1],
         ],
-        growth: 35,
+        growth: 55,
         rootVolume: 70,
       },
       {
@@ -108,7 +111,7 @@ export default function Home() {
         waterGauge: 35,
         waterDate: getDate(),
         warning: 1,
-        growth: 35,
+        growth: 85,
         pieces: [
           [0, 1, 0, 1],
           [1, 0, 1, 0],
@@ -119,14 +122,14 @@ export default function Home() {
       {
         id: 6,
         plantName: "만추잎들깨",
-        waterGauge: 35,
+        waterGauge: 70,
         waterDate: getDate(),
         warning: 0,
         growth: 35,
         pieces: [
           [0, 1, 0, 1],
           [1, 0, 1, 0],
-          [0, 1, 0, 1],
+          [0, 1, 1, 1],
         ],
         rootVolume: 90,
       },
@@ -171,35 +174,40 @@ export default function Home() {
         {/* typeModal="modal" */}
         <Flex ml={[0, 1, 3]} flexWrap="wrap">
           {/* <Flex ml={0} flexWrap="wrap"> */}
-
           {/* setTypeModal={setTypeModal} */}
-          {planters.map((planter) => (
+
+          {/* isModal={0} */}
+          {/* onOpen={onOpen} */}
+          {/* {planters.map((planter) => ( */}
+          {getPlanters().map((planter) => (
             <Planter
               curPlanter={curPlanter}
               key={Math.random()}
               planter={planter}
-              onOpen={onOpen}
-              isModal={0}
             />
           ))}
           {/* 씨앗 발아기 */}
           <Flex direction="column" ml={3} align="center">
             {/* <Flex justify='center'> */}
-            {gems.map((gem) => (
+            {/* {gems.map((gem) => ( */}
+            {getGems().map((gem) => (
               <Germinaty key={Math.random()} gem={gem} />
             ))}
           </Flex>
         </Flex>
       </VStack>
+      {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
+      <MyModal />
+
       {/* typeModal={typeModal} */}
       {/* setTypeModal={setTypeModal} */}
-      <ModalPlanter
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        curPlanter={curPlanter}
-        isModal={1}
-      />
+      {/* <ModalPlanter */}
+      {/*   isOpen={isOpen} */}
+      {/*   onOpen={onOpen} */}
+      {/*   onClose={onClose} */}
+      {/*   curPlanter={curPlanter} */}
+      {/*   isModal={1} */}
+      {/* /> */}
     </PullToRefresh>
   );
 }

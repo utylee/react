@@ -7,6 +7,7 @@ import { RiAlertFill } from "react-icons/ri";
 import Moment from "react-moment";
 import "moment/locale/ko";
 
+// const WaterGauge = ({ gauge, time, warning }) => {
 const WaterGauge = ({ isModal, gauge, time, warning }) => {
   const borderLeft = [5, 5];
   const borderRight = [6, 6];
@@ -45,11 +46,11 @@ const WaterGauge = ({ isModal, gauge, time, warning }) => {
 
           {/* 게이지 알맹이 */}
           <Flex position="relative" w="full" h="full">
-            {/* w={() => gauge + "%"} */}
+            {/* w="30%" */}
             <Flex w="full" h="full" position="absolute" borderRadius={5}></Flex>
             <Flex
+              w={() => gauge + "%"}
               bg={warning ? "red.700" : "blue.500"}
-              w="30%"
               h="full"
               borderLeftRadius={isModal ? borderLeft : 5}
               borderRightRadius={isModal ? borderRight : 4}
