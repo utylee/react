@@ -29,7 +29,8 @@ export default function Home() {
   const curPlanter = useRef({});
   // const typePlanter = useRef({});
   const handleRefresh = async () => {
-    console.log("handleRefresh");
+    // console.log("handleRefresh");
+    await getHydros();
     return 0;
   };
   // const typeModal = useRef("modal");
@@ -45,6 +46,89 @@ export default function Home() {
     return Date.now();
   };
 
+  const makePiecesArray = (arr) => {
+    arr.map((l) => {
+      l.pieces = [
+        [
+          parseInt(l.pieces[0]),
+          parseInt(l.pieces[1]),
+          parseInt(l.pieces[2]),
+          parseInt(l.pieces[3]),
+        ],
+        [
+          parseInt(l.pieces[4]),
+          parseInt(l.pieces[5]),
+          parseInt(l.pieces[6]),
+          parseInt(l.pieces[7]),
+        ],
+        [
+          parseInt(l.pieces[8]),
+          parseInt(l.pieces[9]),
+          parseInt(l.pieces[10]),
+          parseInt(l.pieces[11]),
+        ],
+      ];
+    });
+  };
+
+  const dividePlantGem = (hydro) => {
+    const plants = [];
+    const gems = [];
+    hydro.map((h) => {
+      if (h.id === 8) {
+        gems = [...gems, h];
+      } else plants = [...plants, h];
+    });
+
+    const seeds = gems[0].pieces.split(",");
+    const seedsGauges = [
+      parseInt(gems[0].waterGauge / 10000),
+      parseInt((gems[0].waterGauge % 10000) / 100),
+      gems[0].waterGauge % 100,
+    ];
+
+    setGems([
+      {
+        seedNames: [seeds[0], seeds[1]],
+        waterGauge: seedsGauges[0],
+        warning: 0,
+      },
+      {
+        seedNames: [seeds[2], seeds[3]],
+        waterGauge: seedsGauges[1],
+        warning: 0,
+      },
+      {
+        seedNames: [seeds[4], seeds[5]],
+        waterGauge: seedsGauges[2],
+        warning: 0,
+      },
+    ]);
+
+    return [gems, plants];
+  };
+  const getHydros = async () => {
+    // console.log("getMemos rendered");
+    const res = await fetch(`/hydro/api/listjs`);
+    // const res = await fetch(`/api/listjs`);
+    const hydros = await res.json();
+    // setHydroList(hydros);
+    hydros = [...dividePlantGem(hydros)];
+
+    makePiecesArray(hydros[1]);
+    setPlanters(hydros[1]);
+    // setGems([
+    //   { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
+    //   { seedNames: ["케일", "시금치"], waterGauge: 45, warning: 1 },
+    //   { seedNames: ["시금치", "곱슬아삭이"], waterGauge: 90, warning: 0 },
+    // ]);
+  };
+
+  useEffect(() => {
+    getHydros();
+  }, []);
+
+  /*
   useEffect(() => {
     // setCurPlanter({ ...planters[0] });
     setPlanters([
@@ -150,6 +234,7 @@ export default function Home() {
       { seedNames: ["시금치", "곱슬아삭이"], waterGauge: 90, warning: 0 },
     ]);
   }, []);
+	*/
 
   return (
     <PullToRefresh
