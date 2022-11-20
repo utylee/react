@@ -3,7 +3,7 @@ import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
-const Topboard = ({ piecess }) => {
+const Topboard = ({ id, piecess }) => {
   //{ getIsOpen, getModalType, setModalType, openModal, closeModal };
   const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
     useModal();
@@ -74,7 +74,9 @@ const Topboard = ({ piecess }) => {
       {/* 행렬과 map을 어떻게 병용할까 고민하다가 이중배열과 이중 map을 사용하기로 했습니다 */}
 
       {/* 배열개수에 따라서 일반상판과 모종상판을 구분하기로 합니다 */}
-      {piecess.length === 3 ? normalBoard() : seedlingBoard()}
+      {/* id 7을 통해서 구분하기로 변경합니다*/}
+      {id === 7 ? seedlingBoard() : normalBoard()}
+      {/* {piecess.length === 3 ? normalBoard() : seedlingBoard()} */}
     </VStack>
   );
 };

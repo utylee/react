@@ -47,27 +47,39 @@ export default function Home() {
   };
 
   const makePiecesArray = (arr) => {
+    // 일반상판과 새싹상판을 구분합니다
     arr.map((l) => {
-      l.pieces = [
-        [
-          parseInt(l.pieces[0]),
-          parseInt(l.pieces[1]),
-          parseInt(l.pieces[2]),
-          parseInt(l.pieces[3]),
-        ],
-        [
-          parseInt(l.pieces[4]),
-          parseInt(l.pieces[5]),
-          parseInt(l.pieces[6]),
-          parseInt(l.pieces[7]),
-        ],
-        [
-          parseInt(l.pieces[8]),
-          parseInt(l.pieces[9]),
-          parseInt(l.pieces[10]),
-          parseInt(l.pieces[11]),
-        ],
-      ];
+      if (l.id === 7) {
+        l.pieces = [
+            parseInt(l.pieces[0]),
+            parseInt(l.pieces[1]),
+            parseInt(l.pieces[2]),
+            parseInt(l.pieces[3]),
+            parseInt(l.pieces[4]),
+            parseInt(l.pieces[5]),
+        ];
+      } else {
+        l.pieces = [
+          [
+            parseInt(l.pieces[0]),
+            parseInt(l.pieces[1]),
+            parseInt(l.pieces[2]),
+            parseInt(l.pieces[3]),
+          ],
+          [
+            parseInt(l.pieces[4]),
+            parseInt(l.pieces[5]),
+            parseInt(l.pieces[6]),
+            parseInt(l.pieces[7]),
+          ],
+          [
+            parseInt(l.pieces[8]),
+            parseInt(l.pieces[9]),
+            parseInt(l.pieces[10]),
+            parseInt(l.pieces[11]),
+          ],
+        ];
+      }
     });
   };
 
@@ -80,11 +92,20 @@ export default function Home() {
       } else plants = [...plants, h];
     });
 
-    const seeds = gems[0].pieces.split(",");
+    // plants 를 id 에 따라 내림차순 정렬합니다
+    plants.sort((a, b) => {
+      return a.id - b.id;
+    });
+
+    return [gems[0], plants];
+  };
+
+  const processSetGems = (gem) => {
+    const seeds = gem.pieces.split(",");
     const seedsGauges = [
-      parseInt(gems[0].waterGauge / 10000),
-      parseInt((gems[0].waterGauge % 10000) / 100),
-      gems[0].waterGauge % 100,
+      parseInt(gem.waterGauge / 10000),
+      parseInt((gem.waterGauge % 10000) / 100),
+      gem.waterGauge % 100,
     ];
 
     setGems([
@@ -104,8 +125,6 @@ export default function Home() {
         warning: 0,
       },
     ]);
-
-    return [gems, plants];
   };
   const getHydros = async () => {
     // console.log("getMemos rendered");
@@ -117,6 +136,7 @@ export default function Home() {
 
     makePiecesArray(hydros[1]);
     setPlanters(hydros[1]);
+    processSetGems(hydros[0]);
     // setGems([
     //   { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
     //   { seedNames: ["케일", "시금치"], waterGauge: 45, warning: 1 },

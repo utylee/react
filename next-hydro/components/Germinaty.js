@@ -21,51 +21,53 @@ const Germinaty = ({ gem }) => {
           {/* {gem.seedNames.map((seedName) => { */}
           {seedNames.map((seedName) => {
             return (
-                <Flex
-                  key={Math.floor(Math.random() * 1000000)}
-                  flexWrap="nowrap"
-                  bg="green.600"
-                  w="45%"
-                  h="80%"
-                  borderRadius="5"
-                  align="center"
-                  justify="center"
+              <Flex
+                key={Math.floor(Math.random() * 1000000)}
+                flexWrap="nowrap"
+                bg="green.600"
+                w="45%"
+                h="80%"
+                borderRadius="5"
+                align="center"
+                justify="center"
+              >
+                {/* 텍스트 생략을 위한 구문 3종 세트 */}
+                <Text
+                  whiteSpace="nowrap"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  color="gray.800"
+                  fontSize="0.8em"
+                  // fontWeight="normal"
+                  // fontWeight="medium"
+                  fontWeight="semibold"
                 >
-                  {/* 텍스트 생략을 위한 구문 3종 세트 */}
-                  <Text
-                    whiteSpace="nowrap"
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    color="gray.800"
-                    fontSize="0.8em"
-                    // fontWeight="normal"
-                    // fontWeight="medium"
-                    fontWeight="semibold"
-                  >
-                    {seedName}
-                  </Text>
-                </Flex>
+                  {seedName}
+                </Text>
+              </Flex>
             );
           })}
         </Flex>
 
         {/* 수위게이지 */}
         {/* 바탕 */}
+        {/* bg={warning ? "#59110c" : "blue.800"} */}
         <Flex
           w="90%"
           h="0.3em"
           borderRadius="1.5"
           position="relative"
-          bg={warning ? "#59110c" : "blue.800"}
+          bg={waterGauge <= 25 ? "#59110c" : "blue.800"}
         >
           {/* 알맹이 */}
+          {/* bg={warning ? "red.700" : "blue.500"} */}
           <Flex
             w={() => {
               // return gem.waterGauge + "%";
               return waterGauge + "%";
             }}
             borderRadius="1.5"
-            bg={warning ? "red.700" : "blue.500"}
+            bg={waterGauge <= 25 ? "red.700" : "blue.500"}
           ></Flex>
         </Flex>
       </VStack>

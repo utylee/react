@@ -22,9 +22,10 @@ const WaterGauge = ({ isModal, gauge, time, warning }) => {
         <Flex align="center">
           {/* <Icon as={MdWaterDrop} color="blue.500" fontSize="md" /> */}
           {/* <Icon as={IoWaterSharp} color="blue.500" fontSize="md" /> */}
+            {/* color={warning ? "red.700" : "blue.500"} */}
           <Icon
             as={ImDroplet}
-            color={warning ? "red.700" : "blue.500"}
+            color={gauge <= 25 ? "red.700" : "blue.500"}
             fontSize={isModal ? ["1.1em", "1.4em"] : "0.75em"}
           />
         </Flex>
@@ -32,8 +33,9 @@ const WaterGauge = ({ isModal, gauge, time, warning }) => {
         {/* <Flex bg="blue.800" h={5} w="full" borderRadius="md"> */}
 
         {/* 게이지 바탕 */}
+        {/* bg={warning ? "#59110c" : "blue.800"} */}
         <Flex
-          bg={warning ? "#59110c" : "blue.800"}
+          bg={gauge <= 25 ? "#59110c" : "blue.800"}
           h={isModal ? [6, 8] : 4}
           w="full"
           borderRadius={isModal ? borderLeft : 5}
@@ -47,17 +49,19 @@ const WaterGauge = ({ isModal, gauge, time, warning }) => {
           {/* 게이지 알맹이 */}
           <Flex position="relative" w="full" h="full">
             {/* w="30%" */}
+            {/* bg={warning ? "red.700" : "blue.500"} */}
             <Flex w="full" h="full" position="absolute" borderRadius={5}></Flex>
             <Flex
               w={() => gauge + "%"}
-              bg={warning ? "red.700" : "blue.500"}
               h="full"
+              bg={gauge <= 25 ? "red.700" : "blue.500"}
               borderLeftRadius={isModal ? borderLeft : 5}
               borderRightRadius={isModal ? borderRight : 4}
               position="absolute"
               zIndex="3"
             ></Flex>
             {/* 경고 아이콘 */}
+            {/* display={warning ? "flex" : "none"} */}
             <Flex
               position="absolute"
               zIndex="4"
@@ -65,7 +69,7 @@ const WaterGauge = ({ isModal, gauge, time, warning }) => {
               h="full"
               justify="center"
               align="center"
-              display={warning ? "flex" : "none"}
+              display={gauge <= 25 ? "flex" : "none"}
             >
               <Icon
                 as={RiAlertFill}

@@ -10,16 +10,19 @@ const RootGauge = ({ gauge }) => {
     <Flex w="full" pt={1}>
       {/* <Flex w="full" pt={isModal ? [3, 2] : 1}> */}
       {/* 아이콘 */}
+      {/* color="yellow.700" */}
+      {/* color={gauge >= 85 ? "red.700" : "yellow.700"} */}
       <Flex align="center">
-        <Icon fontSize={"0.8em"} as={GiTreeRoots} color="yellow.700" />
+        <Icon color="yellow.700" fontSize={"0.8em"} as={GiTreeRoots} />
         {/* <Icon fontSize="md" as={GiTreeRoots} color="gray.400" /> */}
       </Flex>
 
       {/* 게이지 바탕 */}
+      {/* bg="yellow.900" */}
       <Flex
         align="center"
         w="full"
-        bg="yellow.900"
+        bg={gauge >= 85 ? "#59110c" : "yellow.900"}
         h={2}
         borderRadius={3}
         ml={1}
@@ -27,8 +30,9 @@ const RootGauge = ({ gauge }) => {
       >
         <Flex position="relative" overflow="hidden" w="100%" h="100%">
           {/* 게이지 알맹이 */}
+          {/* bg="yellow.600" */}
           <Flex
-            bg="yellow.600"
+            bg={gauge >= 85 ? "red.700" : "yellow.600"}
             w={() => gauge + "%"}
             borderLeftRadius={3}
             borderRightRadius={2}

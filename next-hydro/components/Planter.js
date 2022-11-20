@@ -30,17 +30,22 @@ const Planter = ({ planter, curPlanter }) => {
   const dateToString = (time) => {
     return 0;
   };
-  const plantIcon = (len) => {
+  const plantIcon = (i) => {
+    // planter.id 로 변경합니다
     // planter.pieces의 갯수로 모종인지 일반상판인지를 구분합니다
-    if (len != 3) {
+    // if (len != 3) {
+    if (i === 7) {
       return <Icon as={RiLeafFill} color="gray.300" />;
     } else {
       return (
-        <Img
-          w="100%"
-          h="100%"
-          src={"hydro/public/" + planter.plantName + ".png"}
-        />
+        <>
+          {/* <Img */}
+          {/*   w="100%" */}
+          {/*   h="100%" */}
+          {/*   src={"hydro/public/" + planter.plantName + ".png"} */}
+          {/* /> */}
+          <Img w="100%" h="100%" src={"hydro/public/" + planter.imageUrl} />
+        </>
       );
     }
   };
@@ -95,7 +100,11 @@ const Planter = ({ planter, curPlanter }) => {
             {/* borderRadius="full" */}
             {/* <Img w="110%" h="110%" src="/hydro/superhotwind.png" /> */}
             {/* <Img w="110%" h="110%" src="hydro/public/superhotwind.png" /> */}
-            {plantIcon(planter.pieces.length)}
+
+            {/* 구멍개수가 아닌 id로 새싹을 구분합니다 */}
+            {/* {plantIcon(planter.pieces.length)} */}
+            {plantIcon(planter.id)}
+
             {/* <Img */}
             {/*   w="100%" */}
             {/*   h="100%" */}
@@ -103,6 +112,7 @@ const Planter = ({ planter, curPlanter }) => {
             {/* /> */}
           </Flex>
           {/* 작물 이름 */}
+          {/* <Flex width='70%' flexWrap="nowrap" justify="center"> */}
           <Flex flexWrap="nowrap" justify="center">
             {/* <Flex transform='translate(0, 0%)'> */}
             <Text
@@ -127,7 +137,7 @@ const Planter = ({ planter, curPlanter }) => {
           {/* 상판 */}
           {/* setTypeModal={setTypeModal} */}
           {/* isModal={isModal} */}
-          <Topboard piecess={planter.pieces} />
+          <Topboard id={planter.id} piecess={planter.pieces} />
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
 
