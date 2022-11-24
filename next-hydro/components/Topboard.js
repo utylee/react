@@ -3,6 +3,7 @@ import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
+// const Topboard = ({ id, piecess, setThisPlanter }) => {
 const Topboard = ({ id, piecess }) => {
   //{ getIsOpen, getModalType, setModalType, openModal, closeModal };
   const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
@@ -13,12 +14,12 @@ const Topboard = ({ id, piecess }) => {
     return (
       <>
         {piecess.map((pieces, key1) => {
-          console.log("normalBoard " + piecess);
+          // console.log("normalBoard " + piecess);
           return (
             // 각구멍들입니다
             <HStack key={key1} px={1} py={0.5} w="full" justify="space-between">
               {pieces.map((piece, key2) => {
-                console.log("normalBoard " + piece);
+                // console.log("normalBoard " + piece);
                 return (
                   <Box
                     key={key1 * 4 + key2}
@@ -40,7 +41,7 @@ const Topboard = ({ id, piecess }) => {
   const seedlingBoard = () => {
     return (
       <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
-        {console.log("seedlingBoard " + piecess)}
+        {/* {console.log("seedlingBoard " + piecess)} */}
         {piecess.map((piece, key) => {
           return (
             <Box

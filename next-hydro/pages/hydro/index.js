@@ -6,6 +6,7 @@ import Germinaty from "../../components/Germinaty";
 import ModalPlanter from "../../components/ModalPlanter";
 import { useDisclosure } from "@chakra-ui/react";
 import MyModal from "../../components/MyModal";
+import PlanterProvider from "../../context/PlanterProvider";
 import usePlanter from "../../context/usePlanter";
 // import {
 //   Button,
@@ -20,13 +21,16 @@ import usePlanter from "../../context/usePlanter";
 // } from "@chakra-ui/react";
 
 export default function Home() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
   const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
 
+  console.log("index.js declared rendered");
   // const [planters, setPlanters] = useState([]);
   // const [gems, setGems] = useState([]);
 
-  const curPlanter = useRef({});
+  // 한번 지워봅니다
+  // const curPlanter = useRef({});
+
   // const typePlanter = useRef({});
   const handleRefresh = async () => {
     // console.log("handleRefresh");
@@ -51,12 +55,12 @@ export default function Home() {
     arr.map((l) => {
       if (l.id === 7) {
         l.pieces = [
-            parseInt(l.pieces[0]),
-            parseInt(l.pieces[1]),
-            parseInt(l.pieces[2]),
-            parseInt(l.pieces[3]),
-            parseInt(l.pieces[4]),
-            parseInt(l.pieces[5]),
+          parseInt(l.pieces[0]),
+          parseInt(l.pieces[1]),
+          parseInt(l.pieces[2]),
+          parseInt(l.pieces[3]),
+          parseInt(l.pieces[4]),
+          parseInt(l.pieces[5]),
         ];
       } else {
         l.pieces = [
@@ -127,6 +131,7 @@ export default function Home() {
     ]);
   };
   const getHydros = async () => {
+    console.log("getHydros() async rendered");
     // console.log("getMemos rendered");
     const res = await fetch(`/hydro/api/listjs`);
     // const res = await fetch(`/api/listjs`);
@@ -262,57 +267,62 @@ export default function Home() {
       justifyContent="center"
       pullingContent=""
     >
-      {/* <Flex direction='column' mt={8} spacing={8} align="flex-start" justify="center"> */}
-      {/* <Flex direction="column" mt={8} spacing={8} justify="center"> */}
-      {/* <VStack direction="column" mt={8} spacing={8}> */}
-      <VStack mt={8}>
-        {/* <HStack w="full" align="center" justify="center" spacing='6em'> */}
-        {/* <HStack w="full" align="space-between" justify="center" spacing='6em'> */}
-        {/* <HStack w="full" align="center" ml='1em' justify="space-between" > */}
-        {/* <HStack w="full" align="center" m='3em' justify="space-between" > */}
+      <PlanterProvider>
+        {console.log("index.js rendered")}
+        {/* <Flex direction='column' mt={8} spacing={8} align="flex-start" justify="center"> */}
+        {/* <Flex direction="column" mt={8} spacing={8} justify="center"> */}
+        {/* <VStack direction="column" mt={8} spacing={8}> */}
+        <VStack mt={8}>
+          {/* <HStack w="full" align="center" justify="center" spacing='6em'> */}
+          {/* <HStack w="full" align="space-between" justify="center" spacing='6em'> */}
+          {/* <HStack w="full" align="center" ml='1em' justify="space-between" > */}
+          {/* <HStack w="full" align="center" m='3em' justify="space-between" > */}
 
-        {/* 재배기 7개 */}
-        {/* <HStack mx="6em" justify="space-between"> */}
-        {/* <HStack ml="4em" flexWrap='wrap' spacing={6}> */}
-        {/* <Flex ml={0} flexWrap="wrap" spacing={6}> */}
-        {/* setCurPlanter={setCurPlanter} */}
-        {/* typeModal="modal" */}
-        <Flex ml={[0, 1, 3]} flexWrap="wrap">
-          {/* <Flex ml={0} flexWrap="wrap"> */}
-          {/* setTypeModal={setTypeModal} */}
+          {/* 재배기 7개 */}
+          {/* <HStack mx="6em" justify="space-between"> */}
+          {/* <HStack ml="4em" flexWrap='wrap' spacing={6}> */}
+          {/* <Flex ml={0} flexWrap="wrap" spacing={6}> */}
+          {/* setCurPlanter={setCurPlanter} */}
+          {/* typeModal="modal" */}
+          <Flex ml={[0, 1, 3]} flexWrap="wrap">
+            {/* <Flex ml={0} flexWrap="wrap"> */}
+            {/* setTypeModal={setTypeModal} */}
 
-          {/* isModal={0} */}
-          {/* onOpen={onOpen} */}
-          {/* {planters.map((planter) => ( */}
-          {getPlanters().map((planter) => (
-            <Planter
-              curPlanter={curPlanter}
-              key={Math.random()}
-              planter={planter}
-            />
-          ))}
-          {/* 씨앗 발아기 */}
-          <Flex direction="column" ml={3} align="center">
-            {/* <Flex justify='center'> */}
-            {/* {gems.map((gem) => ( */}
-            {getGems().map((gem) => (
-              <Germinaty key={Math.random()} gem={gem} />
+            {/* isModal={0} */}
+            {/* onOpen={onOpen} */}
+            {/* {planters.map((planter) => ( */}
+
+            {/* curPlanter를 생성단계에 마지막개만 해당하게 넣지 않고 */}
+            {/* 클릭시 지정해주는 식으로 변경합니다 */}
+            {/* curPlanter={curPlanter} */}
+            {console.log("come into index.js")}
+            {getPlanters().map((planter) => (
+              <Planter key={Math.random()} planter={planter} />
             ))}
+            {/* 씨앗 발아기 */}
+            <Flex direction="column" ml={3} align="center">
+              {/* <Flex justify='center'> */}
+              {/* {gems.map((gem) => ( */}
+              {getGems().map((gem) => (
+                <Germinaty key={Math.random()} gem={gem} />
+              ))}
+            </Flex>
           </Flex>
-        </Flex>
-      </VStack>
-      {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
-      <MyModal />
+        </VStack>
+        {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
+        <MyModal />
+        {/* {console.log("all rendered index.js")} */}
 
-      {/* typeModal={typeModal} */}
-      {/* setTypeModal={setTypeModal} */}
-      {/* <ModalPlanter */}
-      {/*   isOpen={isOpen} */}
-      {/*   onOpen={onOpen} */}
-      {/*   onClose={onClose} */}
-      {/*   curPlanter={curPlanter} */}
-      {/*   isModal={1} */}
-      {/* /> */}
+        {/* typeModal={typeModal} */}
+        {/* setTypeModal={setTypeModal} */}
+        {/* <ModalPlanter */}
+        {/*   isOpen={isOpen} */}
+        {/*   onOpen={onOpen} */}
+        {/*   onClose={onClose} */}
+        {/*   curPlanter={curPlanter} */}
+        {/*   isModal={1} */}
+        {/* /> */}
+      </PlanterProvider>
     </PullToRefresh>
   );
 }

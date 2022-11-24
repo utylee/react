@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
 import useModal from "../context/useModal";
+import usePlanter from "../context/usePlanter";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
 const ModalTopboardEdit = ({ piecess }) => {
   const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
     useModal();
+  // const { getCurPlanter2, setCurPlanter2, getCurPlanterSetter } = usePlanter();
+  const { getCurPlanter, setCurPlanter } = usePlanter();
+
+  const [thisPieces, setThisPieces] = useState(piecess);
+
   // 일반 상판입니다
   const normalBoard = () => {
     return (
       <>
         {piecess.map((pieces, key1) => {
-          console.log("normalBoard " + piecess);
+          // console.log("normalBoard " + piecess);
           return (
             // 각구멍들입니다
             <HStack
@@ -22,7 +28,7 @@ const ModalTopboardEdit = ({ piecess }) => {
               justify="space-between"
             >
               {pieces.map((piece, key2) => {
-                console.log("normalBoard " + piece);
+                // console.log("normalBoard " + piece);
                 return (
                   <Box
                     key={key1 * 4 + key2}
@@ -32,6 +38,29 @@ const ModalTopboardEdit = ({ piecess }) => {
                     borderWidth={1}
                     borderColor="gray.600"
                     bg={piece ? "green.600" : "gray.700"}
+                    onClick={() => {
+                      // boolean 앞에 + 를 붙여주면 1과 0으로 표현이 바뀐다고 합니다 */}
+                      // 참고 https://stackoverflow.com/a/7820695 */}
+                      getCurPlanter().pieces[key1][key2] =
+                        +!piecess[key1][key2];
+                      // 리렌더를 위해 setCurPlanter 를 해줍니다
+                      // 문제는 모든 planter가 모두 리렌더 되는 문제가 있습니다
+                      //
+
+                      setThisPieces({ ...piecess });
+                      // console.log("getCurPlanterSetter:" + getCurPlanterSetter);
+                      // (getCurPlanterSetter())(getCurPlanter());
+                      //
+                      // setCurPlanter({ ...getCurPlanter() });
+                      //
+                      // console.log("curPlanter :" + getCurPlanter());
+                      // getCurPlanter.pieces[key1][key2] = +!piecess[key1][key2];
+                      console.log(
+                        "clicked circle" + (key1 * 4 + key2).toString()
+                      );
+                      // console.log("piecess:" + piecess);
+                    }}
+                    _hover={{ cursor: "pointer" }}
                   ></Box>
                 );
               })}
@@ -44,7 +73,7 @@ const ModalTopboardEdit = ({ piecess }) => {
   const seedlingBoard = () => {
     return (
       <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
-        {console.log("seedlingBoard " + piecess)}
+        {/* {console.log("seedlingBoard " + piecess)} */}
         {piecess.map((piece, key) => {
           return (
             <Box
@@ -65,6 +94,12 @@ const ModalTopboardEdit = ({ piecess }) => {
   return (
     <>
       {/* ml={(["1.2em"], ["1.4em"])} */}
+      {/* onClick= */}
+      {/* {() => { */}
+      {/* setModalType("topboard"); */}
+      {/* console.log("setModalType:topboard edit"); */}
+      {/* }} */}
+      {/* _hover={{ cursor: "pointer" }} */}
       <VStack
         px={["0.8em", 4]}
         py={["0.8em", "1.3em"]}
@@ -72,11 +107,6 @@ const ModalTopboardEdit = ({ piecess }) => {
         w="full"
         borderRadius="lg"
         justify="space-between"
-        _hover={{ cursor: "pointer" }}
-        onClick={() => {
-          setModalType("topboard");
-          console.log("setModalType:topboard edit");
-        }}
       >
         {/* 행렬과 map을 어떻게 병용할까 고민하다가 이중배열과 이중 map을 사용하기로 했습니다 */}
 

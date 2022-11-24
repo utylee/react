@@ -50,7 +50,7 @@ const RootGauge = ({ gauge }) => {
         {/* zIndex={2} */}
         {/* <Flex bg="yellow.900" h={5} w="full" borderRadius="md"> */}
         {/* w={() => prseInt(gauge) + "%"} */}
-        {console.log("root gauge:" + gauge)}
+        {/* {console.log("root gauge:" + gauge)} */}
 
         {/* zIndex={3} */}
         {/* 뿌리 아이콘 */}

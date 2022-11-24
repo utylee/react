@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useCallback, useState } from "react";
 import { PlanterStateContext, PlanterDispatchContext } from "./PlanterContext";
 
 const PlanterProvider = ({ children }) => {
   const [curPlanter, setCurPlanter] = useState([]);
   const [planters, setPlanters] = useState([]);
   const [gems, setGems] = useState([]);
+  const [curPlanterSetter, setCurPlanterSetter] = useState();
 
   // useEffect는 index.js에서 실행하기로 합니다
   // useEffect(() => {
@@ -114,30 +115,74 @@ const PlanterProvider = ({ children }) => {
   //   ]);
   // }, []);
 
-  const getCurPlanter = () => {
+  // 변경한 planter 객체만 리렌더 하기위해서입니다
+  const getCurPlanterSetter = () => {
+    return curPlanterSetter;
+  };
+
+  const setCurPlanterHook = (c) => {
+	  setCurPlanter(c => c);
+  };
+
+  const getCurPlanter = useCallback(() => {
     return curPlanter;
-  };
-  const getPlanters = () => {
+    // }, []);
+  }, [curPlanter]);
+  // const getCurPlanter = () => {
+  //   return curPlanter;
+  // };
+
+  const getPlanters = useCallback(() => {
     return planters;
-  };
+  }, [planters]);
+  // const getPlanters = () => {
+  //   return planters;
+  // };
   const getGems = () => {
     return gems;
   };
-  const dispatch = useMemo(() => ({
+
+  const dispatch = {
     getCurPlanter,
-    setCurPlanter,
     setPlanters,
+    setCurPlanter,
     setGems,
     getPlanters,
     getGems,
-  }));
+    setCurPlanterSetter,
+    getCurPlanterSetter,
+  };
+
+  // setCurPlanter,
+  // setCurPlanterHook,
+  // const dispatch = useMemo(
+  //   () => ({
+  //     getCurPlanter,
+  //     setPlanters,
+  //     setCurPlanter,
+  //     setGems,
+  //     getPlanters,
+  //     getGems,
+  //     setCurPlanterSetter,
+  //     getCurPlanterSetter,
+  //   }),
+  //   /* planters state가 변경될 때는 재생성하게끔 해줍니다.
+  //    * 그럴경우 useMemo의 실익이 사라지는 게 아닌가 하는 아쉬움은 있습니다
+  //    * */
+  //   // [planters, curPlanter]
+  //   // [planters]
+  //   []
+  // );
 
   return (
-    <PlanterStateContext.Provider value={{ planters, gems }}>
-      <PlanterDispatchContext.Provider value={dispatch}>
-        {children}
-      </PlanterDispatchContext.Provider>
-    </PlanterStateContext.Provider>
+    <>
+      {/* value={{ planters, gems, curPlanter, curPlanterSetter }} */}
+      <PlanterStateContext.Provider value={{ planters, gems }}>
+        <PlanterDispatchContext.Provider value={dispatch}>
+          {children}
+        </PlanterDispatchContext.Provider>
+      </PlanterStateContext.Provider>
+    </>
   );
 };
 

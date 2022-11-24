@@ -11,7 +11,7 @@ const ModalTopboard = ({ piecess }) => {
     return (
       <>
         {piecess.map((pieces, key1) => {
-          console.log("normalBoard " + piecess);
+          // console.log("normalBoard " + piecess);
           return (
             // 각구멍들입니다
             <HStack
@@ -22,7 +22,7 @@ const ModalTopboard = ({ piecess }) => {
               justify="space-between"
             >
               {pieces.map((piece, key2) => {
-                console.log("normalBoard " + piece);
+                // console.log("normalBoard " + piece);
                 return (
                   <Box
                     key={key1 * 4 + key2}
@@ -44,7 +44,7 @@ const ModalTopboard = ({ piecess }) => {
   const seedlingBoard = () => {
     return (
       <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
-        {console.log("seedlingBoard " + piecess)}
+        {/* {console.log("seedlingBoard " + piecess)} */}
         {piecess.map((piece, key) => {
           return (
             <Box

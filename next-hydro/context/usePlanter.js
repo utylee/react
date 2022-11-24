@@ -16,14 +16,28 @@ export default function usePlanter() {
     setCurPlanter,
     getPlanters,
     getGems,
+    setCurPlanterSetter,
+    getCurPlanterSetter,
   } = useContext(PlanterDispatchContext);
 
+
+  // return {
+  //   setPlanters,
+  //   setGems,
+  //   getCurPlanter,
+  //   setCurPlanterHook,
+  //   getPlanters,
+  //   getGems,
+  //   setCurPlanterSetter,
+  //   getCurPlanterSetter,
+  // };
+  //
   return {
     setPlanters,
     setGems,
+    getGems,
+    getPlanters,
     getCurPlanter,
     setCurPlanter,
-    getPlanters,
-    getGems,
   };
 }

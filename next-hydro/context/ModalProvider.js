@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ModalStateContext, ModalDispatchContext } from "./ModalContext";
 import { useDisclosure } from "@chakra-ui/react";
+// import MyModal from "../components/MyModal";
 
 // **필요한 것들
 //
@@ -31,7 +32,14 @@ const ModalProvider = ({ children }) => {
   // 이 객체가 state변경으로 리렌더될 때 함수가 변경으로 처리되는 것을
   // 방지하기 위해 useMemo를 사용합니다
   const dispatch = useMemo(
-    () => ({ onOpen, onClose, getIsOpen, getModalType, setModalType, setIsOpen }),
+    () => ({
+      onOpen,
+      onClose,
+      getIsOpen,
+      getModalType,
+      setModalType,
+      setIsOpen,
+    }),
     []
   );
 
@@ -39,6 +47,7 @@ const ModalProvider = ({ children }) => {
     <ModalStateContext.Provider value={{ isOpen, typeModal }}>
       <ModalDispatchContext.Provider value={dispatch}>
         {children}
+        {/* <MyModal /> */}
       </ModalDispatchContext.Provider>
     </ModalStateContext.Provider>
   );

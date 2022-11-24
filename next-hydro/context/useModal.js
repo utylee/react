@@ -14,7 +14,7 @@ export default function useModal() {
 
   const openModal = () => {
     console.log("openModal clicked");
-	  
+
     //사실 별도 dispatch방식이 아닌 그냥 provider의 isopen을 그대로 대입했다면
     //필요없는 방식입니다. chakraui의 modal컴포넌트 구조를 잘 몰라서 내가 직접
     //isOpen을 세팅해줘도 되나 보는 차원에서 해봅니다. 괜찮게 되는군요

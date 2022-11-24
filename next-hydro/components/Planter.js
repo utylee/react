@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Img, Image, Box, Flex, VStack, Text, Icon } from "@chakra-ui/react";
 import WaterGauge from "./WaterGauge";
 import RootGauge from "./RootGauge";
@@ -15,7 +15,11 @@ import usePlanter from "../context/usePlanter";
 // const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
 // const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
 // const Planter = ({ planter, onOpen, curPlanter }) => {
-const Planter = ({ planter, curPlanter }) => {
+
+// curPlanter를 직접받지 않게 일단 변경해봅니다
+// const Planter = ({ planter, curPlanter }) => {
+const Planter = ({ planter }) => {
+  //
   // const { onOpen } = useModal();
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const [water, setWater] = useState();
@@ -23,13 +27,26 @@ const Planter = ({ planter, curPlanter }) => {
   const [individual, setIndividual] = useState();
   const [waterdate, setWaterDate] = useState();
 
+  // 리렌더용 각 planterSetter용 변수
+  const [thisPlanter, setThisPlanter] = useState();
+
   const { openModal, getIsOpen, setModalType } = useModal();
-  const { getCurPlanter, setCurPlanter } = usePlanter();
+  const {
+    getCurPlanter,
+    setCurPlanter,
+    getCurPlanterSetter,
+    setCurPlanterSetter,
+  } = usePlanter();
   // { getIsOpen, getModalType, setModalType, openModal, closeModal };
+
+  useEffect(() => {
+    console.log("usePlanter function is changed");
+  }, []);
 
   const dateToString = (time) => {
     return 0;
   };
+
   const plantIcon = (i) => {
     // planter.id 로 변경합니다
     // planter.pieces의 갯수로 모종인지 일반상판인지를 구분합니다
@@ -57,8 +74,13 @@ const Planter = ({ planter, curPlanter }) => {
   //   waterDate: 11111111,
   //   pieces: 6,
   // },
+
+  // useEffect(() => {
+  //   setThisPlanter({ ...planter });
+  // }, []);
   return (
     <>
+      {console.log("Planter" + planter.id + " rendered")}
       {/* 휴대용 기기에서의 리스폰시브 대응 */}
       <VStack
         w={"9em"}
@@ -69,9 +91,15 @@ const Planter = ({ planter, curPlanter }) => {
         // { getIsOpen, getModalType, setModalType, openModal, closeModal };
 
         // curPlanter.current = { ...planter };
+        //
+        // 할당이 현재는 의미없는 것 같아서 빼보았습니다
+        // setCurPlanter({ ...planter });
+        // setCurPlanterHook({ ...planter });
+        // setCurPlanterSetter(setThisPlanter);
         onClick={() => {
-          setCurPlanter({ ...planter });
           setModalType("planter");
+          setCurPlanter({ ...planter });
+          console.log("setCurPlanterSetter:" + setThisPlanter);
           openModal();
           console.log("getIsOpen():", getIsOpen());
         }}

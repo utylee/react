@@ -20,8 +20,15 @@ import {
 const MyModal = () => {
   const { getIsOpen, openModal, closeModal, setModalType, getModalType } =
     useModal();
-  const { getCurPlanter, setCurPlanter } = usePlanter();
+  const {
+    getCurPlanter,
+    setCurPlanter,
+    getCurPlanterSetter,
+    setCurPlanterSetter,
+  } = usePlanter();
   // const { isOpen, onOpen, onClose } = useDisclosure();
+
+
 
   // state context 를 소유해서 리프레시를 유도합니다
   const { isOpen, typeModal } = useContext(ModalStateContext);
