@@ -3,14 +3,16 @@ import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
-const ModalTopboard = ({ piecess }) => {
+// const ModalTopboard = ({ piecess }) => {
+const ModalTopboard = ({ planter }) => {
   const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
     useModal();
   // 일반 상판입니다
   const normalBoard = () => {
     return (
       <>
-        {piecess.map((pieces, key1) => {
+        {/* {piecess.map((pieces, key1) => { */}
+        {planter.pieces.map((pieces, key1) => {
           // console.log("normalBoard " + piecess);
           return (
             // 각구멍들입니다
@@ -45,7 +47,8 @@ const ModalTopboard = ({ piecess }) => {
     return (
       <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
         {/* {console.log("seedlingBoard " + piecess)} */}
-        {piecess.map((piece, key) => {
+        {/* {piecess.map((piece, key) => { */}
+        {planter.pieces.map((piece, key) => {
           return (
             <Box
               key={key}
@@ -81,7 +84,8 @@ const ModalTopboard = ({ piecess }) => {
         {/* 행렬과 map을 어떻게 병용할까 고민하다가 이중배열과 이중 map을 사용하기로 했습니다 */}
 
         {/* 배열개수에 따라서 일반상판과 모종상판을 구분하기로 합니다 */}
-        {piecess.length === 3 ? normalBoard() : seedlingBoard()}
+        {/* {piecess.length === 3 ? normalBoard() : seedlingBoard()} */}
+        {planter.pieces.length === 3 ? normalBoard() : seedlingBoard()}
       </VStack>
     </>
   );

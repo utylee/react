@@ -10,7 +10,8 @@ import Topboard from "./Topboard";
 import GrowthGauge from "./GrowthGauge";
 // import { reducer } from "./ModalPlanter";
 import useModal from "../context/useModal";
-import usePlanter from "../context/usePlanter";
+// import usePlanter from "../context/usePlanter";
+import usePlanterCur from "../context/usePlanterCur";
 
 // const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
 // const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
@@ -32,16 +33,19 @@ const Planter = ({ planter }) => {
 
   const { openModal, getIsOpen, setModalType } = useModal();
   const {
-    getCurPlanter,
     setCurPlanter,
-    getCurPlanterSetter,
-    setCurPlanterSetter,
-  } = usePlanter();
+  } = usePlanterCur();
+  // const {
+  //   getCurPlanter,
+  //   setCurPlanter,
+  //   getCurPlanterSetter,
+  //   setCurPlanterSetter,
+  // } = usePlanter();
   // { getIsOpen, getModalType, setModalType, openModal, closeModal };
 
-  useEffect(() => {
-    console.log("usePlanter function is changed");
-  }, []);
+  // useEffect(() => {
+  //   console.log("usePlanter function is changed");
+  // }, []);
 
   const dateToString = (time) => {
     return 0;
@@ -99,9 +103,9 @@ const Planter = ({ planter }) => {
         onClick={() => {
           setModalType("planter");
           setCurPlanter({ ...planter });
-          console.log("setCurPlanterSetter:" + setThisPlanter);
+          // console.log("setCurPlanterSetter:" + setThisPlanter);
           openModal();
-          console.log("getIsOpen():", getIsOpen());
+          // console.log("getIsOpen():", getIsOpen());
         }}
         _hover={{ cursor: "pointer" }}
       >

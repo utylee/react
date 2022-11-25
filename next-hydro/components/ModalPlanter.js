@@ -110,7 +110,8 @@ const ModalPlanter = ({ planter }) => {
           {/*   isModal={isModal} */}
           {/*   piecess={planter.pieces} */}
           {/* /> */}
-          <ModalTopboard piecess={planter.pieces} />
+          {/* <ModalTopboard piecess={planter.pieces} /> */}
+          <ModalTopboard planter={planter} />
 
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}

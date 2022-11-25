@@ -2,7 +2,8 @@
 import Head from "next/head";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ModalProvider from "../context/ModalProvider";
-import PlanterProvider from "../context/PlanterProvider";
+import PlantersProvider from "../context/PlantersProvider";
+import PlanterCurProvider from "../context/PlanterCurProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -23,12 +24,14 @@ function MyApp({ Component, pageProps }) {
       })}
     >
       <ModalProvider>
-        <PlanterProvider>
-          <Head>
-            <link rel="icon" href="/hydro/favicon.ico" />
-          </Head>
-          <Component {...pageProps} />
-        </PlanterProvider>
+        {/* <PlantersProvider> */}
+        {/*   <PlanterCurProvider> */}
+            <Head>
+              <link rel="icon" href="/hydro/favicon.ico" />
+            </Head>
+            <Component {...pageProps} />
+          {/* </PlanterCurProvider> */}
+        {/* </PlantersProvider> */}
       </ModalProvider>
     </ChakraProvider>
   );

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import { ModalStateContext } from "../context/ModalContext";
 import useModal from "../context/useModal";
-import usePlanter from "../context/usePlanter";
+// import usePlanter from "../context/usePlanter";
+import PlanterCurStateContext from "../context/PlanterCurContext";
 import ModalPlanter from "./ModalPlanter";
 import ModalTopboardEdit from "./ModalTopboardEdit";
 
@@ -20,15 +21,15 @@ import {
 const MyModal = () => {
   const { getIsOpen, openModal, closeModal, setModalType, getModalType } =
     useModal();
-  const {
-    getCurPlanter,
-    setCurPlanter,
-    getCurPlanterSetter,
-    setCurPlanterSetter,
-  } = usePlanter();
+
+  const { curPlanter } = useContext(PlanterCurStateContext);
+  // const {
+  //   getCurPlanter,
+  //   setCurPlanter,
+  //   getCurPlanterSetter,
+  //   setCurPlanterSetter,
+  // } = usePlanter();
   // const { isOpen, onOpen, onClose } = useDisclosure();
-
-
 
   // state context 를 소유해서 리프레시를 유도합니다
   const { isOpen, typeModal } = useContext(ModalStateContext);
@@ -40,12 +41,15 @@ const MyModal = () => {
     // if (getModalType() === "planter") {
     if (typeModal == "planter") {
       console.log("modaltype is planter");
-      return <ModalPlanter planter={getCurPlanter()} />;
+      // return <ModalPlanter planter={getCurPlanter()} />;
+      return <ModalPlanter planter={curPlanter} />;
       // } else if (getModalType() == "topboard") {
       // } else if (getModalType() == "topboard") {
     } else if (typeModal == "topboard") {
       console.log("modaltype is topboard");
-      return <ModalTopboardEdit piecess={getCurPlanter().pieces} />;
+      // return <ModalTopboardEdit piecess={getCurPlanter().pieces} />;
+      // return <ModalTopboardEdit piecess={curPlanter.pieces} />;
+      return <ModalTopboardEdit piecess={curPlanter} />;
     }
   };
   return (

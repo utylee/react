@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
 import useModal from "../context/useModal";
-import usePlanter from "../context/usePlanter";
+// import usePlanter from "../context/usePlanter";
+import PlanterCurStateContext from "../context/PlanterCurContext";
+import usePlanterCur from "../context/usePlanterCur";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
-const ModalTopboardEdit = ({ piecess }) => {
+// const ModalTopboardEdit = ({ piecess }) => {
+const ModalTopboardEdit = ({ planter }) => {
   const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
     useModal();
   // const { getCurPlanter2, setCurPlanter2, getCurPlanterSetter } = usePlanter();
-  const { getCurPlanter, setCurPlanter } = usePlanter();
 
-  const [thisPieces, setThisPieces] = useState(piecess);
+  // const { getCurPlanter, setCurPlanter } = usePlanter();
+  const { curPlanter } = useContext(PlanterCurStateContext);
+  const { setCurPlanter } = usePlanterCur();
+
+  // const [thisPieces, setThisPieces] = useState(piecess);
 
   // 일반 상판입니다
   const normalBoard = () => {
     return (
       <>
-        {piecess.map((pieces, key1) => {
+        {/* {piecess.map((pieces, key1) => { */}
+        {planter.pieces.map((pcs, key1) => {
           // console.log("normalBoard " + piecess);
           return (
             // 각구멍들입니다
@@ -27,7 +34,7 @@ const ModalTopboardEdit = ({ piecess }) => {
               w="full"
               justify="space-between"
             >
-              {pieces.map((piece, key2) => {
+              {pcs.map((pc, key2) => {
                 // console.log("normalBoard " + piece);
                 return (
                   <Box
@@ -37,17 +44,21 @@ const ModalTopboardEdit = ({ piecess }) => {
                     h={[5, 8]}
                     borderWidth={1}
                     borderColor="gray.600"
-                    bg={piece ? "green.600" : "gray.700"}
+                    bg={pc ? "green.600" : "gray.700"}
                     onClick={() => {
                       // boolean 앞에 + 를 붙여주면 1과 0으로 표현이 바뀐다고 합니다 */}
                       // 참고 https://stackoverflow.com/a/7820695 */}
-                      getCurPlanter().pieces[key1][key2] =
-                        +!piecess[key1][key2];
+                      // getCurPlanter().pieces[key1][key2] =
+                      //   +!piecess[key1][key2];
+                      const { pieces, ...rest } = curPlanter;
+                      pieces[key1][key2] = +!pc;
+                      setCurPlanter({ pieces, ...rest });
                       // 리렌더를 위해 setCurPlanter 를 해줍니다
                       // 문제는 모든 planter가 모두 리렌더 되는 문제가 있습니다
                       //
 
-                      setThisPieces({ ...piecess });
+                      // setThisPieces({ ...piecess });
+
                       // console.log("getCurPlanterSetter:" + getCurPlanterSetter);
                       // (getCurPlanterSetter())(getCurPlanter());
                       //
@@ -74,7 +85,8 @@ const ModalTopboardEdit = ({ piecess }) => {
     return (
       <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
         {/* {console.log("seedlingBoard " + piecess)} */}
-        {piecess.map((piece, key) => {
+        {/* {piecess.map((piece, key) => { */}
+        {planter.pieces.map((piece, key) => {
           return (
             <Box
               key={key}
@@ -111,7 +123,7 @@ const ModalTopboardEdit = ({ piecess }) => {
         {/* 행렬과 map을 어떻게 병용할까 고민하다가 이중배열과 이중 map을 사용하기로 했습니다 */}
 
         {/* 배열개수에 따라서 일반상판과 모종상판을 구분하기로 합니다 */}
-        {piecess.length === 3 ? normalBoard() : seedlingBoard()}
+        {planter.pieces.length === 3 ? normalBoard() : seedlingBoard()}
       </VStack>
     </>
   );

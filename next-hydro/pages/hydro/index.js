@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import { Box, HStack, VStack, Flex } from "@chakra-ui/react";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import Planter from "../../components/Planter";
@@ -6,8 +6,9 @@ import Germinaty from "../../components/Germinaty";
 import ModalPlanter from "../../components/ModalPlanter";
 import { useDisclosure } from "@chakra-ui/react";
 import MyModal from "../../components/MyModal";
-import PlanterProvider from "../../context/PlanterProvider";
-import usePlanter from "../../context/usePlanter";
+// import PlantersProvider from "../../context/PlantersProvider";
+import PlantersStateContext from "../../context/PlantersContext";
+import usePlanters from "../../context/usePlanters";
 // import {
 //   Button,
 //   Modal,
@@ -22,9 +23,12 @@ import usePlanter from "../../context/usePlanter";
 
 export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
 
-  console.log("index.js declared rendered");
+  // const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
+  const { setPlanters, setGems } = usePlanters();
+  const { planters, gems } = useContext(PlantersStateContext);
+
+  console.log("index.js rendered");
   // const [planters, setPlanters] = useState([]);
   // const [gems, setGems] = useState([]);
 
@@ -89,10 +93,10 @@ export default function Home() {
 
   const dividePlantGem = (hydro) => {
     const plants = [];
-    const gems = [];
+    const gms = [];
     hydro.map((h) => {
       if (h.id === 8) {
-        gems = [...gems, h];
+        gms = [...gms, h];
       } else plants = [...plants, h];
     });
 
@@ -138,8 +142,8 @@ export default function Home() {
     const hydros = await res.json();
     // setHydroList(hydros);
     hydros = [...dividePlantGem(hydros)];
-
     makePiecesArray(hydros[1]);
+
     setPlanters(hydros[1]);
     processSetGems(hydros[0]);
     // setGems([
@@ -150,6 +154,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    console.log("usefx");
     getHydros();
   }, []);
 
@@ -267,62 +272,60 @@ export default function Home() {
       justifyContent="center"
       pullingContent=""
     >
-      <PlanterProvider>
-        {console.log("index.js rendered")}
-        {/* <Flex direction='column' mt={8} spacing={8} align="flex-start" justify="center"> */}
-        {/* <Flex direction="column" mt={8} spacing={8} justify="center"> */}
-        {/* <VStack direction="column" mt={8} spacing={8}> */}
-        <VStack mt={8}>
-          {/* <HStack w="full" align="center" justify="center" spacing='6em'> */}
-          {/* <HStack w="full" align="space-between" justify="center" spacing='6em'> */}
-          {/* <HStack w="full" align="center" ml='1em' justify="space-between" > */}
-          {/* <HStack w="full" align="center" m='3em' justify="space-between" > */}
+      {/* <Flex direction='column' mt={8} spacing={8} align="flex-start" justify="center"> */}
+      {/* <Flex direction="column" mt={8} spacing={8} justify="center"> */}
+      {/* <VStack direction="column" mt={8} spacing={8}> */}
+      <VStack mt={8}>
+        {/* <HStack w="full" align="center" justify="center" spacing='6em'> */}
+        {/* <HStack w="full" align="space-between" justify="center" spacing='6em'> */}
+        {/* <HStack w="full" align="center" ml='1em' justify="space-between" > */}
+        {/* <HStack w="full" align="center" m='3em' justify="space-between" > */}
 
-          {/* 재배기 7개 */}
-          {/* <HStack mx="6em" justify="space-between"> */}
-          {/* <HStack ml="4em" flexWrap='wrap' spacing={6}> */}
-          {/* <Flex ml={0} flexWrap="wrap" spacing={6}> */}
-          {/* setCurPlanter={setCurPlanter} */}
-          {/* typeModal="modal" */}
-          <Flex ml={[0, 1, 3]} flexWrap="wrap">
-            {/* <Flex ml={0} flexWrap="wrap"> */}
-            {/* setTypeModal={setTypeModal} */}
+        {/* 재배기 7개 */}
+        {/* <HStack mx="6em" justify="space-between"> */}
+        {/* <HStack ml="4em" flexWrap='wrap' spacing={6}> */}
+        {/* <Flex ml={0} flexWrap="wrap" spacing={6}> */}
+        {/* setCurPlanter={setCurPlanter} */}
+        {/* typeModal="modal" */}
+        <Flex ml={[0, 1, 3]} flexWrap="wrap">
+          {/* <Flex ml={0} flexWrap="wrap"> */}
+          {/* setTypeModal={setTypeModal} */}
 
-            {/* isModal={0} */}
-            {/* onOpen={onOpen} */}
-            {/* {planters.map((planter) => ( */}
+          {/* isModal={0} */}
+          {/* onOpen={onOpen} */}
+          {/* {planters.map((planter) => ( */}
 
-            {/* curPlanter를 생성단계에 마지막개만 해당하게 넣지 않고 */}
-            {/* 클릭시 지정해주는 식으로 변경합니다 */}
-            {/* curPlanter={curPlanter} */}
-            {console.log("come into index.js")}
-            {getPlanters().map((planter) => (
-              <Planter key={Math.random()} planter={planter} />
+          {/* curPlanter를 생성단계에 마지막개만 해당하게 넣지 않고 */}
+          {/* 클릭시 지정해주는 식으로 변경합니다 */}
+          {/* curPlanter={curPlanter} */}
+          {/* {getPlanters().map((planter) => ( */}
+          {planters.map((planter) => (
+            <Planter key={Math.random()} planter={planter} />
+          ))}
+          {/* 씨앗 발아기 */}
+          <Flex direction="column" ml={3} align="center">
+            {/* <Flex justify='center'> */}
+            {/* {gems.map((gem) => ( */}
+            {/* {getGems().map((gem) => ( */}
+            {gems().map((gem) => (
+              <Germinaty key={Math.random()} gem={gem} />
             ))}
-            {/* 씨앗 발아기 */}
-            <Flex direction="column" ml={3} align="center">
-              {/* <Flex justify='center'> */}
-              {/* {gems.map((gem) => ( */}
-              {getGems().map((gem) => (
-                <Germinaty key={Math.random()} gem={gem} />
-              ))}
-            </Flex>
           </Flex>
-        </VStack>
-        {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
-        <MyModal />
-        {/* {console.log("all rendered index.js")} */}
+        </Flex>
+      </VStack>
+      {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}
+      <MyModal />
+      {/* {console.log("all rendered index.js")} */}
 
-        {/* typeModal={typeModal} */}
-        {/* setTypeModal={setTypeModal} */}
-        {/* <ModalPlanter */}
-        {/*   isOpen={isOpen} */}
-        {/*   onOpen={onOpen} */}
-        {/*   onClose={onClose} */}
-        {/*   curPlanter={curPlanter} */}
-        {/*   isModal={1} */}
-        {/* /> */}
-      </PlanterProvider>
+      {/* typeModal={typeModal} */}
+      {/* setTypeModal={setTypeModal} */}
+      {/* <ModalPlanter */}
+      {/*   isOpen={isOpen} */}
+      {/*   onOpen={onOpen} */}
+      {/*   onClose={onClose} */}
+      {/*   curPlanter={curPlanter} */}
+      {/*   isModal={1} */}
+      {/* /> */}
     </PullToRefresh>
   );
 }
