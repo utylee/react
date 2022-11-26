@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { ModalStateContext } from "../context/ModalContext";
 import useModal from "../context/useModal";
 // import usePlanter from "../context/usePlanter";
-import PlanterCurStateContext from "../context/PlanterCurContext";
+import { PlanterCurStateContext } from "../context/PlanterCurContext";
 import ModalPlanter from "./ModalPlanter";
 import ModalTopboardEdit from "./ModalTopboardEdit";
 
@@ -49,7 +49,7 @@ const MyModal = () => {
       console.log("modaltype is topboard");
       // return <ModalTopboardEdit piecess={getCurPlanter().pieces} />;
       // return <ModalTopboardEdit piecess={curPlanter.pieces} />;
-      return <ModalTopboardEdit piecess={curPlanter} />;
+      return <ModalTopboardEdit planter={curPlanter} />;
     }
   };
   return (

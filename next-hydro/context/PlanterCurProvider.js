@@ -173,7 +173,7 @@ const PlanterCurProvider = ({ children }) => {
   // );
 
   return (
-      <PlanterCurStateContext.Provider value={curPlanter}>
+      <PlanterCurStateContext.Provider value={{ curPlanter }}>
         <PlanterCurDispatchContext.Provider value={dispatch}>
           {children}
         </PlanterCurDispatchContext.Provider>

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { VStack, HStack, Flex, Box } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 // import usePlanter from "../context/usePlanter";
-import PlanterCurStateContext from "../context/PlanterCurContext";
+import { PlanterCurStateContext } from "../context/PlanterCurContext";
 import usePlanterCur from "../context/usePlanterCur";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {

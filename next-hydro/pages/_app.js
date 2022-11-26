@@ -24,14 +24,14 @@ function MyApp({ Component, pageProps }) {
       })}
     >
       <ModalProvider>
-        {/* <PlantersProvider> */}
-        {/*   <PlanterCurProvider> */}
+        <PlantersProvider>
+          <PlanterCurProvider>
             <Head>
               <link rel="icon" href="/hydro/favicon.ico" />
             </Head>
             <Component {...pageProps} />
-          {/* </PlanterCurProvider> */}
-        {/* </PlantersProvider> */}
+          </PlanterCurProvider>
+        </PlantersProvider>
       </ModalProvider>
     </ChakraProvider>
   );

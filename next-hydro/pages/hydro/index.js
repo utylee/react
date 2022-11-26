@@ -7,7 +7,7 @@ import ModalPlanter from "../../components/ModalPlanter";
 import { useDisclosure } from "@chakra-ui/react";
 import MyModal from "../../components/MyModal";
 // import PlantersProvider from "../../context/PlantersProvider";
-import PlantersStateContext from "../../context/PlantersContext";
+import { PlantersStateContext } from "../../context/PlantersContext";
 import usePlanters from "../../context/usePlanters";
 // import {
 //   Button,
@@ -105,7 +105,7 @@ export default function Home() {
       return a.id - b.id;
     });
 
-    return [gems[0], plants];
+    return [gms[0], plants];
   };
 
   const processSetGems = (gem) => {
@@ -307,7 +307,7 @@ export default function Home() {
             {/* <Flex justify='center'> */}
             {/* {gems.map((gem) => ( */}
             {/* {getGems().map((gem) => ( */}
-            {gems().map((gem) => (
+            {gems.map((gem) => (
               <Germinaty key={Math.random()} gem={gem} />
             ))}
           </Flex>
