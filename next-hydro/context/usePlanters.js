@@ -1,7 +1,5 @@
-import React, { useContext } from "react";
-import {
-  PlantersDispatchContext,
-} from "./PlantersContext";
+import React, { useContext, useMemo, useCallback } from "react";
+import { PlantersDispatchContext } from "./PlantersContext";
 
 export default function usePlanters() {
   // const dispatch = useMemo(() => ({
@@ -21,7 +19,23 @@ export default function usePlanters() {
   //   setCurPlanterSetter,
   //   getCurPlanterSetter,
   // } = useContext(PlanterDispatchContext);
-  const { setPlanters, setGems } = useContext(PlantersDispatchContext);
+  // const { setPlanters, setGems } = useContext(PlantersDispatchContext);
+  // const { setPlanters, setGems, setSetters } = useContext(
+  // const { setPlanters, setGems, setEachSetter } = useContext(
+  //
+  const { postJson, zipPieces, unzipPieces, setObjectPlanters, setGems, setEachSetter } =
+    useContext(PlantersDispatchContext);
+
+  // const setEachSetter = useCallback((i, func) => {
+  //   setSetters({ id: i, func: func });
+  // }, []);
+
+  // const setEachSetter = useCallback(
+  //   (i, f) =>
+  //     setSetters({ ...{ id: i, func: func } }),
+  //     // setSetters(setters =>({...setters, { id: i, func: f}})),
+  //   []
+  // );
 
   // return {
   //   setPlanters,
@@ -41,9 +55,16 @@ export default function usePlanters() {
   //   getPlanters,
   //   getCurPlanter,
   //   setCurPlanter,
-  // };
+  //   getCurPlanter,
+
+  // setSetters,
+  // setPlanters,
   return {
-    setPlanters,
+    setObjectPlanters,
     setGems,
+    setEachSetter,
+    postJson,
+    zipPieces,
+    unzipPieces,
   };
 }

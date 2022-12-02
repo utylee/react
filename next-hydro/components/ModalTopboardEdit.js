@@ -4,6 +4,8 @@ import useModal from "../context/useModal";
 // import usePlanter from "../context/usePlanter";
 import { PlanterCurStateContext } from "../context/PlanterCurContext";
 import usePlanterCur from "../context/usePlanterCur";
+import usePlanters from "../context/usePlanters";
+import { PlantersStateContext } from "../context/PlantersContext";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
 // const ModalTopboardEdit = ({ piecess }) => {
@@ -14,9 +16,13 @@ const ModalTopboardEdit = ({ planter }) => {
 
   // const { getCurPlanter, setCurPlanter } = usePlanter();
   const { curPlanter } = useContext(PlanterCurStateContext);
-  const { setCurPlanter } = usePlanterCur();
+  const { setters } = useContext(PlantersStateContext);
 
   // const [thisPieces, setThisPieces] = useState(piecess);
+  const [thisPieces, setThisPieces] = useState(planter.pieces);
+
+  const { setCurPlanter } = usePlanterCur();
+  const { postJson, zipPieces, unzipPieces } = usePlanters();
 
   // 일반 상판입니다
   const normalBoard = () => {
@@ -45,19 +51,31 @@ const ModalTopboardEdit = ({ planter }) => {
                     borderWidth={1}
                     borderColor="gray.600"
                     bg={pc ? "green.600" : "gray.700"}
-                    onClick={() => {
+                    onClick={async () => {
                       // boolean 앞에 + 를 붙여주면 1과 0으로 표현이 바뀐다고 합니다 */}
                       // 참고 https://stackoverflow.com/a/7820695 */}
                       // getCurPlanter().pieces[key1][key2] =
                       //   +!piecess[key1][key2];
                       const { pieces, ...rest } = curPlanter;
                       pieces[key1][key2] = +!pc;
-                      setCurPlanter({ pieces, ...rest });
+                      // setCurPlanter({ pieces, ...rest });
+                      // setters[planter.id](planter);
+                      setters[planter.id]({ pieces, ...rest });
+
+                      let sendingObj = { pieces, ...rest };
+                      zipPieces(sendingObj);
+                      await postJson(sendingObj);
+                      // unzipPieces(send{ pieces, ...rest });
+                      // await postJson({ pieces, ...rest });
+                      // unzipPieces({ pieces, ...rest });
+
+                      console.log("setter(" + planter.id + ") executed");
                       // 리렌더를 위해 setCurPlanter 를 해줍니다
                       // 문제는 모든 planter가 모두 리렌더 되는 문제가 있습니다
                       //
 
-                      // setThisPieces({ ...piecess });
+                      // setThisPieces({ pieces });
+                      setThisPieces({ ...planter.pieces });
 
                       // console.log("getCurPlanterSetter:" + getCurPlanterSetter);
                       // (getCurPlanterSetter())(getCurPlanter());

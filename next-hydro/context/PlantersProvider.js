@@ -5,117 +5,25 @@ import {
 } from "./PlantersContext";
 
 const PlantersProvider = ({ children }) => {
-  const [planters, setPlanters] = useState([]);
+  // const [planters, setPlanters] = useState([]);
+  const [planters, setPlanters] = useState({});
   const [gems, setGems] = useState([]);
-  // const [curPlanterSetter, setCurPlanterSetter] = useState();
 
-  // useEffect는 index.js에서 실행하기로 합니다
-  // useEffect(() => {
-  //   // setCurPlanter({ ...planters[0] });
-  //   console.log("PlanterProvider useEffect");
-  //   setPlanters([
-  //     {
-  //       id: 1,
-  //       plantName: "신홍적축면",
-  //       waterGauge: 55,
-  //       // waterDate: Date.now(),
-  //       waterDate: getDate(),
-  //       warning: 0,
-  //       growth: 35,
-  //       pieces: [
-  //         [1, 0, 1, 0],
-  //         [0, 1, 1, 0],
-  //         [1, 0, 1, 0],
-  //       ],
-  //       rootVolume: 10,
-  //     },
-  //     {
-  //       id: 2,
-  //       plantName: "중엽쑥갓",
-  //       waterGauge: 35,
-  //       waterDate: getDate(),
-  //       warning: 1,
-  //       growth: 35,
-  //       pieces: [
-  //         [0, 1, 0, 1],
-  //         [1, 0, 1, 0],
-  //         [0, 1, 0, 1],
-  //       ],
-  //       rootVolume: 40,
-  //     },
-  //     {
-  //       id: 3,
-  //       plantName: "진흥쌈케일",
-  //       waterGauge: 35,
-  //       waterDate: getDate(),
-  //       warning: 0,
-  //       growth: 35,
-  //       pieces: [
-  //         [0, 1, 0, 1],
-  //         [1, 0, 1, 0],
-  //         [0, 1, 0, 1],
-  //       ],
-  //       rootVolume: 20,
-  //     },
-  //     {
-  //       id: 4,
-  //       plantName: "리치치커리",
-  //       waterGauge: 35,
-  //       waterDate: getDate(),
-  //       warning: 0,
-  //       pieces: [
-  //         [0, 1, 0, 1],
-  //         [1, 0, 1, 0],
-  //         [0, 1, 0, 1],
-  //       ],
-  //       growth: 35,
-  //       rootVolume: 70,
-  //     },
-  //     {
-  //       id: 5,
-  //       plantName: "슈퍼열풍",
-  //       waterGauge: 35,
-  //       waterDate: getDate(),
-  //       warning: 1,
-  //       growth: 35,
-  //       pieces: [
-  //         [0, 1, 0, 1],
-  //         [1, 0, 1, 0],
-  //         [0, 1, 0, 1],
-  //       ],
-  //       rootVolume: 50,
-  //     },
-  //     {
-  //       id: 6,
-  //       plantName: "만추잎들깨",
-  //       waterGauge: 35,
-  //       waterDate: getDate(),
-  //       warning: 0,
-  //       growth: 35,
-  //       pieces: [
-  //         [0, 1, 0, 1],
-  //         [1, 0, 1, 0],
-  //         [0, 1, 0, 1],
-  //       ],
-  //       rootVolume: 90,
-  //     },
-  //     {
-  //       id: 7,
-  //       plantName: "모종새싹",
-  //       waterGauge: 35,
-  //       waterDate: getDate(),
-  //       warning: 0,
-  //       growth: 35,
-  //       pieces: [0, 1, 1, 1, 0, 0],
-  //       rootVolume: 60,
-  //     },
-  //   ]);
-  //   setGems([
-  //     { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
-  //     { seedNames: ["케일", "시금치"], waterGauge: 45, warning: 1 },
-  //     { seedNames: ["시금치", "곱슬아삭이"], waterGauge: 90, warning: 0 },
-  //   ]);
-  // }, []);
+  // const [setters, setSetters] = useState([{ id: 0, func: () => {} }]);
+  // const [setters, setSetters] = useState([]);
+  const [setters, setSetters] = useState({});
+
+  const setObjectPlanters = (arr) => {
+    // setPlanters(arr.map((a) => ({ [a.id]: a })));
+
+    var tempPlanters = {};
+    arr.map((a) => {
+      Object.assign(tempPlanters, { [a.id]: a });
+    });
+    setPlanters(tempPlanters);
+  };
+
+  // const [curPlanterSetter, setCurPlanterSetter] = useState();
 
   // // 변경한 planter 객체만 리렌더 하기위해서입니다
   // const getCurPlanterSetter = () => {
@@ -156,13 +64,106 @@ const PlantersProvider = ({ children }) => {
   //   setCurPlanterSetter,
   //   getCurPlanterSetter,
   // };
+
+  // const setEachSetter = useCallback((i, func) => {
+  // setSetters(setters => (setters.filter(setter)=> { ...setters, { id: i, func: func }}));
+  // }, []);
+  //
+
+  const setEachSetter = (obj) => {
+    // setSetters((setters) => [...setters, { id: 0, func: () => {} }]);
+    // setSetters((setters) => {
+    //   const remains = setters.filter((s) => s.id != obj.id);
+    //   return [...remains, { id: obj.id, func: obj.func }];
+    // });
+
+    Object.assign(setters, { [obj.id]: obj.func });
+  };
+
+  const postJson = async (plt) => {
+    console.log("postJson:plant: " + plt);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...plt }),
+    };
+    const res = await fetch("/hydro/api/updatejs", requestOptions);
+  };
+
+  const zipPieces = (p) => {
+    var tempPieces = [...p.pieces];
+    if (p.id === 7) {
+      p.pieces = "";
+      for (let i = 0; i < 6; i++) {
+        p.pieces += +`${tempPieces[i]}`;
+      }
+      console.log("p.pieces: " + p.pieces);
+    } else {
+      p.pieces = "";
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 4; j++) {
+          p.pieces += +`${tempPieces[i][j]}`;
+        }
+      }
+      console.log("p.pieces: " + p.pieces);
+    }
+  };
+
+  const unzipPieces = (p) => {
+    // 일반상판과 새싹상판을 구분합니다
+    if (p.id === 7) {
+      p.pieces = [
+        parseInt(p.pieces[0]),
+        parseInt(p.pieces[1]),
+        parseInt(p.pieces[2]),
+        parseInt(p.pieces[3]),
+        parseInt(p.pieces[4]),
+        parseInt(p.pieces[5]),
+      ];
+    } else {
+      p.pieces = [
+        [
+          parseInt(p.pieces[0]),
+          parseInt(p.pieces[1]),
+          parseInt(p.pieces[2]),
+          parseInt(p.pieces[3]),
+        ],
+        [
+          parseInt(p.pieces[4]),
+          parseInt(p.pieces[5]),
+          parseInt(p.pieces[6]),
+          parseInt(p.pieces[7]),
+        ],
+        [
+          parseInt(p.pieces[8]),
+          parseInt(p.pieces[9]),
+          parseInt(p.pieces[10]),
+          parseInt(p.pieces[11]),
+        ],
+      ];
+    }
+  };
+
+  // setPlanters,
   const dispatch = useMemo(
     () => ({
-      setPlanters,
+      setObjectPlanters,
       setGems,
+      setEachSetter,
+      postJson,
+      zipPieces,
+      unzipPieces,
     }),
     []
   );
+  // const dispatch = useMemo(
+  //   () => ({
+  //     setPlanters,
+  //     setGems,
+  //     setSetters,
+  //   }),
+  //   []
+  // );
 
   // setCurPlanter,
   // setCurPlanterHook,
@@ -186,11 +187,12 @@ const PlantersProvider = ({ children }) => {
   // );
 
   return (
-      <PlantersStateContext.Provider value={{ planters, gems }}>
-        <PlantersDispatchContext.Provider value={dispatch}>
-          {children}
-        </PlantersDispatchContext.Provider>
-      </PlantersStateContext.Provider>
+    <PlantersStateContext.Provider value={{ planters, gems, setters }}>
+      {/* <PlantersStateContext.Provider value={{ planters, gems }}> */}
+      <PlantersDispatchContext.Provider value={dispatch}>
+        {children}
+      </PlantersDispatchContext.Provider>
+    </PlantersStateContext.Provider>
   );
 };
 

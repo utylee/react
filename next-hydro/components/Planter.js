@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useReducer,
+  useMemo,
+} from "react";
 import { Img, Image, Box, Flex, VStack, Text, Icon } from "@chakra-ui/react";
 import WaterGauge from "./WaterGauge";
 import RootGauge from "./RootGauge";
@@ -12,10 +18,27 @@ import GrowthGauge from "./GrowthGauge";
 import useModal from "../context/useModal";
 // import usePlanter from "../context/usePlanter";
 import usePlanterCur from "../context/usePlanterCur";
+import usePlanters from "../context/usePlanters";
+import { PlantersStateContext } from "../context/PlantersContext";
 
 // const Planter = ({ planter, curPlanter, onOpen, isModal, setTypeModal }) => {
 // const Planter = ({ planter, curPlanter, isModal, setTypeModal }) => {
 // const Planter = ({ planter, onOpen, curPlanter }) => {
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "update-planter":
+      // 해당 id의 planter 객체를 수정합니다
+      return action.payload.planters.map((plant) => {
+        if (plant.id === action.payload.id) {
+          return { ...plant, planter: action.payload.planter };
+        }
+        return plant;
+      });
+
+    default:
+  }
+};
 
 // curPlanter를 직접받지 않게 일단 변경해봅니다
 // const Planter = ({ planter, curPlanter }) => {
@@ -28,13 +51,16 @@ const Planter = ({ planter }) => {
   const [individual, setIndividual] = useState();
   const [waterdate, setWaterDate] = useState();
 
+  // 많은 state 대신 처리할 reducer를 만들기로 선언해놓습니다
+  const [state, dispatch] = useReducer(reducer);
+
   // 리렌더용 각 planterSetter용 변수
-  const [thisPlanter, setThisPlanter] = useState();
+  const [thisPlanter, setThisPlanter] = useState([]);
 
   const { openModal, getIsOpen, setModalType } = useModal();
-  const {
-    setCurPlanter,
-  } = usePlanterCur();
+  const { setCurPlanter } = usePlanterCur();
+  const { setEachSetter } = usePlanters();
+
   // const {
   //   getCurPlanter,
   //   setCurPlanter,
@@ -43,9 +69,24 @@ const Planter = ({ planter }) => {
   // } = usePlanter();
   // { getIsOpen, getModalType, setModalType, openModal, closeModal };
 
-  // useEffect(() => {
-  //   console.log("usePlanter function is changed");
+  const setEachSettersMemo = useCallback((a, b) => setEachSetter(a, b), []);
+  // const setEachSettersMemo = useMemo(() => {
+  //   setEachSetters;
   // }, []);
+
+
+  useEffect(() => {
+    // console.log("Planter.js useEffected: " + mykey);
+    console.log("Planter.js useEffected:setThisPlanter  " + planter.id);
+    setEachSetter({ id: planter.id, func: setThisPlanter });
+    console.log("thisPlanter func: " + setThisPlanter);
+
+    // setThisPlanter = { ...planter };
+
+    // setEachSettersMemo(planter.id, { ...planter });
+    // setEachSetter(planter.id, { ...planter });
+  }, []);
+  // }, [planter]);
 
   const dateToString = (time) => {
     return 0;
@@ -193,4 +234,5 @@ const Planter = ({ planter }) => {
   );
 };
 
-export default Planter;
+export default React.memo(Planter);
+// export default Planter;

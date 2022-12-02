@@ -38,8 +38,7 @@ const MemoInput = ({ getMemos }) => {
       // text: inputText.trim(),
     };
     const res = await fetch("/memo/api/addjs", requestOptions);
-    // const res = await fetch("/api/addjs", requestOptions);
-    const test = await res.json();
+    // const test = await res.json();
     // console.log("addjs got messages: ", test);
     await getMemos();
     inputRef.current.value = "";

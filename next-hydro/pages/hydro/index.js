@@ -25,7 +25,7 @@ export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
-  const { setPlanters, setGems } = usePlanters();
+  const { setObjectPlanters, setGems } = usePlanters();
   const { planters, gems } = useContext(PlantersStateContext);
 
   console.log("index.js rendered");
@@ -144,7 +144,7 @@ export default function Home() {
     hydros = [...dividePlantGem(hydros)];
     makePiecesArray(hydros[1]);
 
-    setPlanters(hydros[1]);
+    setObjectPlanters(hydros[1]);
     processSetGems(hydros[0]);
     // setGems([
     //   { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
@@ -154,7 +154,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    console.log("usefx");
+    console.log("index.js:useEffected");
     getHydros();
   }, []);
 
@@ -299,9 +299,13 @@ export default function Home() {
           {/* 클릭시 지정해주는 식으로 변경합니다 */}
           {/* curPlanter={curPlanter} */}
           {/* {getPlanters().map((planter) => ( */}
-          {planters.map((planter) => (
-            <Planter key={Math.random()} planter={planter} />
+          {Object.keys(planters).map((k) => (
+            <Planter key={k} planter={planters[k]} />
           ))}
+
+          {/* {planters.map((planter) => ( */}
+          {/*   <Planter key={planter.id} planter={planter} /> */}
+          {/* ))} */}
           {/* 씨앗 발아기 */}
           <Flex direction="column" ml={3} align="center">
             {/* <Flex justify='center'> */}

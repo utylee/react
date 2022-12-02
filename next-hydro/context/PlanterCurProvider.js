@@ -134,12 +134,16 @@ const PlanterCurProvider = ({ children }) => {
   //   return curPlanter;
   // };
 
-  const dispatch = useMemo(
-    () => ({
-      setCurPlanter,
-    }),
-    []
-  );
+  const dispatch = {
+    setCurPlanter,
+  };
+  // const dispatch = useMemo(
+  //   () => ({
+  //     setCurPlanter,
+  //   }),
+  //   []
+  // );
+	
   // const dispatch = {
   //   getCurPlanter,
   //   setPlanters,
@@ -173,11 +177,11 @@ const PlanterCurProvider = ({ children }) => {
   // );
 
   return (
-      <PlanterCurStateContext.Provider value={{ curPlanter }}>
-        <PlanterCurDispatchContext.Provider value={dispatch}>
-          {children}
-        </PlanterCurDispatchContext.Provider>
-      </PlanterCurStateContext.Provider>
+    <PlanterCurStateContext.Provider value={{ curPlanter }}>
+      <PlanterCurDispatchContext.Provider value={dispatch}>
+        {children}
+      </PlanterCurDispatchContext.Provider>
+    </PlanterCurStateContext.Provider>
   );
 };
 
