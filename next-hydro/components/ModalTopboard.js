@@ -5,8 +5,8 @@ import useModal from "../context/useModal";
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
 // const ModalTopboard = ({ piecess }) => {
 const ModalTopboard = ({ planter }) => {
-  const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
-    useModal();
+  // const { getIsOpen, getModalType, setModalType, openModal, closeModal } =
+  const { setModalType } = useModal();
   // 일반 상판입니다
   const normalBoard = () => {
     return (

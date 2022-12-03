@@ -8,6 +8,7 @@ import { ImDroplet } from "react-icons/im";
 import { RiLeafFill } from "react-icons/ri";
 import ModalTopboard from "./ModalTopboard";
 import ModalGrowthGauge from "./ModalGrowthGauge";
+import ModalTitle from "./ModalTitle";
 
 import useModal from "../context/useModal";
 
@@ -80,24 +81,25 @@ const ModalPlanter = ({ planter }) => {
             {/* /> */}
           </Flex>
           {/* 작물 이름 */}
-          <Flex flexWrap="nowrap" justify="center">
-            {/* <Flex transform='translate(0, 0%)'> */}
-            <Text
-              justify="center"
-              color="green.400"
-              fontWeight="bold"
-              // fontSize="1em"
-              fontSize={["1.2em", "1.5em"]}
-              whiteSpace="nowrap"
-              overflow="hidden"
-              textOverflow="ellipsis"
-            >
-              {/* left="50%" */}
-              {/* top="50%" */}
-              {/* transform="translate(-10%,0%)" */}
-              {planter.plantName}
-            </Text>
-          </Flex>
+          <ModalTitle planter={planter} />
+          {/* <Flex flexWrap="nowrap" justify="center"> */}
+          {/*   {/1* <Flex transform='translate(0, 0%)'> *1/} */}
+          {/*   <Text */}
+          {/*     justify="center" */}
+          {/*     color="green.400" */}
+          {/*     fontWeight="bold" */}
+          {/*     // fontSize="1em" */}
+          {/*     fontSize={["1.2em", "1.5em"]} */}
+          {/*     whiteSpace="nowrap" */}
+          {/*     overflow="hidden" */}
+          {/*     textOverflow="ellipsis" */}
+          {/*   > */}
+          {/*     {/1* left="50%" *1/} */}
+          {/*     {/1* top="50%" *1/} */}
+          {/*     {/1* transform="translate(-10%,0%)" *1/} */}
+          {/*     {planter.plantName} */}
+          {/*   </Text> */}
+          {/* </Flex> */}
         </Flex>
 
         {/* 상판 및 성장게이지 박스 */}

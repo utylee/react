@@ -5,6 +5,7 @@ import useModal from "../context/useModal";
 import { PlanterCurStateContext } from "../context/PlanterCurContext";
 import ModalPlanter from "./ModalPlanter";
 import ModalTopboardEdit from "./ModalTopboardEdit";
+import ModalTitleEdit from "./ModalTitleEdit";
 
 import {
   Button,
@@ -45,6 +46,9 @@ const MyModal = () => {
       return <ModalPlanter planter={curPlanter} />;
       // } else if (getModalType() == "topboard") {
       // } else if (getModalType() == "topboard") {
+    } else if (typeModal == "title") {
+      console.log("modaltype is title");
+      return <ModalTitleEdit planter={curPlanter} />;
     } else if (typeModal == "topboard") {
       console.log("modaltype is topboard");
       // return <ModalTopboardEdit piecess={getCurPlanter().pieces} />;
