@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import {
   Flex,
   Text,
@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
+import { PlantersStateContext } from "../context/PlantersContext";
 
 const ModalTitleEdit = ({ planter }) => {
   const titleInputRef = useRef(undefined);
@@ -19,6 +20,23 @@ const ModalTitleEdit = ({ planter }) => {
     console.log("finish clicked");
     closeModal();
   };
+  const { setters } = useContext(PlantersStateContext);
+
+  const onConfirm = async () => {
+    if (titleInputRef.current.value.trim().length != 0) {
+      const newPlanter = { ...planter };
+
+      const { plantName, ...rest } = newPlanter;
+      newPlanter = { ...rest, plantName: titleInputRef.current.value.trim() };
+      console.log(
+        "ModalTitleEdit:OnConfirm:newPlanter: " + newPlanter.plantName
+      );
+      setters[newPlanter.id](newPlanter);
+      await postJson(newPlanter);
+    }
+    handleFinishClick();
+  };
+
   return (
     <>
       <VStack px={["0.8em", "3.2em"]} py={["0.8em", "5em"]}>
@@ -39,10 +57,16 @@ const ModalTitleEdit = ({ planter }) => {
           rounded="lg"
           mb={"3em"}
           onKeyPress={(e) => {
-            e.key === "Enter" ? handleFinishClick() : null;
+            // 아무 입력값이 없을 경우 enter가 반응이 없게 만듭니다
+            e.key === "Enter"
+              ? titleInputRef.current.value.trim().length === 0
+                ? null
+                : onConfirm()
+              : null;
           }}
         />
-        <Button onClick={() => closeModal()} colorScheme="teal">
+
+        <Button onClick={() => onConfirm()} colorScheme="teal">
           완료
         </Button>
       </VStack>

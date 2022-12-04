@@ -55,7 +55,8 @@ const Planter = ({ planter }) => {
   const [state, dispatch] = useReducer(reducer);
 
   // 리렌더용 각 planterSetter용 변수
-  const [thisPlanter, setThisPlanter] = useState([]);
+  // const [thisPlanter, setThisPlanter] = useState([]);
+  const [thisPlanter, setThisPlanter] = useState({ ...planter });
 
   const { openModal, getIsOpen, setModalType } = useModal();
   const { setCurPlanter } = usePlanterCur();
@@ -73,7 +74,6 @@ const Planter = ({ planter }) => {
   // const setEachSettersMemo = useMemo(() => {
   //   setEachSetters;
   // }, []);
-
 
   useEffect(() => {
     // console.log("Planter.js useEffected: " + mykey);
@@ -106,7 +106,7 @@ const Planter = ({ planter }) => {
           {/*   h="100%" */}
           {/*   src={"hydro/public/" + planter.plantName + ".png"} */}
           {/* /> */}
-          <Img w="100%" h="100%" src={"hydro/public/" + planter.imageUrl} />
+          <Img w="100%" h="100%" src={"hydro/public/" + thisPlanter.imageUrl} />
         </>
       );
     }
@@ -125,7 +125,7 @@ const Planter = ({ planter }) => {
   // }, []);
   return (
     <>
-      {console.log("Planter" + planter.id + " rendered")}
+      {console.log("Planter" + thisPlanter.id + " rendered")}
       {/* 휴대용 기기에서의 리스폰시브 대응 */}
       <VStack
         w={"9em"}
@@ -143,7 +143,7 @@ const Planter = ({ planter }) => {
         // setCurPlanterSetter(setThisPlanter);
         onClick={() => {
           setModalType("planter");
-          setCurPlanter({ ...planter });
+          setCurPlanter({ ...thisPlanter });
           // console.log("setCurPlanterSetter:" + setThisPlanter);
           openModal();
           // console.log("getIsOpen():", getIsOpen());
@@ -176,7 +176,7 @@ const Planter = ({ planter }) => {
 
             {/* 구멍개수가 아닌 id로 새싹을 구분합니다 */}
             {/* {plantIcon(planter.pieces.length)} */}
-            {plantIcon(planter.id)}
+            {plantIcon(thisPlanter.id)}
 
             {/* <Img */}
             {/*   w="100%" */}
@@ -201,7 +201,7 @@ const Planter = ({ planter }) => {
               {/* left="50%" */}
               {/* top="50%" */}
               {/* transform="translate(-10%,0%)" */}
-              {planter.plantName}
+              {thisPlanter.plantName}
             </Text>
           </Flex>
         </Flex>
@@ -210,24 +210,32 @@ const Planter = ({ planter }) => {
           {/* 상판 */}
           {/* setTypeModal={setTypeModal} */}
           {/* isModal={isModal} */}
-          <Topboard id={planter.id} piecess={planter.pieces} />
+
+          {console.log(
+            "Planter.js:before Topboard:piecess: " + thisPlanter.pieces
+          )}
+          {console.log(
+            "Planter.js:before Topboard:tiecess: " + planter.pieces
+          )}
+          {/* <Topboard id={thisPlanter.id} piecess={thisPlanter.pieces} /> */}
+          <Topboard id={thisPlanter.id} piecess={planter.pieces} />
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
 
           {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
-          <GrowthGauge gauge={planter.growth} />
+          <GrowthGauge gauge={thisPlanter.growth} />
         </Flex>
         {/* 물 현재량 */}
         {/* isModal={isModal} */}
         <WaterGauge
-          gauge={planter.waterGauge}
-          time={planter.waterDate}
-          warning={planter.warning}
+          gauge={thisPlanter.waterGauge}
+          time={thisPlanter.waterDate}
+          warning={thisPlanter.warning}
         />
         {/* 뿌리 현재크기 */}
         <Flex w="full">
           {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
-          <RootGauge gauge={planter.rootVolume} />
+          <RootGauge gauge={thisPlanter.rootVolume} />
         </Flex>
       </VStack>
     </>

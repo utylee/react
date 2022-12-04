@@ -28,13 +28,8 @@ const ModalPlanter = ({ planter }) => {
     if (len != 3) {
       return <Icon as={RiLeafFill} color="gray.300" />;
     } else {
-      return (
-        <Img
-          w="100%"
-          h="100%"
-          src={"hydro/public/" + planter.plantName + ".png"}
-        />
-      );
+      // src={"hydro/public/" + planter.plantName + ".png"}
+      return <Img w="100%" h="100%" src={"hydro/public/" + planter.imageUrl} />;
     }
   };
 

@@ -63,7 +63,7 @@ const ModalTopboardEdit = ({ planter }) => {
                       setters[planter.id]({ pieces, ...rest });
 
                       let sendingObj = { pieces, ...rest };
-                      zipPieces(sendingObj);
+                      // zipPieces(sendingObj);
                       await postJson(sendingObj);
                       // unzipPieces(send{ pieces, ...rest });
                       // await postJson({ pieces, ...rest });

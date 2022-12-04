@@ -81,11 +81,13 @@ const PlantersProvider = ({ children }) => {
   };
 
   const postJson = async (plt) => {
-    console.log("postJson:plant: " + plt);
+    const tempPlt = { ...plt };
+    zipPieces(tempPlt);
+    console.log("postJson:plant: " + tempPlt);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...plt }),
+      body: JSON.stringify({ ...tempPlt }),
     };
     const res = await fetch("/hydro/api/updatejs", requestOptions);
   };
