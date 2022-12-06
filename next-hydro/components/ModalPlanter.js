@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Img, Image, Box, Flex, VStack, Text, Icon } from "@chakra-ui/react";
-import WaterGauge from "./WaterGauge";
-import RootGauge from "./RootGauge";
+// import WaterGauge from "./WaterGauge";
 import Moment from "react-moment";
 import "moment/locale/ko";
 import { ImDroplet } from "react-icons/im";
 import { RiLeafFill } from "react-icons/ri";
-import ModalTopboard from "./ModalTopboard";
-import ModalGrowthGauge from "./ModalGrowthGauge";
 import ModalTitle from "./ModalTitle";
+import ModalTopboard from "./ModalTopboard";
+import ModalWaterGauge from "./ModalWaterGauge";
+import RootGauge from "./RootGauge";
+import ModalGrowthGauge from "./ModalGrowthGauge";
 
 import useModal from "../context/useModal";
 
@@ -119,11 +120,10 @@ const ModalPlanter = ({ planter }) => {
         {/* 물 현재량 */}
 
         {/* isModal={isModal} */}
-        <WaterGauge
-          gauge={planter.waterGauge}
-          time={planter.waterdate}
-          warning={planter.warning}
-        />
+        {/* gauge={planter.waterGauge} */}
+        {/* time={planter.waterdate} */}
+        {/* warning={planter.warning} */}
+        <ModalWaterGauge planter={planter} />
 
         {/* 뿌리 현재크기 */}
         <Flex w="full">

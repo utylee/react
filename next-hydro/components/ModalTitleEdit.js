@@ -28,9 +28,7 @@ const ModalTitleEdit = ({ planter }) => {
 
       const { plantName, ...rest } = newPlanter;
       newPlanter = { ...rest, plantName: titleInputRef.current.value.trim() };
-      console.log(
-        "ModalTitleEdit:OnConfirm:newPlanter: " + newPlanter.plantName
-      );
+      console.log("ModalTitleEdit:OnConfirm:newPlanter: " + newPlanter.plantName);
       setters[newPlanter.id](newPlanter);
       await postJson(newPlanter);
     }

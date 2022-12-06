@@ -6,6 +6,7 @@ import { PlanterCurStateContext } from "../context/PlanterCurContext";
 import ModalPlanter from "./ModalPlanter";
 import ModalTopboardEdit from "./ModalTopboardEdit";
 import ModalTitleEdit from "./ModalTitleEdit";
+import ModalWaterGaugeEdit from "./ModalWaterGaugeEdit";
 
 import {
   Button,
@@ -44,16 +45,15 @@ const MyModal = () => {
       console.log("modaltype is planter");
       // return <ModalPlanter planter={getCurPlanter()} />;
       return <ModalPlanter planter={curPlanter} />;
-      // } else if (getModalType() == "topboard") {
-      // } else if (getModalType() == "topboard") {
     } else if (typeModal == "title") {
       console.log("modaltype is title");
       return <ModalTitleEdit planter={curPlanter} />;
     } else if (typeModal == "topboard") {
       console.log("modaltype is topboard");
-      // return <ModalTopboardEdit piecess={getCurPlanter().pieces} />;
-      // return <ModalTopboardEdit piecess={curPlanter.pieces} />;
       return <ModalTopboardEdit planter={curPlanter} />;
+    } else if (typeModal == "watergauge") {
+      console.log("modaltype is watergauge");
+      return <ModalWaterGaugeEdit planter={curPlanter} />;
     }
   };
   return (

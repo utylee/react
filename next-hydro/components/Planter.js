@@ -6,13 +6,13 @@ import React, {
   useMemo,
 } from "react";
 import { Img, Image, Box, Flex, VStack, Text, Icon } from "@chakra-ui/react";
-import WaterGauge from "./WaterGauge";
 import RootGauge from "./RootGauge";
 import Moment from "react-moment";
 import "moment/locale/ko";
 import { ImDroplet } from "react-icons/im";
 import { RiLeafFill } from "react-icons/ri";
 import Topboard from "./Topboard";
+import WaterGauge from "./WaterGauge";
 import GrowthGauge from "./GrowthGauge";
 // import { reducer } from "./ModalPlanter";
 import useModal from "../context/useModal";
@@ -214,9 +214,7 @@ const Planter = ({ planter }) => {
           {console.log(
             "Planter.js:before Topboard:piecess: " + thisPlanter.pieces
           )}
-          {console.log(
-            "Planter.js:before Topboard:tiecess: " + planter.pieces
-          )}
+          {console.log("Planter.js:before Topboard:tiecess: " + planter.pieces)}
           {/* <Topboard id={thisPlanter.id} piecess={thisPlanter.pieces} /> */}
           <Topboard id={thisPlanter.id} piecess={planter.pieces} />
           {/* 식물 성장도 */}
@@ -227,11 +225,10 @@ const Planter = ({ planter }) => {
         </Flex>
         {/* 물 현재량 */}
         {/* isModal={isModal} */}
-        <WaterGauge
-          gauge={thisPlanter.waterGauge}
-          time={thisPlanter.waterDate}
-          warning={thisPlanter.warning}
-        />
+        {/* gauge={thisPlanter.waterGauge} */}
+        {/* time={thisPlanter.waterDate} */}
+        {/* warning={thisPlanter.warning} */}
+        <WaterGauge planter={thisPlanter} />
         {/* 뿌리 현재크기 */}
         <Flex w="full">
           {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
