@@ -23,8 +23,15 @@ export default function usePlanters() {
   // const { setPlanters, setGems, setSetters } = useContext(
   // const { setPlanters, setGems, setEachSetter } = useContext(
   //
-  const { postJson, zipPieces, unzipPieces, setObjectPlanters, setGems, setEachSetter } =
-    useContext(PlantersDispatchContext);
+  const {
+    postJson,
+    zipPieces,
+    unzipPieces,
+    setObjectPlanters,
+    setPlanters,
+    setGems,
+    setEachSetter,
+  } = useContext(PlantersDispatchContext);
 
   // const setEachSetter = useCallback((i, func) => {
   //   setSetters({ id: i, func: func });
@@ -61,6 +68,7 @@ export default function usePlanters() {
   // setPlanters,
   return {
     setObjectPlanters,
+    setPlanters,
     setGems,
     setEachSetter,
     postJson,

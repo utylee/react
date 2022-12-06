@@ -1,21 +1,23 @@
 import React from "react";
-import { Box, Flex, Icon } from "@chakra-ui/react";
+import { Box, Flex, Icon, VStack } from "@chakra-ui/react";
 import { ImLeaf } from "react-icons/im";
 import { TiLeaf } from "react-icons/ti";
 import { RiLeafLine } from "react-icons/ri";
 
-const GrowthGauge = ({ isModal, gauge }) => {
+// const GrowthGauge = ({ isModal, gauge }) => {
+const GrowthGauge = ({ planter }) => {
   const borderLeft = [4, 5];
   const borderRight = [5, 6];
   return (
     <>
       {/* 게이지 바탕 */}
+
       <Flex
         direction="column"
-        ml={isModal ? [3, 4] : 1}
-        w={isModal ? ["1em", "6"] : "2"}
+        ml={1}
+        w={"2"}
         h="full"
-        borderRadius={isModal ? borderLeft : "2"}
+        borderRadius={"2"}
         justify="flex-end"
         align="center"
       >
@@ -41,10 +43,10 @@ const GrowthGauge = ({ isModal, gauge }) => {
         {/* 게이지 실제 수치 */}
         <Flex
           w="full"
-          h={() => parseInt(gauge) + "%"}
+          h={() => parseInt(planter.growthGauge) + "%"}
           bg="green.500"
-          borderBottomRadius={isModal ? borderLeft : "2"}
-          borderTopRadius={isModal ? borderRight : "2"}
+          borderBottomRadius={"2"}
+          borderTopRadius={"2"}
         ></Flex>
         {/* backgroundImage={ */}
         {/*   <Icon */}

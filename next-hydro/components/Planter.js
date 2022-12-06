@@ -88,6 +88,12 @@ const Planter = ({ planter }) => {
   }, []);
   // }, [planter]);
 
+  // planter 가 변경될 때, 즉 index.js 리프레시로 gethydros가 다시 호출되는 경우
+  // thisPlanter를 다시 설정해주도록 합니다. thisPlanter를 통해 렌더링을 하기에
+  useEffect(() => {
+    setThisPlanter(planter);
+  }, [planter]);
+
   const dateToString = (time) => {
     return 0;
   };
@@ -126,6 +132,7 @@ const Planter = ({ planter }) => {
   return (
     <>
       {console.log("Planter" + thisPlanter.id + " rendered")}
+      {console.log(planter)}
       {/* 휴대용 기기에서의 리스폰시브 대응 */}
       <VStack
         w={"9em"}
@@ -221,7 +228,8 @@ const Planter = ({ planter }) => {
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
 
           {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
-          <GrowthGauge gauge={thisPlanter.growth} />
+          {/* <GrowthGauge gauge={thisPlanter.growth} /> */}
+          <GrowthGauge planter={thisPlanter} />
         </Flex>
         {/* 물 현재량 */}
         {/* isModal={isModal} */}
@@ -232,7 +240,7 @@ const Planter = ({ planter }) => {
         {/* 뿌리 현재크기 */}
         <Flex w="full">
           {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
-          <RootGauge gauge={thisPlanter.rootVolume} />
+          <RootGauge planter={thisPlanter} />
         </Flex>
       </VStack>
     </>

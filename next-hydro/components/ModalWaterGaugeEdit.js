@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useRef, useContext, useState, useEffect } from "react";
 import {
   Button,
   Box,
@@ -30,10 +30,13 @@ const ModalWaterGaugeEdit = ({ planter }) => {
 
   const handleFinishClick = async () => {
     console.log("ModalWaterGaugeEdit:finish clicked");
-    const { waterGauge, ...rest } = tempPlant;
-    setters[planter.id]({ ...rest, waterGauge: ratio });
+    const newPlanter = { ...planter };
+    const { waterGauge, ...rest } = newPlanter;
+    newPlanter.waterGauge = ratio;
+    // setters[parseInt(newPlanter.id)]({ ...rest, waterGauge: ratio });
+    setters[parseInt(newPlanter.id)](newPlanter);
 
-    await postJson();
+    await postJson(newPlanter);
     closeModal();
   };
 

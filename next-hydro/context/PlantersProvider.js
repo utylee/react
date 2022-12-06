@@ -150,6 +150,7 @@ const PlantersProvider = ({ children }) => {
   const dispatch = useMemo(
     () => ({
       setObjectPlanters,
+      setPlanters,
       setGems,
       setEachSetter,
       postJson,

@@ -4,9 +4,14 @@ import { Box, Flex, Icon } from "@chakra-ui/react";
 // import { TiLeaf } from "react-icons/ti";
 // import { RiLeafLine } from "react-icons/ri";
 
-const ModalGrowthGauge = ({ gauge }) => {
+import usePlanters from "../context/usePlanters";
+import useModal from "../context/useModal";
+
+const ModalGrowthGauge = ({ planter }) => {
   const borderLeft = [4, 5];
   const borderRight = [5, 6];
+  const { setModalType } = useModal();
+
   return (
     <>
       {/* 게이지 바탕 */}
@@ -19,6 +24,10 @@ const ModalGrowthGauge = ({ gauge }) => {
         borderRadius={borderLeft}
         justify="flex-end"
         align="center"
+        _hover={{ cursor: "pointer" }}
+        onClick={() => {
+          setModalType("growthgauge");
+        }}
       >
         {/* bg="gray.900" */}
         {/* {console.log("growth:" + gauge)} */}
@@ -42,7 +51,7 @@ const ModalGrowthGauge = ({ gauge }) => {
         {/* 게이지 실제 수치 */}
         <Flex
           w="full"
-          h={() => parseInt(gauge) + "%"}
+          h={() => parseInt(planter.growthGauge) + "%"}
           bg="green.500"
           borderBottomRadius={borderLeft}
           borderTopRadius={borderRight}

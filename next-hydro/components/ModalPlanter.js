@@ -8,7 +8,7 @@ import { RiLeafFill } from "react-icons/ri";
 import ModalTitle from "./ModalTitle";
 import ModalTopboard from "./ModalTopboard";
 import ModalWaterGauge from "./ModalWaterGauge";
-import RootGauge from "./RootGauge";
+import ModalRootGauge from "./ModalRootGauge";
 import ModalGrowthGauge from "./ModalGrowthGauge";
 
 import useModal from "../context/useModal";
@@ -114,7 +114,8 @@ const ModalPlanter = ({ planter }) => {
           {/* 식물 성장도 */}
           {/* <Flex ml={2} bg="teal.200" w="1.3em" h="full" borderRadius='md'></Flex> */}
           {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
-          <ModalGrowthGauge gauge={planter.growth} />
+          {/* <ModalGrowthGauge gauge={planter.growth} /> */}
+          <ModalGrowthGauge planter={planter} />
         </Flex>
 
         {/* 물 현재량 */}
@@ -128,7 +129,8 @@ const ModalPlanter = ({ planter }) => {
         {/* 뿌리 현재크기 */}
         <Flex w="full">
           {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
-          <RootGauge gauge={planter.rootVolume} />
+          {/* <RootGauge gauge={planter.rootVolume} /> */}
+          <ModalRootGauge planter={planter} />
         </Flex>
       </VStack>
     </>

@@ -7,6 +7,8 @@ import ModalPlanter from "./ModalPlanter";
 import ModalTopboardEdit from "./ModalTopboardEdit";
 import ModalTitleEdit from "./ModalTitleEdit";
 import ModalWaterGaugeEdit from "./ModalWaterGaugeEdit";
+import ModalGrowthGaugeEdit from "./ModalGrowthGaugeEdit";
+import ModalRootGaugeEdit from "./ModalRootGaugeEdit";
 
 import {
   Button,
@@ -54,6 +56,12 @@ const MyModal = () => {
     } else if (typeModal == "watergauge") {
       console.log("modaltype is watergauge");
       return <ModalWaterGaugeEdit planter={curPlanter} />;
+    } else if (typeModal == "growthgauge") {
+      console.log("modaltype is growthgauge");
+      return <ModalGrowthGaugeEdit planter={curPlanter} />;
+    } else if (typeModal == "rootgauge") {
+      console.log("modaltype is rootgauge");
+      return <ModalRootGaugeEdit planter={curPlanter} />;
     }
   };
   return (

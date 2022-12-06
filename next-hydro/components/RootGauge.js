@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Flex, Icon } from "@chakra-ui/react";
 import { GiTreeRoots } from "react-icons/gi";
 
 // const RootGauge = ({ gauge, isModal }) => {
-const RootGauge = ({ gauge }) => {
+const RootGauge = ({ planter }) => {
   const borderLeft = [5, 5];
   const borderRight = [6, 6];
+  const [ratio, setRatio] = useState(planter.rootVolume);
+  const [isWarning, setIsWarning] = useState(0);
+  //
+  // rootVolume이 85 이상이면 경고로 설정합니다
+  useEffect(() => {
+    planter.rootVolume >= 85 ? setIsWarning(1) : setIsWarning(0);
+  }, [planter.rootVolume]);
+
   return (
     <Flex w="full" pt={1}>
       {/* <Flex w="full" pt={isModal ? [3, 2] : 1}> */}
@@ -19,10 +27,11 @@ const RootGauge = ({ gauge }) => {
 
       {/* 게이지 바탕 */}
       {/* bg="yellow.900" */}
+      {/* bg={planter.rootVolume >= 85 ? "#59110c" : "yellow.900"} */}
       <Flex
         align="center"
         w="full"
-        bg={gauge >= 85 ? "#59110c" : "yellow.900"}
+        bg={isWarning ? "#59110c" : "yellow.900"}
         h={2}
         borderRadius={3}
         ml={1}
@@ -31,9 +40,10 @@ const RootGauge = ({ gauge }) => {
         <Flex position="relative" overflow="hidden" w="100%" h="100%">
           {/* 게이지 알맹이 */}
           {/* bg="yellow.600" */}
+          {/* bg={planter.rootVolume >= 85 ? "red.700" : "yellow.600"} */}
           <Flex
-            bg={gauge >= 85 ? "red.700" : "yellow.600"}
-            w={() => gauge + "%"}
+            bg={isWarning ? "red.700" : "yellow.600"}
+            w={() => planter.rootVolume + "%"}
             borderLeftRadius={3}
             borderRightRadius={2}
           ></Flex>

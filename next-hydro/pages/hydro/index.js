@@ -25,7 +25,7 @@ export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
-  const { setObjectPlanters, setGems } = usePlanters();
+  const { setPlanters, setObjectPlanters, setGems } = usePlanters();
   const { planters, gems } = useContext(PlantersStateContext);
 
   console.log("index.js rendered");
@@ -144,7 +144,10 @@ export default function Home() {
     hydros = [...dividePlantGem(hydros)];
     makePiecesArray(hydros[1]);
 
+    console.log("index.js:getHydros:hydros[1]: " + hydros[1]);
+    console.log(hydros[1]);
     setObjectPlanters(hydros[1]);
+    // setPlanters(hydros[1]);
     processSetGems(hydros[0]);
     // setGems([
     //   { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
