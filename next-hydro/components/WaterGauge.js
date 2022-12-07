@@ -40,17 +40,16 @@ const WaterGauge = ({ planter }) => {
             fontSize={"0.75em"}
           />
         </Flex>
-
         {/* <Flex bg="blue.800" h={5} w="full" borderRadius="md"> */}
-
         {/* 게이지 바탕 */}
         {/* bg={warning ? "#59110c" : "blue.800"} */}
         {/* h={isModal ? [6, 8] : 4} */}
         {/* bg={planter.gauge <= 25 ? "#59110c" : "blue.800"} */}
+        {/* w="full" */}
         <Flex
           bg={isWarning ? "#59110c" : "blue.800"}
-          h={4}
           w="full"
+          h={4}
           borderRadius={5}
           ml={1}
           mr={2}

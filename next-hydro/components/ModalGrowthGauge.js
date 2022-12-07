@@ -16,14 +16,18 @@ const ModalGrowthGauge = ({ planter }) => {
     <>
       {/* 게이지 바탕 */}
       {/* h={"5em"} */}
+      {/* direction="column" */}
+      {/* h={["4em", "14em", "18em"]} */}
+      {/* h="full" */}
+      {/* h="90%" */}
+      {/* alignSelf={"center"} */}
       <Flex
-        direction="column"
-        ml={[3, 4]}
-        w={["1em", "6"]}
-        h="full"
+        align="flex-end"
+        ml={[2, 4, 5]}
+        w={["1.1em", "1.2em", "1.5em"]}
+        h={["8em", "10em", "13em"]}
         borderRadius={borderLeft}
-        justify="flex-end"
-        align="center"
+        bg="green.900"
         _hover={{ cursor: "pointer" }}
         onClick={() => {
           setModalType("growthgauge");

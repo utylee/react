@@ -61,9 +61,9 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
           ref={outerBoxRef}
           direction="column"
           ml={1}
-          mt={"4em"}
-          w={["4em", "5em"]}
-          h={["10em", "12em"]}
+          mt={["4em", "1em", "3em"]}
+          w={["4em", "4.5em", "5em"]}
+          h={["10em", "10em", "12em"]}
           bg={"green.900"}
           borderRadius={borderBottom}
           justify="flex-end"
@@ -116,8 +116,8 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
           <Button
             size="lg"
             colorScheme="teal"
-            mt={["2em", "3em"]}
-            mb={["2em", "2em"]}
+            mt={["2em", "1em", "3em"]}
+            mb={["2em", "1em", "2em"]}
             onClick={() => {
               handleFinishClick();
             }}

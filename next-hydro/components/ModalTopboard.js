@@ -18,8 +18,8 @@ const ModalTopboard = ({ planter }) => {
             // 각구멍들입니다
             <HStack
               key={key1}
-              px={[1, 4]}
-              py={[1, "0.5em"]}
+              px={[1, 2, 4]}
+              py={[1, 1, "0.5em"]}
               w="full"
               justify="space-between"
             >
@@ -29,8 +29,8 @@ const ModalTopboard = ({ planter }) => {
                   <Box
                     key={key1 * 4 + key2}
                     borderRadius="50%"
-                    w={[5, 8]}
-                    h={[5, 8]}
+                    w={[5, 6, 8]}
+                    h={[5, 6, 8]}
                     borderWidth={1}
                     borderColor="gray.600"
                     bg={piece ? "green.600" : "gray.700"}
@@ -45,7 +45,13 @@ const ModalTopboard = ({ planter }) => {
   };
   const seedlingBoard = () => {
     return (
-      <Flex flexWrap="wrap" px={1} py="0.5" w="full" justify="space-between">
+      <Flex
+        flexWrap="wrap"
+        px={["0.3em", "0.3em", "1.5em"]}
+        pt={["0.5em", "0.7em", "1.1em"]}
+        w="full"
+        justify="space-between"
+      >
         {/* {console.log("seedlingBoard " + piecess)} */}
         {/* {piecess.map((piece, key) => { */}
         {planter.pieces.map((piece, key) => {
@@ -53,9 +59,9 @@ const ModalTopboard = ({ planter }) => {
             <Box
               key={key}
               borderRadius={5}
-              w={6}
-              h={6}
-              my={1}
+              w={["2em", "2.3em", "3.3em"]}
+              h={["2em", "2.3em", "3.3em"]}
+              mb={["1.2em", "1.4em", "1.5em"]}
               borderWidth={1}
               borderColor="gray.600"
               bg={piece ? "green.600" : "gray.700"}
@@ -68,11 +74,13 @@ const ModalTopboard = ({ planter }) => {
   return (
     <>
       {/* ml={(["1.2em"], ["1.4em"])} */}
+      {/* w="full" */}
       <VStack
         px={["0.8em", 4]}
         py={["0.8em", "1.3em"]}
         bg="gray.600"
-        w="full"
+        w={["10em", "11em", "18em"]}
+        h={["8em", "10em", "13em"]}
         borderRadius="lg"
         justify="space-between"
         _hover={{ cursor: "pointer" }}

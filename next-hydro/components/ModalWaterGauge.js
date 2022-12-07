@@ -21,9 +21,13 @@ const ModalWaterGauge = ({ planter }) => {
   return (
     <>
       {/* 아이콘 + 게이지 */}
+      {/* w="full" */}
+      {/* pt={["1.2em", "2em", "3.0em"]} */}
       <Flex
-        w="full"
-        pt={["1.6em", "2.2em"]}
+        pt={["1.2em", "0em", "0em"]}
+        pb={["1.2em", "1.2em", "1.2em"]}
+        w={["12em", "10em", "15em"]}
+        pl={["0em", "1em", "1.2em"]}
         _hover={{ cursor: "pointer" }}
         onClick={() => {
           setModalType("watergauge");
@@ -50,9 +54,10 @@ const ModalWaterGauge = ({ planter }) => {
         {/* 게이지 바탕 */}
         {/* bg={warning ? "#59110c" : "blue.800"} */}
         {/* bg={gauge <= 25 ? "#59110c" : "blue.800"} */}
+        {/* w={["10em", "6em"]} */}
         <Flex
           bg={isWarning ? "#59110c" : "blue.800"}
-          h={[6, 8]}
+          h={["1.4em", "2.0em", "2em"]}
           w="full"
           borderRadius={borderLeft}
           ml={2}

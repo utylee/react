@@ -81,7 +81,9 @@ const MyModal = () => {
         _focus={{ boxShadow: "none" }}
       >
         <ModalOverlay />
-        <ModalContent w={["15em", "24em"]} bg="#2b2a33">
+        {/* <ModalContent bg="#2b2a33"> */}
+        {/* <ModalContent w={["16em", "18em", "26em"]} bg="#2b2a33"> */}
+        <ModalContent maxW={["16em", "26em", "40em"]} bg="#2b2a33">
           {/* <ModalHeader>{curPlanter.plantName}</ModalHeader> */}
           {/* 포커스 focus시에 추한 란색 테두리를 제거합니다 */}
           <ModalCloseButton _focus={{ boxShadow: "none" }} />

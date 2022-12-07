@@ -53,19 +53,11 @@ const ModalRootGaugeEdit = ({ planter }) => {
 
   return (
     <>
-      <VStack w="full" pt={["1.6em", "2.2em"]} mt={["2em", "4em"]}>
+      <VStack w="full" mt={["5em", "4em", "7em"]}>
         {/* 아이콘 + 게이지 */}
-        <Flex
-          w="full"
-          pt={[3, 2]}
-          _hover={{ cursor: "pointer" }}
-          onClick={(e) => {
-            // setModalType("rootVolume");
-            // clickGauge(e.target.getBoundingClientRect());
-            clickGauge(e);
-          }}
-        >
-          {/* <Flex w="full" pt={isModal ? [3, 2] : 1}> */}
+        {/* w="full" pt={[3, 2]}> */}
+        {/* <Flex w="full" pt={isModal ? [3, 2] : 1}> */}
+        <Flex w={["85%", "85%", "55%"]} justify="center">
           {/* 아이콘 */}
           <Flex align="center">
             <Icon
@@ -75,18 +67,24 @@ const ModalRootGaugeEdit = ({ planter }) => {
             />
             {/* <Icon fontSize="md" as={GiTreeRoots} color="gray.400" /> */}
           </Flex>
-
           {/* 게이지 바탕 */}
           {/* bg="yellow.900" */}
+          {/* h={[5, 6]} */}
           <Flex
             ref={outerBoxRef}
             align="center"
             w="full"
-            h={[5, 6]}
+            h={["2.8em", "3em", "3em"]}
             borderRadius={borderLeft}
             bg={isWarning ? "#59110c" : "yellow.900"}
             ml={2}
             mr={3}
+            _hover={{ cursor: "pointer" }}
+            onClick={(e) => {
+              // setModalType("rootVolume");
+              // clickGauge(e.target.getBoundingClientRect());
+              clickGauge(e);
+            }}
           >
             <Flex position="relative" overflow="hidden" w="100%" h="100%">
               {/* 게이지 알맹이 */}
@@ -120,11 +118,13 @@ const ModalRootGaugeEdit = ({ planter }) => {
         </Flex>
         <Flex>
           {/* <Flex mt="2em" mb="2em"> */}
+          {/* mt="3em" */}
+          {/* mb={["2em", "3em"]} */}
           <Button
+            mt={["2em", "1.5em", "2em"]}
+            mb={["2em", "1.5em", "3em"]}
             size="lg"
             colorScheme="teal"
-            mt="3em"
-            mb={["2em", "3em"]}
             onClick={() => {
               handleFinishClick();
             }}

@@ -13,7 +13,7 @@ const ModalTitle = ({ planter }) => {
           color="green.400"
           fontWeight="bold"
           // fontSize="1em"
-          fontSize={["1.2em", "1.5em"]}
+          fontSize={["1.2em", "1.1em", "1.5em"]}
           whiteSpace="nowrap"
           overflow="hidden"
           textOverflow="ellipsis"

@@ -55,12 +55,13 @@ const ModalWaterGaugeEdit = ({ planter }) => {
   return (
     <>
       {/* 아이콘 + 게이지 */}
-      <VStack w="full" pt={["1.6em", "2.2em"]} mt={["2em", "4em"]}>
+      {/* pt={["1.3em", "2.2em"]} */}
+      <VStack w="full" mt={["5em", "4em", "7em"]}>
         {/* borderColor={warning ? "red.500" : "gray.200"} */}
         {/* borderWidth={warning ? 3 : 0} */}
         {/* <VStack align="flex-end" w="full" spacing={0}> */}
-        {/* 아이콘 */}
-        <Flex w="80%" justify="center">
+        <Flex w={["85%", "85%", "55%"]} justify="center">
+          {/* 아이콘 */}
           <Flex align="center">
             {/* <Icon as={MdWaterDrop} color="blue.500" fontSize="md" /> */}
             {/* <Icon as={IoWaterSharp} color="blue.500" fontSize="md" /> */}
@@ -81,7 +82,7 @@ const ModalWaterGaugeEdit = ({ planter }) => {
           <Flex
             ref={outerBoxRef}
             bg={isWarning ? "#59110c" : "blue.800"}
-            h={["2.5em", "3em"]}
+            h={["2.8em", "3em", "3em"]}
             w="full"
             borderRadius={borderLeft}
             ml={2}
@@ -159,8 +160,8 @@ const ModalWaterGaugeEdit = ({ planter }) => {
           <Button
             size="lg"
             colorScheme="teal"
-            mt="3em"
-            mb={["2em", "3em"]}
+            mt={["2em", "1.5em", "2em"]}
+            mb={["2em", "1.5em", "3em"]}
             onClick={() => {
               handleFinishClick();
             }}

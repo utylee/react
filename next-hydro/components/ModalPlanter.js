@@ -44,23 +44,25 @@ const ModalPlanter = ({ planter }) => {
   return (
     <>
       {/* 휴대용 기기에서의 리스폰시브 대응 */}
+      {/* w={["12em", "20em"]} */}
+      {/* w={["12em", "20em", "40em"]} */}
       <VStack
-        w={["12em", "20em"]}
-        mb={[5, 8]}
-        mt={[4, 6]}
-        mx={[0, 1, 4]}
+        mb={["2em", "0.1em", 8]}
+        mt={["1.5em", "0.1em", 6]}
+        mx={["1em", 1, 4]}
+        h={["16em", "15em", "20em"]}
         // spacing={0}
         spacing={[0, 2]}
         /* _hover={isModal ? 0 : { cursor: "pointer" }} */
       >
         {/* 작물 이름 및 작물 포장 사진 */}
-        <Flex w="full" justify={"center"} pb={["1.4em", "1.4em"]}>
+        <Flex w="full" justify={"center"} pb={["1.4em", "0.5em", "1.4em"]}>
           {/* 작물 포장 사진 */}
           <Flex
             ml={"0em"}
             mr={"1em"}
-            w={["2em", "2.3em"]}
-            h={["2em", "2.3em"]}
+            w={["2em", "1.6em", "2em"]}
+            h={["2em", "1.6em", "2em"]}
             borderRadius="full"
             bg="green.500"
             borderColor="gray.400"
@@ -100,7 +102,17 @@ const ModalPlanter = ({ planter }) => {
 
         {/* 상판 및 성장게이지 박스 */}
         {/* <Flex pl={'1em'} w="full" h="full"> */}
-        <Flex pl={"1em"} w="full" h={["8em", "14em"]}>
+        {/* <Flex flexWrap="wrap" pl={"1em"} flexDirection="row" w="full" h={["8em", "14em"]}> */}
+        {/* <Flex flexWrap="wrap" pl={"1em"} flexDirection="row" w="full" > */}
+        <Flex
+          flexWrap="wrap"
+          my={"0.1em"}
+          pl={"1em"}
+          h={["8em", "11em", "12em"]}
+          flexDirection="row"
+          align="flex-start"
+          justify="space-around"
+        >
           {/* 상판 */}
 
           {/* <Topboard */}
@@ -116,6 +128,15 @@ const ModalPlanter = ({ planter }) => {
           {/* <GrowthGauge isModal={isModal} gauge={planter.growth} /> */}
           {/* <ModalGrowthGauge gauge={planter.growth} /> */}
           <ModalGrowthGauge planter={planter} />
+
+          <Flex
+            alignSelf="center"
+            flexDirection="column"
+            justify="space-between"
+          >
+            <ModalWaterGauge planter={planter} />
+            <ModalRootGauge planter={planter} />
+          </Flex>
         </Flex>
 
         {/* 물 현재량 */}
@@ -124,14 +145,13 @@ const ModalPlanter = ({ planter }) => {
         {/* gauge={planter.waterGauge} */}
         {/* time={planter.waterdate} */}
         {/* warning={planter.warning} */}
-        <ModalWaterGauge planter={planter} />
+
+        {/* <ModalWaterGauge planter={planter} /> */}
 
         {/* 뿌리 현재크기 */}
-        <Flex w="full">
-          {/* <RootGauge isModal={isModal} gauge={planter.rootVolume} /> */}
-          {/* <RootGauge gauge={planter.rootVolume} /> */}
-          <ModalRootGauge planter={planter} />
-        </Flex>
+        {/* <Flex w="full"> */}
+        {/*   <ModalRootGauge planter={planter} /> */}
+        {/* </Flex> */}
       </VStack>
     </>
   );

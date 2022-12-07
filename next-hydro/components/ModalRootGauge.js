@@ -20,18 +20,21 @@ const RootGauge = ({ planter }) => {
 
   return (
     <Flex
-      w="full"
-      pt={[3, 2]}
+      w={["12em", "10em", "15em"]}
+      pl={["0em", "1em", "1.2em"]}
       _hover={{ cursor: "pointer" }}
       onClick={() => {
         setModalType("rootgauge");
       }}
     >
+      {/* pt={["1em", "2.2em"]} */}
+      {/* pt={[3, 2]} */}
+      {/* w="full" */}
       {/* <Flex w="full" pt={isModal ? [3, 2] : 1}> */}
       {/* 아이콘 */}
       <Flex align="center">
         <Icon
-          fontSize={["1.2em", "1.4em"]}
+          fontSize={["1.1em", "1.4em"]}
           as={GiTreeRoots}
           color="yellow.700"
         />
@@ -40,10 +43,11 @@ const RootGauge = ({ planter }) => {
 
       {/* 게이지 바탕 */}
       {/* bg="yellow.900" */}
+      {/* h={[5, 6]} */}
       <Flex
         align="center"
         w="full"
-        h={[5, 6]}
+        h={["1.4em", "2.0em", "2em"]}
         borderRadius={borderLeft}
         bg={isWarning ? "#59110c" : "yellow.900"}
         ml={2}
