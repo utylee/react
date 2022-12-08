@@ -22,7 +22,7 @@ const ModalGerminatyEdit = ({ gem }) => {
   return (
     <>
       {/* spacing="0.1em" */}
-      <VStack mt={["4em", "2em", "2em"]}>
+      <VStack mt={["4em", "1em", "2em"]}>
         {/* _hover={{ cursor: "pointer" }} */}
         {/* onClick={() => { */}
         {/* setCurGem({ ...thisGem }); */}
@@ -34,7 +34,7 @@ const ModalGerminatyEdit = ({ gem }) => {
           justify="space-between"
           align="center"
           w={["14.2em", "18em", "17em"]}
-          h={["4.5em", "5em", "7em"]}
+          h={["4.5em", "4em", "7em"]}
           px={["1em", "1em", "1em"]}
           py={["0.5em", "0.5em", "1em"]}
           mb={["1.3em", "1em", "1.3em"]}
@@ -61,7 +61,7 @@ const ModalGerminatyEdit = ({ gem }) => {
                   overflow="hidden"
                   textOverflow="ellipsis"
                   color="gray.800"
-                  fontSize={["1.3em", "1.4em", "1.5em"]}
+                  fontSize={["1.3em", "1.3em", "1.5em"]}
                   // fontWeight="normal"
                   // fontWeight="medium"
                   fontWeight="semibold"
@@ -77,8 +77,8 @@ const ModalGerminatyEdit = ({ gem }) => {
         {/* 바탕 */}
         {/* bg={warning ? "#59110c" : "blue.800"} */}
         <Flex
-          w={["13em", "15em", "16em"]}
-          h={["2.2em", "2.5em", "3em"]}
+          w={["13em", "16em", "16em"]}
+          h={["2.2em", "2em", "3em"]}
           borderRadius={borderLeft}
           position="relative"
           bg={isWarning ? "#59110c" : "blue.800"}
