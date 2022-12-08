@@ -9,6 +9,7 @@ import MyModal from "../../components/MyModal";
 // import PlantersProvider from "../../context/PlantersProvider";
 import { PlantersStateContext } from "../../context/PlantersContext";
 import usePlanters from "../../context/usePlanters";
+import Germinatys from "../../components/Germinatys";
 // import {
 //   Button,
 //   Modal,
@@ -118,16 +119,19 @@ export default function Home() {
 
     setGems([
       {
+        id: 1,
         seedNames: [seeds[0], seeds[1]],
         waterGauge: seedsGauges[0],
         warning: 0,
       },
       {
+        id: 2,
         seedNames: [seeds[2], seeds[3]],
         waterGauge: seedsGauges[1],
         warning: 0,
       },
       {
+        id: 3,
         seedNames: [seeds[4], seeds[5]],
         waterGauge: seedsGauges[2],
         warning: 0,
@@ -310,14 +314,12 @@ export default function Home() {
           {/*   <Planter key={planter.id} planter={planter} /> */}
           {/* ))} */}
           {/* 씨앗 발아기 */}
-          <Flex direction="column" ml={3} align="center">
-            {/* <Flex justify='center'> */}
-            {/* {gems.map((gem) => ( */}
-            {/* {getGems().map((gem) => ( */}
-            {gems.map((gem) => (
-              <Germinaty key={Math.random()} gem={gem} />
-            ))}
-          </Flex>
+          <Germinatys gems={gems} />
+          {/* <Flex direction="column" ml={3} align="center"> */}
+          {/*   {gems.map((gem) => ( */}
+          {/*     <Germinaty key={Math.random()} gem={gem} /> */}
+          {/*   ))} */}
+          {/* </Flex> */}
         </Flex>
       </VStack>
       {/* 구조를 useContext를 사용하여 바꿔보기로 합니다 */}

@@ -60,7 +60,7 @@ const Planter = ({ planter }) => {
 
   const { openModal, getIsOpen, setModalType } = useModal();
   const { setCurPlanter } = usePlanterCur();
-  const { setEachSetter } = usePlanters();
+  const { setEachPlanterSetter } = usePlanters();
 
   // const {
   //   getCurPlanter,
@@ -70,15 +70,12 @@ const Planter = ({ planter }) => {
   // } = usePlanter();
   // { getIsOpen, getModalType, setModalType, openModal, closeModal };
 
-  const setEachSettersMemo = useCallback((a, b) => setEachSetter(a, b), []);
-  // const setEachSettersMemo = useMemo(() => {
-  //   setEachSetters;
-  // }, []);
+  // const setEachSettersMemo = useCallback((a, b) => setEachSetter(a, b), []);
 
   useEffect(() => {
     // console.log("Planter.js useEffected: " + mykey);
     console.log("Planter.js useEffected:setThisPlanter  " + planter.id);
-    setEachSetter({ id: planter.id, func: setThisPlanter });
+    setEachPlanterSetter({ id: planter.id, func: setThisPlanter });
     console.log("thisPlanter func: " + setThisPlanter);
 
     // setThisPlanter = { ...planter };

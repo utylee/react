@@ -190,8 +190,7 @@ const ModalTopboardEdit = ({ planter }) => {
             mt={["1em", "0em", "2em"]}
             mb={["2em", "0.5em", "3em"]}
             onClick={() => {
-              closeModal();
-              // handleFinishClick();
+              setModalType("planter");
             }}
           >
             {/* <Button size="md" colorScheme="teal"> */}

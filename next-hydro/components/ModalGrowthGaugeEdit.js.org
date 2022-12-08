@@ -1,0 +1,177 @@
+import React, { useRef, useContext, useState, useEffect } from "react";
+import {
+  Button,
+  Box,
+  Text,
+  VStack,
+  HStack,
+  Flex,
+  Icon,
+  useDimensions,
+} from "@chakra-ui/react";
+import useModal from "../context/useModal";
+import { ImDroplet } from "react-icons/im";
+import { RiAlertFill } from "react-icons/ri";
+import usePlanters from "../context/usePlanters";
+import { PlantersStateContext } from "../context/PlantersContext";
+
+const ModalGrowthGaugeEdit = ({ planter }) => {
+  const borderBottom = ["1em", "1em"];
+  const borderTop = ["0.4em", "0.5em"];
+  const borderLeft = ["0.6em", "0.7em"];
+  const borderRight = ["0.4em", "0.5em"];
+
+  const outerBoxRef = useRef();
+  const outerBoxDimensions = useDimensions(outerBoxRef);
+
+  const [ratio, setRatio] = useState(planter.growthGauge);
+  // const [isWarning, setIsWarning] = useState();
+  const { closeModal } = useModal();
+  const { setters } = useContext(PlantersStateContext);
+  const { postJson } = usePlanters();
+
+  const handleFinishClick = async () => {
+    console.log("ModalGrowthGaugeEdit:finish clicked");
+    const newPlanter = { ...planter };
+    const { growthGauge, ...rest } = newPlanter;
+    newPlanter.growthGauge = ratio;
+    // setters[parseInt(newPlanter.id)]({ ...rest, waterGauge: ratio });
+    setters[parseInt(newPlanter.id)](newPlanter);
+
+    await postJson(newPlanter);
+    closeModal();
+  };
+
+  const clickGauge = (e) => {
+    // var rect = e.target.getBoundingClientRect();
+    // var full_wth = rect.right - rect.left;
+    var rect = outerBoxDimensions.borderBox;
+    // console.log("growthGauge:e.clientY: " + e.clientY);
+    // console.log("growthGauge:rect.bottom: " + rect.bottom);
+    // setRatio(parseInt(((rect.bottom - e.clientY) * 100) / rect.height));
+    setRatio(parseInt(((e.clientX - rect.left) * 100) / rect.width));
+  };
+
+  // useEffect(() => {
+  //   ratio <= 25 ? setIsWarning(1) : setIsWarning(0);
+  // }, [ratio]);
+  return (
+    <>
+      {/* 게이지 바탕 */}
+      {/* h="full" */}
+      <VStack w="full">
+        {/* direction="column" */}
+        {/* ml={1} */}
+        {/* borderRadius={borderBottom} */}
+        <Flex w="2em" h="2em" bg="green.500"></Flex>
+
+        {/* 게이지 바탕 */}
+        {/* bg={warning ? "#59110c" : "blue.800"} */}
+        {/* bg={gauge <= 25 ? "#59110c" : "blue.800"} */}
+        {/* bg={"blue.800"} */}
+        <Flex
+          ref={outerBoxRef}
+          h={["8em", "3em", "3em"]}
+          w="8em"
+          borderRadius={borderLeft}
+          justify="center"
+          ml={2}
+          mr={3}
+          position="relative"
+          _hover={{ cursor: "pointer" }}
+          onClick={(e) => {
+            // setModalType("watergauge");
+            // clickGauge(e.target.getBoundingClientRect());
+            clickGauge(e);
+          }}
+        >
+          {/* w={() => parseInt(gauge) + "%"} */}
+          {/* <Flex position="relative" w="100%" h="100%" overflow='hidden'> */}
+
+          <Flex
+            position={"releative"}
+            justify="center"
+            w="10%"
+            h="full"
+            bg={"blue.800"}
+          >
+            {/* 게이지 알맹이 */}
+            <Flex position="relative" w="full" h="full">
+              {/* w="30%" */}
+              {/* bg={warning ? "red.700" : "blue.500"} */}
+              <Flex
+                w="full"
+                h="full"
+                position="absolute"
+                borderRadius={5}
+              ></Flex>
+              {/* bg={gauge <= 25 ? "red.700" : "blue.500"} */}
+              {/* w={() => planter.waterGauge + "%"} */}
+              {/* position="absolute" */}
+              {/* zIndex="3" */}
+              <Flex
+                w={() => ratio + "%"}
+                h="full"
+                bg={"blue.500"}
+                borderLeftRadius={borderLeft}
+                borderRightRadius={borderRight}
+              ></Flex>
+              {/* 경고 아이콘 */}
+              {/* display={warning ? "flex" : "none"} */}
+              {/* display={gauge <= 25 ? "flex" : "none"} */}
+              {/* zIndex="4" */}
+              <Flex
+                position="absolute"
+                w="full"
+                h="full"
+                justify="center"
+                align="center"
+                display={"none"}
+              >
+                <Icon
+                  as={RiAlertFill}
+                  color="yellow.400"
+                  fontSize={["1.4em", "1.6em"]}
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+          {/* <Flex */}
+          {/*   position="absolute" */}
+          {/*   left="50%" */}
+          {/*   top="50%" */}
+          {/*   transform="translate(-50%,-50%)" */}
+          {/* ></Flex> */}
+          {/* </Flex> */}
+        </Flex>
+        {/* </VStack> */}
+        {/* 급수 일자 */}
+        {/* 클릭하면 커질 때 나오는 것으로 수정하기로 했습니다 */}
+        {/* <Text color="blue.500" mt={0} pr={1} fontSize="0.7em"> */}
+        {/*   <Moment interval={0} format="MM월 DD일 HH시"> */}
+        {/*     {time} */}
+        {/*   </Moment> */}
+        {/* </Text> */}
+        <Flex>
+          {/* <Flex mt="2em" mb="2em"> */}
+          <Box w="10em" h="3em" bg="green.500"></Box>
+          <Button
+            display={"none"}
+            size="lg"
+            colorScheme="teal"
+            mt={["2em", "1em", "3em"]}
+            mb={["2em", "1em", "2em"]}
+            onClick={() => {
+              handleFinishClick();
+            }}
+          >
+            {/* <Button size="md" colorScheme="teal"> */}
+            완료
+          </Button>
+        </Flex>
+      </VStack>
+    </>
+  );
+};
+
+export default ModalGrowthGaugeEdit;

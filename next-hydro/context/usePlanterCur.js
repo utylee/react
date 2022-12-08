@@ -19,7 +19,7 @@ export default function usePlanterCur() {
   //   setCurPlanterSetter,
   //   getCurPlanterSetter,
   // } = useContext(PlanterDispatchContext);
-  const { setCurPlanter } = useContext(PlanterCurDispatchContext);
+  const { setCurPlanter, setCurGem } = useContext(PlanterCurDispatchContext);
 
   // return {
   //   setPlanters,
@@ -41,6 +41,7 @@ export default function usePlanterCur() {
   //   setCurPlanter,
   // };
   return {
-    setCurPlanter
+    setCurPlanter,
+    setCurGem,
   };
 }

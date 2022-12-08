@@ -24,7 +24,7 @@ const ModalWaterGaugeEdit = ({ planter }) => {
 
   const [ratio, setRatio] = useState(planter.waterGauge);
   const [isWarning, setIsWarning] = useState();
-  const { closeModal } = useModal();
+  const { closeModal, setModalType } = useModal();
   const { setters } = useContext(PlantersStateContext);
   const { postJson } = usePlanters();
 
@@ -37,7 +37,8 @@ const ModalWaterGaugeEdit = ({ planter }) => {
     setters[parseInt(newPlanter.id)](newPlanter);
 
     await postJson(newPlanter);
-    closeModal();
+    // closeModal();
+    setModalType("planter");
   };
 
   const clickGauge = (e) => {
@@ -115,7 +116,7 @@ const ModalWaterGaugeEdit = ({ planter }) => {
                 h="full"
                 bg={isWarning ? "red.700" : "blue.500"}
                 borderLeftRadius={borderLeft}
-                borderRightRadius={borderRight}
+                borderRightRadius={0}
                 position="absolute"
                 zIndex="3"
               ></Flex>

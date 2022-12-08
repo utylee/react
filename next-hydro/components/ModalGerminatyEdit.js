@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { VStack, Box, Flex, Text } from "@chakra-ui/react";
+import { Text, VStack, Flex, Button } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
-import usePlanterCur from "../context/usePlanterCur";
 
-const Germinaty = ({ gem }) => {
-  // const { waterGauge, warning, seedNames } = gem;
-  const { openModal, setModalType } = useModal();
-  const [thisGem, setThisGem] = useState({ ...gem });
+const ModalGerminatyEdit = ({ gem }) => {
+  const borderLeft = ["0.6em", "0.7em", "0.8em"];
+
+  const [thisGem, setThisGem] = useState(gem);
   const [isWarning, setIsWarning] = useState(0);
+  const { closeModal } = useModal();
+  const { postJson } = usePlanters();
 
-  const { setEachGemSetter } = usePlanters();
-  const { setCurGem } = usePlanterCur();
-
-  useEffect(() => {
-    setEachGemSetter({ id: gem.id, func: setThisGem });
-  }, []);
+  const handleFinishClick = () => {
+    closeModal();
+  };
 
   useEffect(() => {
     thisGem.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
@@ -23,25 +21,23 @@ const Germinaty = ({ gem }) => {
 
   return (
     <>
-      <VStack
-        pl={3}
-        spacing="0.1em"
-        mb={2}
-        _hover={{ cursor: "pointer" }}
-        onClick={() => {
-          setCurGem({ ...thisGem });
-          setModalType("germinaty");
-          openModal();
-        }}
-      >
+      {/* spacing="0.1em" */}
+      <VStack mt={["4em", "2em", "2em"]}>
+        {/* _hover={{ cursor: "pointer" }} */}
+        {/* onClick={() => { */}
+        {/* setCurGem({ ...thisGem }); */}
+        {/* setModalType("germinaty"); */}
+        {/* openModal(); */}
+        {/* }} */}
         {/* 상판 */}
         <Flex
           justify="space-between"
           align="center"
-          w="7em"
-          h="2.5em"
-          px={3}
-          py={1}
+          w={["14.2em", "18em", "17em"]}
+          h={["4.5em", "5em", "7em"]}
+          px={["1em", "1em", "1em"]}
+          py={["0.5em", "0.5em", "1em"]}
+          mb={["1.3em", "1em", "1.3em"]}
           bg="gray.600"
           borderRadius="lg"
         >
@@ -65,7 +61,7 @@ const Germinaty = ({ gem }) => {
                   overflow="hidden"
                   textOverflow="ellipsis"
                   color="gray.800"
-                  fontSize="0.8em"
+                  fontSize={["1.3em", "1.4em", "1.5em"]}
                   // fontWeight="normal"
                   // fontWeight="medium"
                   fontWeight="semibold"
@@ -81,9 +77,9 @@ const Germinaty = ({ gem }) => {
         {/* 바탕 */}
         {/* bg={warning ? "#59110c" : "blue.800"} */}
         <Flex
-          w="90%"
-          h="0.3em"
-          borderRadius="1.5"
+          w={["13em", "15em", "16em"]}
+          h={["2.2em", "2.5em", "3em"]}
+          borderRadius={borderLeft}
           position="relative"
           bg={isWarning ? "#59110c" : "blue.800"}
         >
@@ -94,13 +90,28 @@ const Germinaty = ({ gem }) => {
               // return gem.waterGauge + "%";
               return thisGem.waterGauge + "%";
             }}
-            borderRadius="1.5"
+            borderLeftRadius={borderLeft}
             bg={isWarning ? "red.700" : "blue.500"}
           ></Flex>
+        </Flex>
+        <Flex>
+          {/* <Flex mt="2em" mb="2em"> */}
+          <Button
+            size="lg"
+            colorScheme="teal"
+            mt={["3em", "2em", "2.5em"]}
+            mb={["2em", "1.5em", "2em"]}
+            onClick={() => {
+              handleFinishClick();
+            }}
+          >
+            {/* <Button size="md" colorScheme="teal"> */}
+            완료
+          </Button>
         </Flex>
       </VStack>
     </>
   );
 };
 
-export default Germinaty;
+export default ModalGerminatyEdit;

@@ -24,7 +24,7 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
 
   const [ratio, setRatio] = useState(planter.growthGauge);
   // const [isWarning, setIsWarning] = useState();
-  const { closeModal } = useModal();
+  const { closeModal, setModalType } = useModal();
   const { setters } = useContext(PlantersStateContext);
   const { postJson } = usePlanters();
 
@@ -37,7 +37,8 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
     setters[parseInt(newPlanter.id)](newPlanter);
 
     await postJson(newPlanter);
-    closeModal();
+    // closeModal();
+    setModalType("planter");
   };
 
   const clickGauge = (e) => {
@@ -56,18 +57,13 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
     <>
       {/* 게이지 바탕 */}
       {/* h="full" */}
+      {/* direction="column" */}
+      {/* bg="green.900" */}
       <VStack>
         <Flex
-          ref={outerBoxRef}
-          direction="column"
-          ml={1}
-          mt={["4em", "1em", "3em"]}
-          w={["4em", "4.5em", "5em"]}
-          h={["10em", "10em", "12em"]}
-          bg={"green.900"}
-          borderRadius={borderBottom}
-          justify="flex-end"
-          align="center"
+          w="full"
+          h="full"
+          justify={"center"}
           _hover={{ cursor: "pointer" }}
           onClick={(e) => {
             // setModalType("watergauge");
@@ -75,41 +71,61 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
             clickGauge(e);
           }}
         >
-          {/* bg="gray.900" */}
-          {/* {console.log("growth:" + gauge)} */}
-          {/* borderTopRadius="3" */}
-
-          {/* 잎 아이콘 */}
-
-          {/* 아이콘을 일부만 채우는 기술입니다 */}
-          {/* <Flex position="relative"> */}
-          {/*   <Icon color="gray.500" as={ImLeaf} mb={1} opacity="40%" /> */}
-          {/*   <Flex position="absolute"> */}
-          {/*     <Icon */}
-          {/*       clipPath="inset(30% 0 0 0)" */}
-          {/*       color="green.500" */}
-          {/*       as={ImLeaf} */}
-          {/*       mb={1} */}
-          {/*     /> */}
-          {/*   </Flex> */}
-          {/* </Flex> */}
-
-          {/* 게이지 실제 수치 */}
-          {/* h={() => parseInt(planter.growthGauge) + "%"} */}
+          {/* 싱글 flex 자식만 있으니 safari 스크롤바 문제인지 하단 스크롤이후 얘만 */}
+          {/* 플리커가 발생 했습니다. */}
+          {/* 전후로 (혹은 이전 하나만) flex항목을 더 추가하니 문제가 발생하지 않아 */}
+          {/* 추가해봅니다. 메카니즘을 이해를 못하겠습니다만 flicker는 방지했습니다 */}
+          <Flex w="0em"></Flex>
           <Flex
-            w="full"
-            h={() => parseInt(ratio) + "%"}
-            bg="green.500"
-            borderBottomRadius={borderBottom}
-            borderTopRadius={borderTop}
-          ></Flex>
-          {/* backgroundImage={ */}
-          {/*   <Icon */}
-          {/*     clipPath="inset(30% 0 0 0)" */}
-          {/*     color="green.500" */}
-          {/*     as={ImLeaf} */}
-          {/*     mb={1} */}
-          {/*   /> */}
+            direction="column"
+            position="relative"
+            ref={outerBoxRef}
+            mt={["2em", "1em", "3em"]}
+            w="4em"
+            h={["10em", "10em", "12em"]}
+            bg="green.900"
+            borderRadius={borderBottom}
+            justify="flex-end"
+            align="center"
+          >
+            {/* bg="gray.900" */}
+            {/* {console.log("growth:" + gauge)} */}
+            {/* borderTopRadius="3" */}
+
+            {/* 잎 아이콘 */}
+
+            {/* 아이콘을 일부만 채우는 기술입니다 */}
+            {/* <Flex position="relative"> */}
+            {/*   <Icon color="gray.500" as={ImLeaf} mb={1} opacity="40%" /> */}
+            {/*   <Flex position="absolute"> */}
+            {/*     <Icon */}
+            {/*       clipPath="inset(30% 0 0 0)" */}
+            {/*       color="green.500" */}
+            {/*       as={ImLeaf} */}
+            {/*       mb={1} */}
+            {/*     /> */}
+            {/*   </Flex> */}
+            {/* </Flex> */}
+
+            {/* 게이지 실제 수치 */}
+            {/* h={() => parseInt(planter.growthGauge) + "%"} */}
+            {/* w="full" */}
+            <Flex
+              w="full"
+              h={() => ratio + "%"}
+              bg="green.500"
+              borderBottomRadius={borderBottom}
+              borderTopRadius={0}
+            ></Flex>
+            {/* backgroundImage={ */}
+            {/*   <Icon */}
+            {/*     clipPath="inset(30% 0 0 0)" */}
+            {/*     color="green.500" */}
+            {/*     as={ImLeaf} */}
+            {/*     mb={1} */}
+            {/*   /> */}
+          </Flex>
+          {/* <Flex w="0em"></Flex> */}
         </Flex>
         <Flex>
           {/* <Flex mt="2em" mb="2em"> */}

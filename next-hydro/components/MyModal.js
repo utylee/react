@@ -9,6 +9,7 @@ import ModalTitleEdit from "./ModalTitleEdit";
 import ModalWaterGaugeEdit from "./ModalWaterGaugeEdit";
 import ModalGrowthGaugeEdit from "./ModalGrowthGaugeEdit";
 import ModalRootGaugeEdit from "./ModalRootGaugeEdit";
+import ModalGerminatyEdit from "./ModalGerminatyEdit";
 
 import {
   Button,
@@ -26,7 +27,7 @@ const MyModal = () => {
   const { getIsOpen, openModal, closeModal, setModalType, getModalType } =
     useModal();
 
-  const { curPlanter } = useContext(PlanterCurStateContext);
+  const { curGem, curPlanter } = useContext(PlanterCurStateContext);
   // const {
   //   getCurPlanter,
   //   setCurPlanter,
@@ -62,6 +63,9 @@ const MyModal = () => {
     } else if (typeModal == "rootgauge") {
       console.log("modaltype is rootgauge");
       return <ModalRootGaugeEdit planter={curPlanter} />;
+    } else if (typeModal == "germinaty") {
+      console.log("modaltype is germinaty");
+      return <ModalGerminatyEdit gem={curGem} />;
     }
   };
   return (
@@ -79,6 +83,7 @@ const MyModal = () => {
         onClose={closeModal}
         isCentered
         _focus={{ boxShadow: "none" }}
+        preserveScrollBarGap="true"
       >
         <ModalOverlay />
         {/* <ModalContent bg="#2b2a33"> */}

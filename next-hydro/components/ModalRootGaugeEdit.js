@@ -23,7 +23,7 @@ const ModalRootGaugeEdit = ({ planter }) => {
 
   const [ratio, setRatio] = useState(planter.rootVolume);
   const [isWarning, setIsWarning] = useState();
-  const { closeModal } = useModal();
+  const { closeModal, setModalType } = useModal();
   const { setters } = useContext(PlantersStateContext);
   const { postJson } = usePlanters();
 
@@ -36,7 +36,8 @@ const ModalRootGaugeEdit = ({ planter }) => {
     setters[parseInt(newPlanter.id)](newPlanter);
 
     await postJson(newPlanter);
-    closeModal();
+    // closeModal();
+    setModalType("planter");
   };
 
   const clickGauge = (e) => {
@@ -94,7 +95,7 @@ const ModalRootGaugeEdit = ({ planter }) => {
                 bg={isWarning ? "red.700" : "yellow.600"}
                 w={() => ratio + "%"}
                 borderLeftRadius={borderLeft}
-                borderRightRadius={borderRight}
+                borderRightRadius={0}
               ></Flex>
               <Flex
                 left="50%"

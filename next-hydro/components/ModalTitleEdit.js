@@ -14,11 +14,12 @@ import { PlantersStateContext } from "../context/PlantersContext";
 
 const ModalTitleEdit = ({ planter }) => {
   const titleInputRef = useRef(undefined);
-  const { closeModal } = useModal();
+  const { setModalType, closeModal } = useModal();
   const { postJson } = usePlanters();
   const handleFinishClick = () => {
     console.log("finish clicked");
-    closeModal();
+    // closeModal();
+    setModalType("planter");
   };
   const { setters } = useContext(PlantersStateContext);
 
@@ -28,7 +29,9 @@ const ModalTitleEdit = ({ planter }) => {
 
       const { plantName, ...rest } = newPlanter;
       newPlanter = { ...rest, plantName: titleInputRef.current.value.trim() };
-      console.log("ModalTitleEdit:OnConfirm:newPlanter: " + newPlanter.plantName);
+      console.log(
+        "ModalTitleEdit:OnConfirm:newPlanter: " + newPlanter.plantName
+      );
       setters[newPlanter.id](newPlanter);
       await postJson(newPlanter);
     }

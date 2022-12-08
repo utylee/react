@@ -6,6 +6,7 @@ import {
 
 const PlanterCurProvider = ({ children }) => {
   const [curPlanter, setCurPlanter] = useState();
+  const [curGem, setCurGem] = useState();
   // const [curPlanterSetter, setCurPlanterSetter] = useState();
 
   // useEffect는 index.js에서 실행하기로 합니다
@@ -134,16 +135,17 @@ const PlanterCurProvider = ({ children }) => {
   //   return curPlanter;
   // };
 
-  const dispatch = {
-    setCurPlanter,
-  };
-  // const dispatch = useMemo(
-  //   () => ({
-  //     setCurPlanter,
-  //   }),
-  //   []
-  // );
-	
+  // const dispatch = {
+  //   setCurPlanter,
+  // };
+  const dispatch = useMemo(
+    () => ({
+      setCurPlanter,
+      setCurGem,
+    }),
+    []
+  );
+
   // const dispatch = {
   //   getCurPlanter,
   //   setPlanters,
@@ -177,7 +179,7 @@ const PlanterCurProvider = ({ children }) => {
   // );
 
   return (
-    <PlanterCurStateContext.Provider value={{ curPlanter }}>
+    <PlanterCurStateContext.Provider value={{ curPlanter, curGem }}>
       <PlanterCurDispatchContext.Provider value={dispatch}>
         {children}
       </PlanterCurDispatchContext.Provider>

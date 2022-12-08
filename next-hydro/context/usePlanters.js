@@ -30,7 +30,8 @@ export default function usePlanters() {
     setObjectPlanters,
     setPlanters,
     setGems,
-    setEachSetter,
+    setEachPlanterSetter,
+    setEachGemSetter,
   } = useContext(PlantersDispatchContext);
 
   // const setEachSetter = useCallback((i, func) => {
@@ -70,7 +71,8 @@ export default function usePlanters() {
     setObjectPlanters,
     setPlanters,
     setGems,
-    setEachSetter,
+    setEachPlanterSetter,
+    setEachGemSetter,
     postJson,
     zipPieces,
     unzipPieces,

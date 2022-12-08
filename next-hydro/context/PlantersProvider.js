@@ -12,6 +12,7 @@ const PlantersProvider = ({ children }) => {
   // const [setters, setSetters] = useState([{ id: 0, func: () => {} }]);
   // const [setters, setSetters] = useState([]);
   const [setters, setSetters] = useState({});
+  const [gemSetters, setGemSetters] = useState({});
 
   const setObjectPlanters = (arr) => {
     // setPlanters(arr.map((a) => ({ [a.id]: a })));
@@ -70,7 +71,7 @@ const PlantersProvider = ({ children }) => {
   // }, []);
   //
 
-  const setEachSetter = (obj) => {
+  const setEachPlanterSetter = (obj) => {
     // setSetters((setters) => [...setters, { id: 0, func: () => {} }]);
     // setSetters((setters) => {
     //   const remains = setters.filter((s) => s.id != obj.id);
@@ -78,6 +79,10 @@ const PlantersProvider = ({ children }) => {
     // });
 
     Object.assign(setters, { [obj.id]: obj.func });
+  };
+
+  const setEachGemSetter = (obj) => {
+    Object.assign(gemSetters, { [obj.id]: obj.func });
   };
 
   const postJson = async (plt) => {
@@ -152,7 +157,8 @@ const PlantersProvider = ({ children }) => {
       setObjectPlanters,
       setPlanters,
       setGems,
-      setEachSetter,
+      setEachPlanterSetter,
+      setEachGemSetter,
       postJson,
       zipPieces,
       unzipPieces,
@@ -190,7 +196,9 @@ const PlantersProvider = ({ children }) => {
   // );
 
   return (
-    <PlantersStateContext.Provider value={{ planters, gems, setters }}>
+    <PlantersStateContext.Provider
+      value={{ planters, gems, setters, gemSetters }}
+    >
       {/* <PlantersStateContext.Provider value={{ planters, gems }}> */}
       <PlantersDispatchContext.Provider value={dispatch}>
         {children}
