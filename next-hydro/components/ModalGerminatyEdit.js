@@ -7,7 +7,6 @@ import {
   Flex,
   Button,
   ButtonGroup,
-  useDisclosure,
 } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
@@ -15,17 +14,47 @@ import usePlanters from "../context/usePlanters";
 const ModalGerminatyEdit = ({ gem }) => {
   const borderLeft = ["0.6em", "0.7em", "0.8em"];
 
-  const { isOpen, onToggle } = useDisclosure();
-
   const firstGemRef = useRef();
   const secondGemRef = useRef();
+  const inputRefs = [firstGemRef, secondGemRef];
 
   const [thisGem, setThisGem] = useState(gem);
   const [isWarning, setIsWarning] = useState(0);
   const [isTextEdit, setIsTextEdit] = useState(false);
   const [keyForRender, setKeyForRender] = useState(Date.now());
-  // const [editPosition, setEditPosition] = useState(0);
-  let editPosition = 0;
+  const [editPosition, setEditPosition] = useState(0);
+  // const [inputZIndex, setInputZIndex] = useState({ id: 0, value: 2 });
+  const [inputZIndex, setInputZIndex] = useState([2, 2]);
+
+  const setEditProc = (n) => {
+    // n이 0이면 왼쪽 text 수정모드, 1이면 오른쪽 text 수정모드 입니다
+    inputRefs[n].current.focus();
+    inputRefs[n].current.value = thisGem.seedNames[n];
+    setEditPosition(n);
+    // setInputZIndex({ id: n, value: 10 });
+    // Object.assign(inputZIndex, { [n]: 10 });
+    var tempArray = [...inputZIndex];
+    tempArray[n] = 10;
+    tempArray[+!n] = 2;
+    setInputZIndex(tempArray);
+
+    // setIsTextEdit((isTextEdit) => !isTextEdit);
+    setIsTextEdit(true);
+  };
+
+  // const [currenRef, setCurrentRef] = useState(firstGemRef);
+  // const setRef = (n) => {
+  //   n ? setCurrentRef(secondGemRef) : setCurrentRef(firstGemRef);
+  // };
+  // const getRef = (n) => {
+  //   if (n) {
+  //     return secondGemRef;
+  //   } else {
+  //     return firstGemRef;
+  //   }
+  // };
+
+  // let editPosition = 0;
   const { closeModal } = useModal();
   const { postJson } = usePlanters();
 
@@ -50,35 +79,40 @@ const ModalGerminatyEdit = ({ gem }) => {
       {/* <InfoInputText /> */}
 
       {/* 상판 */}
-      {/* <BaseBoard> */}
-
-      <Flex
-        w="full"
-        justify="center"
-        position="relative"
-        mb={["5em", "1em", "8em"]}
-      >
+      <BaseBoard>
         {/* 기본텍스트 상판 */}
         {/* zIndex 5 */}
+        {/* setRef={setRef} */}
         <DefaultTextBoard
           thisGem={thisGem}
-          firstGemRef={firstGemRef}
-          secondGemRef={secondGemRef}
+          inputRefs={inputRefs}
+          setEditPosition={setEditPosition}
+          editPosition={editPosition}
+          isTextEdit={isTextEdit}
+          inputZIndex={inputZIndex}
           setIsTextEdit={setIsTextEdit}
+          setEditProc={setEditProc}
         />
 
         {/* 숨겨진 Input 상판 */}
         {/* zIndex 1 / 10 */}
-        <HiddenInputBoard editPosition={editPosition} isTextEdit={isTextEdit} />
+        {/* getRef={getRef} */}
+        {/* <HiddenInputBoard */}
+        {/*   firstGemRef={firstGemRef} */}
+        {/*   editPosition={editPosition} */}
+        {/*   isTextEdit={isTextEdit} */}
+        {/* /> */}
 
         {/* 숨겨진 텍스트 입력완료버튼 */}
         {/* zIndex = 2 */}
         <HiddenFinishButton
+          editPosition={editPosition}
+          setInputZIndex={setInputZIndex}
           setIsTextEdit={setIsTextEdit}
+          inputZIndex={inputZIndex}
           isTextEdit={isTextEdit}
         />
-      </Flex>
-      {/* </BaseBoard> */}
+      </BaseBoard>
 
       {/* 수위게이지 */}
       <WaterGauge thisGem={thisGem} isTextEdit={isTextEdit} />
@@ -129,11 +163,15 @@ const BaseBoard = ({ children }) => {
 };
 
 // 기본텍스트 상판
+// setRef,
 const DefaultTextBoard = ({
   thisGem,
-  firstGemRef,
-  secondGemRef,
+  inputRefs,
   editPosition,
+  setEditPosition,
+  setEditProc,
+  inputZIndex,
+  isTextEdit,
   setIsTextEdit,
 }) => {
   return (
@@ -143,7 +181,7 @@ const DefaultTextBoard = ({
       align="center"
       w={["14em", "18em", "20em"]}
       h={["5em", "18em", "8em"]}
-      bg="gray.800"
+      bg="gray.600"
       borderRadius="lg"
       justify="space-between"
       zIndex={5}
@@ -159,53 +197,115 @@ const DefaultTextBoard = ({
       {/* key={Math.floor(Math.random() * 1000000)} */}
       {thisGem.seedNames.map((sn, index) => {
         return (
-          <Flex
-            key={index}
-            _hover={{ cursor: "pointer" }}
-            onClick={(e) => {
-              // setKeyForRender(Date.now());
-              editPosition = index;
-              // console.log("MGemEdit:editPosition is : " + editPosition);
-              setIsTextEdit((isTextEdit) => !isTextEdit);
-              // onToggle();
-            }}
-            mx={["1em", "2em", "1em"]}
-            w={["6em", "4em", "7em"]}
-            h={["3em", "4em", "4em"]}
-            flexWrap="nowrap"
-            borderRadius="5"
-            bg="green.600"
-            ref={index == 0 ? firstGemRef : secondGemRef}
-          >
-            {/* w="45%" */}
-            {/* <Box w="40%" h="40%" justify={"center"}> */}
-            {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
-            {/* w="4em" */}
-            {/* h="80%" */}
-            <Flex
-              w="full"
-              h="full"
-              bg="green.600"
-              justify={"center"}
-              align={"center"}
-              borderRadius="lg"
-              position="relative"
-            >
-              {/* 텍스트 생략을 위한 구문 3종 세트 */}
-              <Text
-                whiteSpace="nowrap"
-                overflow="hidden"
-                textOverflow="ellipsis"
-                color="gray.800"
-                fontSize={["1.1em", "1.3em", "1.5em"]}
-                // fontWeight="normal"
-                // fontWeight="medium"
-                fontWeight="medium"
+          <>
+            {console.log(
+              "index: " +
+                index +
+                ", isTextEdit: " +
+                isTextEdit +
+                ", editPosition: " +
+                editPosition
+            )}
+            {/* {isTextEdit && editPosition == index ? ( */}
+            {/* 에디트모드이면서 포지션도 일치할 때만 input 컴포넌트를 렌더합니다 */}
+            <Flex w="full" h="full" position={"relative"}>
+              <Flex
+                position={"absolute"}
+                mx={["1em", "2em", "1em"]}
+                w={["5em", "4em", "7em"]}
+                h={["3em", "4em", "4em"]}
+                flexWrap="nowrap"
+                borderRadius="5"
+                bg="green.600"
+                justify={"center"}
+                zIndex={inputZIndex[index]}
               >
-                {sn}
-              </Text>
+                {/* ref={index == 0 ? firstGemRef : secondGemRef} */}
+                {/* w="45%" */}
+                {/* <Box w="40%" h="40%" justify={"center"}> */}
+                {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
+                {/* w="4em" */}
+                {/* h="80%" */}
+                <Flex
+                  w="full"
+                  h="full"
+                  bg="green.400"
+                  justify={"center"}
+                  align={"center"}
+                  borderRadius="lg"
+                >
+                  {/* placeholder="치커리" */}
+                  {/* _placeholder={{ */}
+                  {/* color: "green.300", */}
+                  {/* fontWeight: "bold", */}
+                  {/* }} */}
+                  <Input
+                    w="3em"
+                    size="md"
+                    textAlign={"center"}
+                    fontSize={"1.1em"}
+                    fontWeight="medium"
+                    variant="unstyled"
+                    placeholder={sn}
+                    rounded="lg"
+                    ref={inputRefs[index]}
+                  />
+                </Flex>
+              </Flex>
+              <Flex
+                position="absolute"
+                key={index}
+                _hover={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  setEditProc(index);
+                  // setEditPosition(index);
+                  // setRef(index);
+                  console.log("MGemEdit:editPosition is : " + editPosition);
+                  // setIsTextEdit((isTextEdit) => !isTextEdit);
+                  // inputRefs[editPosition].current.focus();
+                  console.log(
+                    "MGemEdit:current.focus position is : " + editPosition
+                  );
+                }}
+                mx={["1em", "2em", "1em"]}
+                w={["5em", "4em", "7em"]}
+                h={["3em", "4em", "4em"]}
+                flexWrap="nowrap"
+                borderRadius="5"
+                bg="green.600"
+                zIndex={8}
+              >
+                {/* ref={index == 0 ? firstGemRef : secondGemRef} */}
+                {/* w="45%" */}
+                {/* <Box w="40%" h="40%" justify={"center"}> */}
+                {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
+                {/* w="4em" */}
+                {/* h="80%" */}
+                <Flex
+                  w="full"
+                  h="full"
+                  bg="green.600"
+                  justify={"center"}
+                  align={"center"}
+                  borderRadius="lg"
+                >
+                  {/* 텍스트 생략을 위한 구문 3종 세트 */}
+                  <Text
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    color="gray.800"
+                    fontSize={["1.1em", "1.3em", "1.5em"]}
+                    // fontWeight="normal"
+                    // fontWeight="medium"
+                    fontWeight="medium"
+                  >
+                    {sn}
+                  </Text>
+                </Flex>
+              </Flex>
             </Flex>
-          </Flex>
+          </>
         );
       })}
     </Flex>
@@ -216,7 +316,13 @@ const DefaultTextBoard = ({
 // / zIndex = 2 /
 /* h={isTextEdit ? "2em" : "0em"} */
 /* px={["1em", "1em", "1em"]} */
-const HiddenFinishButton = ({ setIsTextEdit, isTextEdit }) => {
+const HiddenFinishButton = ({
+  inputZIndex,
+  setInputZIndex,
+  editPosition,
+  setIsTextEdit,
+  isTextEdit,
+}) => {
   return (
     <Flex
       justify={"center"}
@@ -236,10 +342,15 @@ const HiddenFinishButton = ({ setIsTextEdit, isTextEdit }) => {
         mt="0.5em"
         w="10em"
         h="2em"
-        colorScheme="teal"
+        colorScheme="blue"
         onClick={() => {
           // null;
-          setIsTextEdit((isTextEdit) => !isTextEdit);
+          // setIsTextEdit((isTextEdit) => !isTextEdit);
+          setIsTextEdit(false);
+          var tempArray = [...inputZIndex];
+          tempArray[editPosition] = 2;
+          setInputZIndex(tempArray);
+          // setInputZIndex({ id: editPosition, value: 2 });
         }}
       >
         입력완료
@@ -250,50 +361,98 @@ const HiddenFinishButton = ({ setIsTextEdit, isTextEdit }) => {
 
 // 숨겨진 Input 상판
 // zIndex 10 / 1
-const HiddenInputBoard = ({ editPosition, isTextEdit }) => {
+const HiddenInputBoard = ({ firstGemRef, editPosition, isTextEdit }) => {
   return (
     <Flex
-      w="14em"
-      justify="center"
-      position="absolute"
+      py="1em"
+      position={"absolute"}
+      align="center"
+      w={["14em", "18em", "20em"]}
+      h={["5em", "18em", "8em"]}
+      bg="red.800"
       borderRadius="lg"
-      bg="gray.600"
+      justify="space-between"
       zIndex={isTextEdit ? 10 : 1}
     >
+      {/* <Flex */}
+      {/*   w="14em" */}
+      {/*   justify="center" */}
+      {/*   position="absolute" */}
+      {/*   borderRadius="lg" */}
+      {/*   bg="red" */}
+      {/*   zIndex={isTextEdit ? 10 : 1} */}
+      {/* > */}
+
+      {/* bg="gray.400" */}
       {/* width="auto" */}
-      <Flex
-        w="4em"
-        bg="gray.300"
-        display={editPosition == 0 ? "none" : "flex"}
-      ></Flex>
-      <Flex w="4em">
-        <Input
-          w="4em"
-          size="lg"
-          variant="unstyled"
-          value="치커리"
-          _placeholder={{
-            color: "green.300",
-            fontWeight: "bold",
-          }}
-          rounded="lg"
-          mb={"3em"}
-          zIndex={8}
+      {/* bg="gray.300" */}
+      {console.log("HiddenInputBoard:editPosition: " + editPosition)}
+
+      <Flex position="absolute">
+        <Flex
+          mx={["1em", "2em", "1em"]}
+          w={["5em", "4em", "7em"]}
+          h={["3em", "4em", "4em"]}
+          borderRadius="5"
+          bg="green.600"
         />
-        {/* ref={titleInputRef} */}
-        {/* placeholder={planter.plantName} */}
-        {/* onKeyPress={(e) => { */}
-        {/* 아무 입력값이 없을 경우 enter가 반응이 없게 만듭니다 */}
-        {/* e.key === "Enter" */}
-        {/* ? titleInputRef.current.value.trim().length === 0 */}
-        {/* ? null */}
-        {/* : onConfirm() */}
-        {/* : null; */}
-        {/* }} */}
-        {/* 치커리 */}
-        {/* </Input> */}
+        <Flex
+          mx={["1em", "2em", "1em"]}
+          w={["5em", "4em", "7em"]}
+          h={["3em", "4em", "4em"]}
+          borderRadius="5"
+          bg="green.600"
+        />
       </Flex>
-      <Flex w="4em" display={editPosition == 0 ? "flex" : "none"}></Flex>
+      <Flex
+        w="full"
+        h="full"
+        align="center"
+        position="absolute"
+        justify="center"
+      >
+        <Flex
+          display={editPosition == 0 ? "none" : "flex"}
+          bg="blue"
+          w="4em"
+          h="3em"
+        />
+        <Flex w="4em" h="full">
+          <Input
+            w="4em"
+            size="lg"
+            variant="unstyled"
+            placeholder="치커리"
+            _placeholder={{
+              color: "green.300",
+              fontWeight: "bold",
+            }}
+            rounded="lg"
+            zIndex={8}
+            ref={firstGemRef}
+          />
+          {/* ref={getRef} */}
+          {/* mb={"3em"} */}
+          {/* value="치커리" */}
+          {/* placeholder={planter.plantName} */}
+          {/* onKeyPress={(e) => { */}
+          {/* 아무 입력값이 없을 경우 enter가 반응이 없게 만듭니다 */}
+          {/* e.key === "Enter" */}
+          {/* ? titleInputRef.current.value.trim().length === 0 */}
+          {/* ? null */}
+          {/* : onConfirm() */}
+          {/* : null; */}
+          {/* }} */}
+          {/* 치커리 */}
+          {/* </Input> */}
+        </Flex>
+        <Flex
+          bg="blue"
+          w="4em"
+          h="3em"
+          display={editPosition == 0 ? "flex" : "none"}
+        />
+      </Flex>
     </Flex>
   );
 };
