@@ -14,6 +14,7 @@ import { ImDroplet } from "react-icons/im";
 import { RiAlertFill } from "react-icons/ri";
 import usePlanters from "../context/usePlanters";
 import { PlantersStateContext } from "../context/PlantersContext";
+import usePlanterCur from "../context/usePlanterCur";
 
 const ModalGrowthGaugeEdit = ({ planter }) => {
   const borderBottom = ["1em", "1em"];
@@ -27,6 +28,7 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
   const { closeModal, setModalType } = useModal();
   const { setters } = useContext(PlantersStateContext);
   const { postJson } = usePlanters();
+  const { setCurPlanter } = usePlanterCur();
 
   const handleFinishClick = async () => {
     console.log("ModalGrowthGaugeEdit:finish clicked");
@@ -35,6 +37,7 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
     newPlanter.growthGauge = ratio;
     // setters[parseInt(newPlanter.id)]({ ...rest, waterGauge: ratio });
     setters[parseInt(newPlanter.id)](newPlanter);
+    setCurPlanter({ ...newPlanter });
 
     await postJson(newPlanter);
     // closeModal();
@@ -59,28 +62,26 @@ const ModalGrowthGaugeEdit = ({ planter }) => {
       {/* h="full" */}
       {/* direction="column" */}
       {/* bg="green.900" */}
-      <VStack>
-        <Flex
-          w="full"
-          h="full"
-          justify={"center"}
-          _hover={{ cursor: "pointer" }}
-          onClick={(e) => {
-            // setModalType("watergauge");
-            // clickGauge(e.target.getBoundingClientRect());
-            clickGauge(e);
-          }}
-        >
+      {/* <VStack sx={{ WebkitTapHighlightColor: "transparent" }}> */}
+      {/* <VStack> */}
+      <VStack sx={{ "-webkit-tap-highlight-color": "transparent" }}>
+        <Flex w="full" h="full" justify={"center"}>
           {/* 싱글 flex 자식만 있으니 safari 스크롤바 문제인지 하단 스크롤이후 얘만 */}
           {/* 플리커가 발생 했습니다. */}
           {/* 전후로 (혹은 이전 하나만) flex항목을 더 추가하니 문제가 발생하지 않아 */}
           {/* 추가해봅니다. 메카니즘을 이해를 못하겠습니다만 flicker는 방지했습니다 */}
-          <Flex w="0em"></Flex>
+          {/* <Flex w="0em"></Flex> */}
           <Flex
             direction="column"
             position="relative"
             ref={outerBoxRef}
             mt={["2em", "1em", "3em"]}
+            _hover={{ cursor: "pointer" }}
+            onClick={(e) => {
+              // setModalType("watergauge");
+              // clickGauge(e.target.getBoundingClientRect());
+              clickGauge(e);
+            }}
             w="4em"
             h={["10em", "10em", "12em"]}
             bg="green.900"

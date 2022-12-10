@@ -1,13 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { Text, VStack, Flex, Button } from "@chakra-ui/react";
+import React, { useRef, useEffect, useState } from "react";
+import {
+  Input,
+  Box,
+  Text,
+  VStack,
+  Flex,
+  Button,
+  ButtonGroup,
+  useDisclosure,
+} from "@chakra-ui/react";
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
 
 const ModalGerminatyEdit = ({ gem }) => {
   const borderLeft = ["0.6em", "0.7em", "0.8em"];
 
+  const { isOpen, onToggle } = useDisclosure();
+
+  const firstGemRef = useRef();
+  const secondGemRef = useRef();
+
   const [thisGem, setThisGem] = useState(gem);
   const [isWarning, setIsWarning] = useState(0);
+  const [isTextEdit, setIsTextEdit] = useState(false);
+  const [keyForRender, setKeyForRender] = useState(Date.now());
+  // const [editPosition, setEditPosition] = useState(0);
+  let editPosition = 0;
   const { closeModal } = useModal();
   const { postJson } = usePlanters();
 
@@ -19,41 +37,100 @@ const ModalGerminatyEdit = ({ gem }) => {
     thisGem.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
   }, [thisGem.waterGauge]);
 
-  return (
-    <>
-      {/* spacing="0.1em" */}
-      <VStack mt={["4em", "1em", "2em"]}>
-        {/* _hover={{ cursor: "pointer" }} */}
-        {/* onClick={() => { */}
-        {/* setCurGem({ ...thisGem }); */}
-        {/* setModalType("germinaty"); */}
-        {/* openModal(); */}
-        {/* }} */}
-        {/* 상판 */}
-        <Flex
-          justify="space-between"
-          align="center"
-          w={["14.2em", "18em", "17em"]}
-          h={["4.5em", "4em", "7em"]}
-          px={["1em", "1em", "1em"]}
-          py={["0.5em", "0.5em", "1em"]}
-          mb={["1.3em", "1em", "1.3em"]}
-          bg="gray.600"
-          borderRadius="lg"
+  /* 입력 안내문구 */
+  const InfoInputText = ({ isTextEdit }) => {
+    return (
+      <Flex
+        transition={"0.3s"}
+        w={["10em", "12em", "15em"]}
+        h={isTextEdit ? ["1em", "0.5em", "1.5em"] : "0em"}
+        justify={"center"}
+      >
+        <Text
+          fontSize={["sm", "md", "md"]}
+          color="gray.500"
+          opacity={isTextEdit ? "0" : "0"}
+          transition={"opacity 0.3s"}
         >
-          {/* <span>ㅋㅋㅋㅋㅋ</span> */}
-          {/* {gem.seedNames.map((seedName) => { */}
-          {thisGem.seedNames.map((sn) => {
-            return (
+          수정 후 enter를 눌러주세요
+        </Text>
+      </Flex>
+    );
+  };
+
+  // 상판
+  const BaseBoard = ({ children }) => {
+    return (
+      <Flex
+        w="full"
+        justify="center"
+        position="relative"
+        mb={["5em", "1em", "1.3em"]}
+        key={Date.now()}
+      >
+        {children}
+      </Flex>
+    );
+  };
+
+  // 기본텍스트 상판
+  const DefaultTextBoard = ({ isTextEdit }) => {
+    return (
+      <Flex
+        py="1em"
+        position={"absolute"}
+        align="center"
+        w={["14em", "18em", "20em"]}
+        h={["5em", "18em", "8em"]}
+        bg="gray.800"
+        borderRadius="lg"
+        justify="space-between"
+        zIndex={5}
+        key={Date.now()}
+      >
+        {/* w={["14.2em", "18em", "17em"]} */}
+        {/* h={["4.5em", "4em", "7em"]} */}
+        {/* justify="space-between" */}
+        {/* px={["1em", "1em", "1em"]} */}
+        {/* py={["1em", "0.5em", "1em"]} */}
+
+        {/* <span>ㅋㅋㅋㅋㅋ</span> */}
+        {/* {gem.seedNames.map((seedName) => { */}
+        {/* key={Math.floor(Math.random() * 1000000)} */}
+        {thisGem.seedNames.map((sn, index) => {
+          return (
+            <Flex
+              key={index}
+              _hover={{ cursor: "pointer" }}
+              onClick={(e) => {
+                // setKeyForRender(Date.now());
+                editPosition = index;
+                console.log("MGemEdit:keyForRender is : " + keyForRender);
+                // console.log("MGemEdit:editPosition is : " + editPosition);
+                // setIsTextEdit((isTextEdit) => !isTextEdit);
+                onToggle();
+              }}
+              mx={["1em", "2em", "1em"]}
+              w={["6em", "4em", "7em"]}
+              h={["3em", "4em", "4em"]}
+              flexWrap="nowrap"
+              borderRadius="5"
+              bg="green.600"
+              ref={index == 0 ? firstGemRef : secondGemRef}
+            >
+              {/* w="45%" */}
+              {/* <Box w="40%" h="40%" justify={"center"}> */}
+              {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
+              {/* w="4em" */}
+              {/* h="80%" */}
               <Flex
-                key={Math.floor(Math.random() * 1000000)}
-                flexWrap="nowrap"
+                w="full"
+                h="full"
                 bg="green.600"
-                w="45%"
-                h="80%"
-                borderRadius="5"
-                align="center"
-                justify="center"
+                justify={"center"}
+                align={"center"}
+                borderRadius="lg"
+                position="relative"
               >
                 {/* 텍스트 생략을 위한 구문 3종 세트 */}
                 <Text
@@ -61,52 +138,226 @@ const ModalGerminatyEdit = ({ gem }) => {
                   overflow="hidden"
                   textOverflow="ellipsis"
                   color="gray.800"
-                  fontSize={["1.3em", "1.3em", "1.5em"]}
+                  fontSize={["1.1em", "1.3em", "1.5em"]}
                   // fontWeight="normal"
                   // fontWeight="medium"
-                  fontWeight="semibold"
+                  fontWeight="medium"
                 >
                   {sn}
                 </Text>
               </Flex>
-            );
-          })}
+            </Flex>
+          );
+        })}
+      </Flex>
+    );
+  };
+
+  // 숨겨진 텍스트 입력완료버튼
+  // / zIndex = 2 /
+  /* h={isTextEdit ? "2em" : "0em"} */
+  /* px={["1em", "1em", "1em"]} */
+  const HiddenFinishButton = ({ isTextEdit }) => {
+    return (
+      <Flex
+        key={Date.now()}
+        justify={"center"}
+        h={"4.5em"}
+        transition="0.3s"
+        position="absolute"
+        w={["14em", "18em", "17em"]}
+        py={["1em", "0.5em", "1em"]}
+        mt={isTextEdit ? "4em" : "0em"}
+        mb={["0.5em", "0.5em", "1.3em"]}
+        bg="gray.600"
+        borderRadius="lg"
+        zIndex={2}
+      >
+        {/* display={isTextEdit ? "flex" : "none"} */}
+        <Button
+          key={Date.now()}
+          mt="0.5em"
+          w="10em"
+          h="2em"
+          colorScheme="teal"
+          onClick={() => {
+            null;
+            //setIsTextEdit((isTextEdit) => !isTextEdit)
+          }}
+        >
+          입력완료
+        </Button>
+      </Flex>
+    );
+  };
+
+  // 숨겨진 Input 상판
+  // zIndex 10 / 1
+  const HiddenInputBoard = ({ isTextEdit }) => {
+    return (
+      <Flex
+        key={Date.now()}
+        w="14em"
+        justify="center"
+        position="absolute"
+        borderRadius="lg"
+        bg="gray.600"
+        zIndex={isTextEdit ? 10 : 1}
+      >
+        {/* width="auto" */}
+        <Flex
+          w="4em"
+          bg="gray.300"
+          display={editPosition == 0 ? "none" : "flex"}
+        ></Flex>
+        <Flex w="4em">
+          {/* <Input */}
+          {/*   w="4em" */}
+          {/*   size="lg" */}
+          {/*   variant="unstyled" */}
+          {/*   value="치커리" */}
+          {/*   _placeholder={{ */}
+          {/*     color: "green.300", */}
+          {/*     fontWeight: "bold", */}
+          {/*   }} */}
+          {/*   rounded="lg" */}
+          {/*   mb={"3em"} */}
+          {/*   zIndex={8} */}
+          {/* /> */}
+          {/* ref={titleInputRef} */}
+          {/* placeholder={planter.plantName} */}
+          {/* onKeyPress={(e) => { */}
+          {/* 아무 입력값이 없을 경우 enter가 반응이 없게 만듭니다 */}
+          {/* e.key === "Enter" */}
+          {/* ? titleInputRef.current.value.trim().length === 0 */}
+          {/* ? null */}
+          {/* : onConfirm() */}
+          {/* : null; */}
+          {/* }} */}
+          {/* 치커리 */}
+          {/* </Input> */}
         </Flex>
+        <Flex w="4em" display={editPosition == 0 ? "flex" : "none"}></Flex>
+      </Flex>
+    );
+  };
+
+  /* 수위게이지 */
+  const WaterGauge = ({ isWarning }) => {
+    return (
+      <Flex
+        key={Date.now()}
+        w={["13em", "16em", "16em"]}
+        h={["2.2em", "2em", "3em"]}
+        borderRadius={borderLeft}
+        bg={isWarning ? "#59110c" : "blue.800"}
+      >
+        {/* 바탕 */}
+        {/* zIndex="2" */}
+        {/* 알맹이 */}
+        {/* bg={warning ? "red.700" : "blue.500"} */}
+        <Flex
+          w={() => {
+            // return gem.waterGauge + "%";
+            return thisGem.waterGauge + "%";
+          }}
+          borderLeftRadius={borderLeft}
+          bg={isWarning ? "red.700" : "blue.500"}
+        ></Flex>
+      </Flex>
+    );
+  };
+
+  /* 전체입력완료버튼 */
+  const FinishButton = () => {
+    return (
+      <Flex key="12" w="full" justify="center" position="relative">
+        {console.log("button rendered")}
+        {console.log("isTextEdit:" + isTextEdit)}
+        {/* opacity={"0"} */}
+        {/* opacity={isTextEdit ? "0" : "255"} */}
+        <Button
+          key="32"
+          transitionDuration={"2.5s"}
+          opacity={isOpen ? "0" : "255"}
+          transition={"opacity"}
+          size="lg"
+          colorScheme={"teal"}
+          mt={["1.5em", "2em", "2em"]}
+          mb={["1em", "1.5em", "2em"]}
+          onClick={() => {
+            // isTextEdit ? null : handleFinishClick();
+            handleFinishClick();
+          }}
+        >
+          {/* <Button size="md" colorScheme="teal"> */}
+          {/* <Text>{isTextEdit ? "xxx" : "완료"}</Text> */}
+          <Text>완료</Text>
+        </Button>
+      </Flex>
+    );
+  };
+  return (
+    <>
+      {/* spacing="0.1em" */}
+      <VStack mt={["3em", "1em", "2em"]}>
+        {/* _hover={{ cursor: "pointer" }} */}
+        {/* onClick={() => { */}
+        {/* setCurGem({ ...thisGem }); */}
+        {/* setModalType("germinaty"); */}
+        {/* openModal(); */}
+        {/* }} */}
+
+        {/* 입력 안내문구 */}
+        {/* <InfoInputText /> */}
+
+        {/* 상판 */}
+        {/* <BaseBoard> */}
+
+        <Flex
+          w="full"
+          justify="center"
+          position="relative"
+          mb={["5em", "1em", "8em"]}
+        >
+          {/* 기본텍스트 상판 */}
+          {/* zIndex 5 */}
+          <DefaultTextBoard isTextEdit={isTextEdit} />
+
+          {/* 숨겨진 Input 상판 */}
+          {/* zIndex 1 / 10 */}
+          <HiddenInputBoard isTextEdit={isTextEdit} />
+
+          {/* 숨겨진 텍스트 입력완료버튼 */}
+          {/* zIndex = 2 */}
+          <HiddenFinishButton isTextEdit={isTextEdit} />
+        </Flex>
+        {/* </BaseBoard> */}
 
         {/* 수위게이지 */}
-        {/* 바탕 */}
-        {/* bg={warning ? "#59110c" : "blue.800"} */}
-        <Flex
-          w={["13em", "16em", "16em"]}
-          h={["2.2em", "2em", "3em"]}
-          borderRadius={borderLeft}
-          position="relative"
-          bg={isWarning ? "#59110c" : "blue.800"}
-        >
-          {/* 알맹이 */}
-          {/* bg={warning ? "red.700" : "blue.500"} */}
-          <Flex
-            w={() => {
-              // return gem.waterGauge + "%";
-              return thisGem.waterGauge + "%";
-            }}
-            borderLeftRadius={borderLeft}
-            bg={isWarning ? "red.700" : "blue.500"}
-          ></Flex>
-        </Flex>
-        <Flex>
-          {/* <Flex mt="2em" mb="2em"> */}
+        <WaterGauge />
+
+        {/* 전체입력완료버튼 */}
+        {/* <FinishButton key={keyForRender} /> */}
+        {/* <FinishButton key="342" /> */}
+
+        <Flex key="343" w="full" justify="center" position="relative">
+          {console.log("plain button rendered")}
           <Button
+            key="1234"
             size="lg"
-            colorScheme="teal"
-            mt={["3em", "2em", "2.5em"]}
-            mb={["2em", "1.5em", "2em"]}
+            opacity={isOpen ? 0 : 255}
+            transition="opacity 0.5s"
+            colorScheme={"teal"}
+            mt={["1.5em", "2em", "2em"]}
+            mb={["1em", "1.5em", "2em"]}
             onClick={() => {
-              handleFinishClick();
+              isTextEdit ? null : handleFinishClick();
             }}
           >
             {/* <Button size="md" colorScheme="teal"> */}
-            완료
+            {/* <Text>{isTextEdit ? "xxx" : "완료"}</Text> */}
+            <Text>완료</Text>
           </Button>
         </Flex>
       </VStack>

@@ -13,6 +13,7 @@ import useModal from "../context/useModal";
 import { GiTreeRoots } from "react-icons/gi";
 import usePlanters from "../context/usePlanters";
 import { PlantersStateContext } from "../context/PlantersContext";
+import usePlanterCur from "../context/usePlanterCur";
 
 const ModalRootGaugeEdit = ({ planter }) => {
   const borderLeft = ["0.6em", "0.7em"];
@@ -26,6 +27,7 @@ const ModalRootGaugeEdit = ({ planter }) => {
   const { closeModal, setModalType } = useModal();
   const { setters } = useContext(PlantersStateContext);
   const { postJson } = usePlanters();
+  const { setCurPlanter } = usePlanterCur();
 
   const handleFinishClick = async () => {
     console.log("ModalWaterGaugeEdit:finish clicked");
@@ -34,6 +36,7 @@ const ModalRootGaugeEdit = ({ planter }) => {
     newPlanter.rootVolume = ratio;
     // setters[parseInt(newPlanter.id)]({ ...rest, rootVolume: ratio });
     setters[parseInt(newPlanter.id)](newPlanter);
+    setCurPlanter({ ...newPlanter });
 
     await postJson(newPlanter);
     // closeModal();
@@ -54,7 +57,11 @@ const ModalRootGaugeEdit = ({ planter }) => {
 
   return (
     <>
-      <VStack w="full" mt={["5em", "4em", "7em"]}>
+      <VStack
+        sx={{ "-webkit-tap-highlight-color": "transparent" }}
+        w="full"
+        mt={["5em", "4em", "7em"]}
+      >
         {/* 아이콘 + 게이지 */}
         {/* w="full" pt={[3, 2]}> */}
         {/* <Flex w="full" pt={isModal ? [3, 2] : 1}> */}

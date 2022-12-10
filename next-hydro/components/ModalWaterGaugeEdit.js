@@ -14,6 +14,7 @@ import { ImDroplet } from "react-icons/im";
 import { RiAlertFill } from "react-icons/ri";
 import usePlanters from "../context/usePlanters";
 import { PlantersStateContext } from "../context/PlantersContext";
+import usePlanterCur from "../context/usePlanterCur";
 
 const ModalWaterGaugeEdit = ({ planter }) => {
   const borderLeft = ["0.6em", "0.7em"];
@@ -27,6 +28,7 @@ const ModalWaterGaugeEdit = ({ planter }) => {
   const { closeModal, setModalType } = useModal();
   const { setters } = useContext(PlantersStateContext);
   const { postJson } = usePlanters();
+  const { setCurPlanter } = usePlanterCur();
 
   const handleFinishClick = async () => {
     console.log("ModalWaterGaugeEdit:finish clicked");
@@ -35,6 +37,7 @@ const ModalWaterGaugeEdit = ({ planter }) => {
     newPlanter.waterGauge = ratio;
     // setters[parseInt(newPlanter.id)]({ ...rest, waterGauge: ratio });
     setters[parseInt(newPlanter.id)](newPlanter);
+    setCurPlanter({ ...newPlanter });
 
     await postJson(newPlanter);
     // closeModal();
@@ -57,7 +60,12 @@ const ModalWaterGaugeEdit = ({ planter }) => {
     <>
       {/* 아이콘 + 게이지 */}
       {/* pt={["1.3em", "2.2em"]} */}
-      <VStack w="full" mt={["5em", "4em", "7em"]}>
+
+      <VStack
+        sx={{ WebkitTapHighlightColor: "transparent" }}
+        w="full"
+        mt={["5em", "4em", "7em"]}
+      >
         {/* borderColor={warning ? "red.500" : "gray.200"} */}
         {/* borderWidth={warning ? 3 : 0} */}
         {/* <VStack align="flex-end" w="full" spacing={0}> */}

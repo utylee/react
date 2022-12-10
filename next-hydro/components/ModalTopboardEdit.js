@@ -166,7 +166,13 @@ const ModalTopboardEdit = ({ planter }) => {
       {/* _hover={{ cursor: "pointer" }} */}
       {/* justify="space-between" */}
       {/* <Flex w="full" h="full" justify={"center"} align="center" flexDirection={"column"}> */}
-      <VStack w="full" h="full" justify={"center"} align="center">
+      <VStack
+        sx={{ "-webkit-tap-highlight-color": "transparent" }}
+        w="full"
+        h="full"
+        justify={"center"}
+        align="center"
+      >
         {/* px={["0.8em", "0.2em", "0.8em"]} */}
         <VStack
           align={"center"}

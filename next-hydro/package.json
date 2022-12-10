@@ -12,6 +12,7 @@
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@loadable/component": "^5.15.2",
+    "chakra-ui-flashless": "^0.0.8",
     "framer-motion": "^5.5.5",
     "moment": "^2.29.1",
     "next": "^12.3.4",

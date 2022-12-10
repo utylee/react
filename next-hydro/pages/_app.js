@@ -15,6 +15,10 @@ function MyApp({ Component, pageProps }) {
               // bg: "#fcf7ff",
               bg: "#2b2a33",
               color: "white",
+
+              // ios safari 에서의 클릭시 깜빡임을 없애는 문구입니다
+              // "-webkit-tap-highlight-color": "transparent",
+
               // 그라데이션 테스트입다
               // backgroundImage:
               //   "linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)",
