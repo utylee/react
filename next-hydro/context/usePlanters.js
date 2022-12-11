@@ -27,6 +27,8 @@ export default function usePlanters() {
     postJson,
     zipPieces,
     unzipPieces,
+    zipGemData,
+    unzipGemData,
     setObjectPlanters,
     setPlanters,
     setGems,
@@ -76,5 +78,7 @@ export default function usePlanters() {
     postJson,
     zipPieces,
     unzipPieces,
+    zipGemData,
+    unzipGemData,
   };
 }

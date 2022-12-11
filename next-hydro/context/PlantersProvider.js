@@ -85,6 +85,26 @@ const PlantersProvider = ({ children }) => {
     Object.assign(gemSetters, { [obj.id]: obj.func });
   };
 
+  const unzipGemData = (gem) => {
+    const seeds = gem.pieces.split(",");
+    const seedsGauges = [
+      parseInt(gem.waterGauge / 10000),
+      parseInt((gem.waterGauge % 10000) / 100),
+      gem.waterGauge % 100,
+    ];
+    return { seeds, seedsGauges };
+  };
+
+  const zipGemData = ({ seeds, seedsGauges }) => {
+    let gem = { pieces: "", waterGauge: "" };
+    // 이름은 pieces 이지만 씨앗 이름들이 ,로 구분되어 합쳐집니다
+    gem.pieces = seeds.join(",");
+    // const seeds = gem.pieces.split(",");
+    gem.waterGauge = $`parseInt(seedsGauges[0])*10000 + parseInt(seedsGauges[1])*100 + parseInt(seedsGauges[2])`;
+
+    return gem;
+  };
+
   const postJson = async (plt) => {
     const tempPlt = { ...plt };
     zipPieces(tempPlt);
@@ -162,6 +182,8 @@ const PlantersProvider = ({ children }) => {
       postJson,
       zipPieces,
       unzipPieces,
+      zipGemData,
+      unzipGemData,
     }),
     []
   );

@@ -12,7 +12,7 @@ const Germinatys = ({ gems }) => {
         {/* {getGems().map((gem) => ( */}
         {/* <Germinaty key={Math.random()} gem={gem} /> */}
         {gems.map((gem) => (
-          <Germinaty key={gem.id} gem={gem} />
+          <Germinaty key={gem.id} id={gem.id} gems={gems} />
         ))}
       </Flex>
     </>

@@ -65,7 +65,7 @@ const MyModal = () => {
       return <ModalRootGaugeEdit planter={curPlanter} />;
     } else if (typeModal == "germinaty") {
       console.log("modaltype is germinaty");
-      return <ModalGerminatyEdit gem={curGem} />;
+      return <ModalGerminatyEdit curGems={curGem} />;
     }
   };
   return (

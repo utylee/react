@@ -4,17 +4,17 @@ import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
 import usePlanterCur from "../context/usePlanterCur";
 
-const Germinaty = ({ gem }) => {
+const Germinaty = ({ id, gems }) => {
   // const { waterGauge, warning, seedNames } = gem;
   const { openModal, setModalType } = useModal();
-  const [thisGem, setThisGem] = useState({ ...gem });
+  const [thisGem, setThisGem] = useState({ ...gems[id - 1] });
   const [isWarning, setIsWarning] = useState(0);
 
   const { setEachGemSetter } = usePlanters();
   const { setCurGem } = usePlanterCur();
 
   useEffect(() => {
-    setEachGemSetter({ id: gem.id, func: setThisGem });
+    setEachGemSetter({ id: id, func: setThisGem });
   }, []);
 
   useEffect(() => {
@@ -29,7 +29,10 @@ const Germinaty = ({ gem }) => {
         mb={2}
         _hover={{ cursor: "pointer" }}
         onClick={() => {
-          setCurGem({ ...thisGem });
+          // setCurGem({ ...thisGem });
+
+          // id 와 전체 gems를 다 넣어주기로 합니다
+          setCurGem({ id: id, gems: gems });
           setModalType("germinaty");
           openModal();
         }}

@@ -26,7 +26,8 @@ export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
-  const { setPlanters, setObjectPlanters, setGems } = usePlanters();
+  const { setPlanters, setObjectPlanters, setGems, unzipGemData, zipGemData } =
+    usePlanters();
   const { planters, gems } = useContext(PlantersStateContext);
 
   console.log("index.js rendered");
@@ -109,13 +110,15 @@ export default function Home() {
     return [gms[0], plants];
   };
 
+
   const processSetGems = (gem) => {
-    const seeds = gem.pieces.split(",");
-    const seedsGauges = [
-      parseInt(gem.waterGauge / 10000),
-      parseInt((gem.waterGauge % 10000) / 100),
-      gem.waterGauge % 100,
-    ];
+    // const seeds = gem.pieces.split(",");
+    // const seedsGauges = [
+    //   parseInt(gem.waterGauge / 10000),
+    //   parseInt((gem.waterGauge % 10000) / 100),
+    //   gem.waterGauge % 100,
+    // ];
+    const { seeds, seedsGauges } = unzipGemData(gem);
 
     setGems([
       {

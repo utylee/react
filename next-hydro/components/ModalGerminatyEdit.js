@@ -11,28 +11,96 @@ import {
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
 
-const ModalGerminatyEdit = ({ gem }) => {
-  const borderLeft = ["0.6em", "0.7em", "0.8em"];
+// postJson 을 위해 나머지 상판의 정보를 같이 가져오기 위해 구조를
+// 현재 id 와 gems 를 같이 가져오기로 바꾸었습니다
+// {id: n, gems: []}
+const ModalGerminatyEdit = ({ curGems }) => {
+  const { postJson, zipGemData } = usePlanters();
 
   const firstGemRef = useRef();
   const secondGemRef = useRef();
   const inputRefs = [firstGemRef, secondGemRef];
 
-  const [thisGem, setThisGem] = useState(gem);
+  // const [thisGem, setThisGem] = useState(gem);
+  const [thisGem, setThisGem] = useState({ seedNames: [], waterGauge: 0 });
   const [isWarning, setIsWarning] = useState(0);
   const [isTextEdit, setIsTextEdit] = useState(false);
-  const [keyForRender, setKeyForRender] = useState(Date.now());
   const [editPosition, setEditPosition] = useState(0);
   // const [inputZIndex, setInputZIndex] = useState({ id: 0, value: 2 });
   const [inputZIndex, setInputZIndex] = useState([2, 2]);
+
+  const OnConfirm = () => {
+    var arSeeds = [];
+    var arWatergauge = [];
+
+    var tempPieces = "";
+    var tempWaterGauge = 0;
+
+    // console.log(curGems.gems);
+    var tempGems = [...curGems.gems];
+    console.log("curGems.id: " + curGems.id);
+    console.log("tempGems");
+    console.log(tempGems);
+    const otherGemsObj = tempGems.filter((g) => g.id != curGems.id);
+    console.log("otherGemsObj");
+    console.log(otherGemsObj);
+    var thisGemObj = {
+      id: curGems.id,
+      seedNames: [...thisGem.seedNames],
+      waterGauge: thisGem.waterGauge,
+      warning: 0,
+    };
+
+    console.log("thisGemObj");
+    console.log(thisGemObj);
+    console.log("before pushed otherGemsObj");
+    console.log(otherGemsObj);
+    otherGemsObj.push(thisGemObj);
+    otherGemsObj.sort((a, b) => {
+      return b.id - a.id;
+    });
+    console.log("sorted");
+    console.log(otherGemsObj);
+
+    otherGemsObj.map((obj) => {
+      // console.log("seedNames: ");
+      // console.log(obj.seedNames);
+      arSeeds = arSeeds.concat(obj.seedNames);
+      // console.log("arSeeds: ");
+      // console.log(arSeeds);
+      arWatergauge.push(obj.waterGauge);
+    });
+
+    tempPieces = arSeeds.join(",");
+    tempWaterGauge =
+      arWatergauge[0] * 10000 + arWatergauge[1] * 100 + arWatergauge[2];
+
+    var tempPlanter = {};
+    tempPlanter.id = 8;
+    tempPlanter.plantName = "씨앗발아";
+    tempPlanter.waterGauge = tempWaterGauge;
+    tempPlanter.waterDate = 123456;
+    tempPlanter.warning = 0;
+    tempPlanter.pieces = tempPieces;
+    tempPlanter.rootvolume = 0;
+    tempPlanter.waterRate = 1;
+    tempPlanter.growthRate = 1;
+    tempPlanter.rootRate = 1;
+    tempPlanter.imageUrl = "";
+
+    console.log("germinatyedit: completed tempPlanter: ");
+    console.log(tempPlanter);
+
+    // await postJson();
+  };
 
   const setEditProc = (n) => {
     // n이 0이면 왼쪽 text 수정모드, 1이면 오른쪽 text 수정모드 입니다
     inputRefs[n].current.focus();
     inputRefs[n].current.value = thisGem.seedNames[n];
+
     setEditPosition(n);
-    // setInputZIndex({ id: n, value: 10 });
-    // Object.assign(inputZIndex, { [n]: 10 });
+
     var tempArray = [...inputZIndex];
     tempArray[n] = 10;
     tempArray[+!n] = 2;
@@ -56,11 +124,18 @@ const ModalGerminatyEdit = ({ gem }) => {
 
   // let editPosition = 0;
   const { closeModal } = useModal();
-  const { postJson } = usePlanters();
 
   const handleFinishClick = () => {
+    OnConfirm();
     closeModal();
   };
+
+  useEffect(() => {
+    var tempGem = {};
+    tempGem = curGems.gems.filter((g) => g.id == curGems.id)[0];
+    // console.log(tempGem);
+    setThisGem(tempGem);
+  }, []);
 
   useEffect(() => {
     thisGem.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
@@ -115,7 +190,7 @@ const ModalGerminatyEdit = ({ gem }) => {
       </BaseBoard>
 
       {/* 수위게이지 */}
-      <WaterGauge thisGem={thisGem} isTextEdit={isTextEdit} />
+      <WaterGauge thisGem={thisGem} isWarning={isWarning} />
 
       {/* 전체입력완료버튼 */}
       {/* <FinishButton key={keyForRender} /> */}
@@ -155,7 +230,7 @@ const BaseBoard = ({ children }) => {
       w="full"
       justify="center"
       position="relative"
-      mb={["5em", "1em", "1.3em"]}
+      mb={["5em", "3.7em", "6.2em"]}
     >
       {children}
     </Flex>
@@ -176,11 +251,10 @@ const DefaultTextBoard = ({
 }) => {
   return (
     <Flex
-      py="1em"
       position={"absolute"}
       align="center"
-      w={["14em", "18em", "20em"]}
-      h={["5em", "18em", "8em"]}
+      w={["14em", "14em", "18em"]}
+      h={["5em", "3.5em", "6em"]}
       bg="gray.600"
       borderRadius="lg"
       justify="space-between"
@@ -197,7 +271,14 @@ const DefaultTextBoard = ({
       {/* key={Math.floor(Math.random() * 1000000)} */}
       {thisGem.seedNames.map((sn, index) => {
         return (
-          <>
+          <Flex
+            key={"inputouter" + index}
+            w="full"
+            h="full"
+            position={"relative"}
+            align="center"
+            justify={"center"}
+          >
             {console.log(
               "index: " +
                 index +
@@ -206,106 +287,101 @@ const DefaultTextBoard = ({
                 ", editPosition: " +
                 editPosition
             )}
-            {/* {isTextEdit && editPosition == index ? ( */}
-            {/* 에디트모드이면서 포지션도 일치할 때만 input 컴포넌트를 렌더합니다 */}
-            <Flex w="full" h="full" position={"relative"}>
+            <Flex
+              key={"input" + index}
+              position={"absolute"}
+              mx={["1em", "2em", "1em"]}
+              w={["5em", "4.5em", "7em"]}
+              h={["3em", "2.3em", "4em"]}
+              flexWrap="nowrap"
+              borderRadius="lg"
+              bg="green.400"
+              justify={"center"}
+              zIndex={inputZIndex[index]}
+            >
+              {/* ref={index == 0 ? firstGemRef : secondGemRef} */}
+              {/* w="45%" */}
+              {/* <Box w="40%" h="40%" justify={"center"}> */}
+              {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
+              {/* w="4em" */}
+              {/* h="80%" */}
               <Flex
-                position={"absolute"}
-                mx={["1em", "2em", "1em"]}
-                w={["5em", "4em", "7em"]}
-                h={["3em", "4em", "4em"]}
-                flexWrap="nowrap"
-                borderRadius="5"
-                bg="green.600"
+                w="full"
+                h="full"
                 justify={"center"}
-                zIndex={inputZIndex[index]}
+                align={"center"}
+                borderRadius="lg"
               >
-                {/* ref={index == 0 ? firstGemRef : secondGemRef} */}
-                {/* w="45%" */}
-                {/* <Box w="40%" h="40%" justify={"center"}> */}
-                {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
-                {/* w="4em" */}
-                {/* h="80%" */}
-                <Flex
-                  w="full"
-                  h="full"
-                  bg="green.400"
-                  justify={"center"}
-                  align={"center"}
-                  borderRadius="lg"
-                >
-                  {/* placeholder="치커리" */}
-                  {/* _placeholder={{ */}
-                  {/* color: "green.300", */}
-                  {/* fontWeight: "bold", */}
-                  {/* }} */}
-                  <Input
-                    w="3em"
-                    size="md"
-                    textAlign={"center"}
-                    fontSize={"1.1em"}
-                    fontWeight="medium"
-                    variant="unstyled"
-                    placeholder={sn}
-                    rounded="lg"
-                    ref={inputRefs[index]}
-                  />
-                </Flex>
-              </Flex>
-              <Flex
-                position="absolute"
-                key={index}
-                _hover={{ cursor: "pointer" }}
-                onClick={(e) => {
-                  setEditProc(index);
-                  // setEditPosition(index);
-                  // setRef(index);
-                  console.log("MGemEdit:editPosition is : " + editPosition);
-                  // setIsTextEdit((isTextEdit) => !isTextEdit);
-                  // inputRefs[editPosition].current.focus();
-                  console.log(
-                    "MGemEdit:current.focus position is : " + editPosition
-                  );
-                }}
-                mx={["1em", "2em", "1em"]}
-                w={["5em", "4em", "7em"]}
-                h={["3em", "4em", "4em"]}
-                flexWrap="nowrap"
-                borderRadius="5"
-                bg="green.600"
-                zIndex={8}
-              >
-                {/* ref={index == 0 ? firstGemRef : secondGemRef} */}
-                {/* w="45%" */}
-                {/* <Box w="40%" h="40%" justify={"center"}> */}
-                {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
-                {/* w="4em" */}
-                {/* h="80%" */}
-                <Flex
-                  w="full"
-                  h="full"
-                  bg="green.600"
-                  justify={"center"}
-                  align={"center"}
-                  borderRadius="lg"
-                >
-                  {/* 텍스트 생략을 위한 구문 3종 세트 */}
-                  <Text
-                    whiteSpace="nowrap"
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    color="gray.800"
-                    fontSize={["1.1em", "1.3em", "1.5em"]}
-                    // fontWeight="normal"
-                    // fontWeight="medium"
-                    fontWeight="medium"
-                  >
-                    {sn}
-                  </Text>
-                </Flex>
+                {/* placeholder="치커리" */}
+                {/* _placeholder={{ */}
+                {/* color: "green.300", */}
+                {/* fontWeight: "bold", */}
+                {/* }} */}
+                {/* rounded="lg" */}
+                <Input
+                  w="3em"
+                  size="md"
+                  textAlign={"center"}
+                  fontSize={["1.1em", "1.1em", "1.4em"]}
+                  fontWeight="medium"
+                  variant="unstyled"
+                  placeholder={sn}
+                  ref={inputRefs[index]}
+                />
               </Flex>
             </Flex>
-          </>
+            <Flex
+              position="absolute"
+              key={index}
+              _hover={{ cursor: "pointer", background: "green.500" }}
+              onClick={(e) => {
+                setEditProc(index);
+                // setEditPosition(index);
+                // setRef(index);
+                console.log("MGemEdit:editPosition is : " + editPosition);
+                // setIsTextEdit((isTextEdit) => !isTextEdit);
+                // inputRefs[editPosition].current.focus();
+                console.log(
+                  "MGemEdit:current.focus position is : " + editPosition
+                );
+              }}
+              mx={["1em", "0em", "1em"]}
+              w={["5em", "4.5em", "7em"]}
+              h={["3em", "2.3em", "4em"]}
+              flexWrap="nowrap"
+              borderRadius="lg"
+              bg="green.600"
+              zIndex={8}
+            >
+              {/* ref={index == 0 ? firstGemRef : secondGemRef} */}
+              {/* w="45%" */}
+              {/* <Box w="40%" h="40%" justify={"center"}> */}
+              {/* sx={{ WebkitTapHighlightColor: "transparent" }}> */}
+              {/* w="4em" */}
+              {/* h="80%" */}
+              <Flex
+                w="full"
+                h="full"
+                justify={"center"}
+                align={"center"}
+                borderRadius="lg"
+              >
+                {/* 텍스트 생략을 위한 구문 3종 세트 */}
+                <Text
+                  whiteSpace="nowrap"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  color="gray.800"
+                  fontSize={["1.1em", "1.1em", "1.5em"]}
+                  // fontWeight="normal"
+                  // fontWeight="medium"
+                  fontWeight="medium"
+                >
+                  {sn}
+                </Text>
+              </Flex>
+            </Flex>
+          </Flex>
         );
       })}
     </Flex>
@@ -316,6 +392,7 @@ const DefaultTextBoard = ({
 // / zIndex = 2 /
 /* h={isTextEdit ? "2em" : "0em"} */
 /* px={["1em", "1em", "1em"]} */
+// mb={["0.5em", "0.5em", "1.3em"]}
 const HiddenFinishButton = ({
   inputZIndex,
   setInputZIndex,
@@ -326,21 +403,21 @@ const HiddenFinishButton = ({
   return (
     <Flex
       justify={"center"}
-      h={"4.5em"}
+      align="center"
       transition="0.3s"
       position="absolute"
-      w={["14em", "18em", "17em"]}
-      py={["1em", "0.5em", "1em"]}
-      mt={isTextEdit ? "4em" : "0em"}
-      mb={["0.5em", "0.5em", "1.3em"]}
+      w={["14em", "14em", "18em"]}
+      py={["1em", "0em", "1em"]}
+      h={["4.5em", "3.5em", "4.5em"]}
+      mt={isTextEdit ? ["4em", "2.8em", "5em"] : "0em"}
       bg="gray.600"
       borderRadius="lg"
       zIndex={2}
     >
       {/* display={isTextEdit ? "flex" : "none"} */}
+      {/* mt="0.5em" */}
       <Button
-        mt="0.5em"
-        w="10em"
+        w={["10em", "8em", "10em"]}
         h="2em"
         colorScheme="blue"
         onClick={() => {
@@ -461,9 +538,9 @@ const HiddenInputBoard = ({ firstGemRef, editPosition, isTextEdit }) => {
 const WaterGauge = ({ thisGem, isWarning }) => {
   return (
     <Flex
-      w={["13em", "16em", "16em"]}
-      h={["2.2em", "2em", "3em"]}
-      borderRadius={["0.6em", "0.7em", "0.8em"]}
+      w={["13em", "13em", "16em"]}
+      h={["2.2em", "1.8em", "2.3em"]}
+      borderRadius={["0.6em", "0.5em", "0.8em"]}
       bg={isWarning ? "#59110c" : "blue.800"}
     >
       {/* 바탕 */}
@@ -475,7 +552,7 @@ const WaterGauge = ({ thisGem, isWarning }) => {
           // return gem.waterGauge + "%";
           return thisGem.waterGauge + "%";
         }}
-        borderLeftRadius={["0.6em", "0.7em", "0.8em"]}
+        borderLeftRadius={["0.6em", "0.5em", "0.8em"]}
         bg={isWarning ? "red.700" : "blue.500"}
       ></Flex>
     </Flex>
@@ -492,8 +569,6 @@ const FinishButton = ({ isTextEdit, handleFinishClick }) => {
       opacity={isTextEdit ? "0" : "255"}
       transition={"opacity 0.5s"}
     >
-      {console.log("button rendered")}
-      {console.log("isTextEdit:" + isTextEdit)}
       {/* opacity={"0"} */}
       {/* opacity={isTextEdit ? "0" : "255"} */}
       {/* transitionDuration={"2.5s"} */}
@@ -503,7 +578,7 @@ const FinishButton = ({ isTextEdit, handleFinishClick }) => {
         size="lg"
         colorScheme={"teal"}
         mt={["1.5em", "2em", "2em"]}
-        mb={["1em", "1.5em", "2em"]}
+        mb={["1em", "1.8em", "2em"]}
         onClick={() => {
           // isTextEdit ? null : handleFinishClick();
           handleFinishClick();
