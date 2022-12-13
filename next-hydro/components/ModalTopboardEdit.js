@@ -17,7 +17,7 @@ const ModalTopboardEdit = ({ planter }) => {
   // const { getCurPlanter, setCurPlanter } = usePlanter();
   const { curPlanter } = useContext(PlanterCurStateContext);
   // const { setters } = useContext(PlantersStateContext);
-  const { setters } = useContext(PlantersSettersContext);
+  const setters = useContext(PlantersSettersContext);
 
   // const [thisPieces, setThisPieces] = useState(piecess);
   const [thisPieces, setThisPieces] = useState(planter.pieces);

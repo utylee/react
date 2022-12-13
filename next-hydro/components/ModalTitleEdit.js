@@ -23,7 +23,7 @@ const ModalTitleEdit = ({ planter }) => {
     setModalType("planter");
   };
   // const { setters } = useContext(PlantersStateContext);
-  const { setters } = useContext(PlantersSettersContext);
+  const setters = useContext(PlantersSettersContext);
   const { setCurPlanter } = usePlanterCur();
 
   const onConfirm = async () => {

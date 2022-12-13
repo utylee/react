@@ -26,7 +26,7 @@ const ModalRootGaugeEdit = ({ planter }) => {
   const [isWarning, setIsWarning] = useState();
   const { closeModal, setModalType } = useModal();
   // const { setters } = useContext(PlantersStateContext);
-  const { setters } = useContext(PlantersSettersContext);
+  const setters = useContext(PlantersSettersContext);
   const { postJson } = usePlanters();
   const { setCurPlanter } = usePlanterCur();
 
