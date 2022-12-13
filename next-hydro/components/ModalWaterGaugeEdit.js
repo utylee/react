@@ -13,7 +13,7 @@ import useModal from "../context/useModal";
 import { ImDroplet } from "react-icons/im";
 import { RiAlertFill } from "react-icons/ri";
 import usePlanters from "../context/usePlanters";
-import { PlantersStateContext } from "../context/PlantersContext";
+import { PlantersSettersContext, PlantersStateContext } from "../context/PlantersContext";
 import usePlanterCur from "../context/usePlanterCur";
 
 const ModalWaterGaugeEdit = ({ planter }) => {
@@ -26,7 +26,8 @@ const ModalWaterGaugeEdit = ({ planter }) => {
   const [ratio, setRatio] = useState(planter.waterGauge);
   const [isWarning, setIsWarning] = useState();
   const { closeModal, setModalType } = useModal();
-  const { setters } = useContext(PlantersStateContext);
+  // const { setters } = useContext(PlantersStateContext);
+  const { setters } = useContext(PlantersSettersContext);
   const { postJson } = usePlanters();
   const { setCurPlanter } = usePlanterCur();
 

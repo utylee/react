@@ -1,4 +1,6 @@
+// import "../scripts/wdyr";
 // import '../styles/globals.css'
+// import '@/modules/core/wdyr/wdyr';
 import Head from "next/head";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ModalProvider from "../context/ModalProvider";

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
-import { PlantersStateContext } from "../context/PlantersContext";
+import { PlantersSettersContext, PlantersStateContext } from "../context/PlantersContext";
 import usePlanterCur from "../context/usePlanterCur";
 
 const ModalTitleEdit = ({ planter }) => {
@@ -22,7 +22,8 @@ const ModalTitleEdit = ({ planter }) => {
     // closeModal();
     setModalType("planter");
   };
-  const { setters } = useContext(PlantersStateContext);
+  // const { setters } = useContext(PlantersStateContext);
+  const { setters } = useContext(PlantersSettersContext);
   const { setCurPlanter } = usePlanterCur();
 
   const onConfirm = async () => {

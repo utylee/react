@@ -56,9 +56,11 @@ const Planter = ({ planter }) => {
 
   // 리렌더용 각 planterSetter용 변수
   // const [thisPlanter, setThisPlanter] = useState([]);
-  const [thisPlanter, setThisPlanter] = useState({ ...planter });
+  // const [thisPlanter, setThisPlanter] = useState(planter);
+  const [thisPlanter, setThisPlanter] = useState(planter);
 
-  const { openModal, getIsOpen, setModalType } = useModal();
+  // const { openModal, getIsOpen, setModalType } = useModal();
+  const { openModal, setModalType } = useModal();
   const { setCurPlanter } = usePlanterCur();
   const { setEachPlanterSetter } = usePlanters();
 

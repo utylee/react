@@ -4,18 +4,24 @@ import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
 import usePlanterCur from "../context/usePlanterCur";
 
-const Germinaty = ({ id, gems }) => {
+const Germinaty = ({ id, gems}) => {
   // const { waterGauge, warning, seedNames } = gem;
+  console.log("Germinaty " + id + " rendered");
   const { openModal, setModalType } = useModal();
-  const [thisGem, setThisGem] = useState({ ...gems[id - 1] });
+  // const [thisGem, setThisGem] = useState({ ...gems[id - 1] });
+  const [thisGem, setThisGem] = useState(gems[id - 1]);
+  if (thisGem.waterGauge != gems[id - 1].waterGauge) {
+    setThisGem(gems[id - 1]);
+  }
   const [isWarning, setIsWarning] = useState(0);
 
   const { setEachGemSetter } = usePlanters();
   const { setCurGem } = usePlanterCur();
 
-  useEffect(() => {
-    setEachGemSetter({ id: id, func: setThisGem });
-  }, []);
+  // useEffect(() => {
+  //   // setEachGemSetter({ id: id, func: setThisGem });
+  //   setEachGemSetter({ id: id, func: setThisGem });
+  // }, []);
 
   useEffect(() => {
     thisGem.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
@@ -92,6 +98,7 @@ const Germinaty = ({ id, gems }) => {
         >
           {/* 알맹이 */}
           {/* bg={warning ? "red.700" : "blue.500"} */}
+          {console.log("thisgem.watergauge: " + thisGem.waterGauge)}
           <Flex
             w={() => {
               // return gem.waterGauge + "%";
@@ -106,4 +113,7 @@ const Germinaty = ({ id, gems }) => {
   );
 };
 
+Germinaty.whyDidYouRender = true;
+
+// export default React.memo(Germinaty);
 export default Germinaty;

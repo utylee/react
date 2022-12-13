@@ -1,5 +1,10 @@
 import React, { useMemo, useState } from "react";
-import { ModalStateContext, ModalDispatchContext } from "./ModalContext";
+// import { ModalStateContext, ModalDispatchContext } from "./ModalContext";
+import {
+  ModalTypeContext,
+  ModalIsOpenContext,
+  ModalDispatchContext,
+} from "./ModalContext";
 import { useDisclosure } from "@chakra-ui/react";
 // import MyModal from "../components/MyModal";
 
@@ -44,12 +49,16 @@ const ModalProvider = ({ children }) => {
   );
 
   return (
-    <ModalStateContext.Provider value={{ isOpen, typeModal }}>
-      <ModalDispatchContext.Provider value={dispatch}>
-        {children}
-        {/* <MyModal /> */}
-      </ModalDispatchContext.Provider>
-    </ModalStateContext.Provider>
+    <ModalIsOpenContext.Provider value={isOpen}>
+      <ModalTypeContext.Provider value={typeModal}>
+        <ModalDispatchContext.Provider value={dispatch}>
+          {children}
+          {/* <MyModal /> */}
+          {/* <ModalStateContext.Provider value={{ isOpen, typeModal }}> */}
+          {/* </ModalStateContext.Provider> */}
+        </ModalDispatchContext.Provider>
+      </ModalTypeContext.Provider>
+    </ModalIsOpenContext.Provider>
   );
 };
 

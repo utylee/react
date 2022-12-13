@@ -1,18 +1,142 @@
-import { useEffect, useMemo, useCallback, useState } from "react";
+import React, { useEffect, useMemo, useCallback, useState } from "react";
 import {
   PlantersStateContext,
+  PlantersPlantersContext,
+  PlantersGemsContext,
+  PlantersSettersContext,
+  PlantersGemSettersContext,
   PlantersDispatchContext,
 } from "./PlantersContext";
 
 const PlantersProvider = ({ children }) => {
-  // const [planters, setPlanters] = useState([]);
   const [planters, setPlanters] = useState({});
   const [gems, setGems] = useState([]);
 
-  // const [setters, setSetters] = useState([{ id: 0, func: () => {} }]);
-  // const [setters, setSetters] = useState([]);
   const [setters, setSetters] = useState({});
-  const [gemSetters, setGemSetters] = useState({});
+  const [gemSetters, setGemSetters] = useState([]);
+
+  // useEffect(() => {
+  //   const Dummy = async () => {
+  //     await getHydros();
+  //   };
+  //   Dummy();
+  // }, []);
+
+  // const makePiecesArray = (arr) => {
+  //   // 일반상판과 새싹상판을 구분합니다
+  //   arr.map((l) => {
+  //     if (l.id === 7) {
+  //       l.pieces = [
+  //         parseInt(l.pieces[0]),
+  //         parseInt(l.pieces[1]),
+  //         parseInt(l.pieces[2]),
+  //         parseInt(l.pieces[3]),
+  //         parseInt(l.pieces[4]),
+  //         parseInt(l.pieces[5]),
+  //       ];
+  //     } else {
+  //       l.pieces = [
+  //         [
+  //           parseInt(l.pieces[0]),
+  //           parseInt(l.pieces[1]),
+  //           parseInt(l.pieces[2]),
+  //           parseInt(l.pieces[3]),
+  //         ],
+  //         [
+  //           parseInt(l.pieces[4]),
+  //           parseInt(l.pieces[5]),
+  //           parseInt(l.pieces[6]),
+  //           parseInt(l.pieces[7]),
+  //         ],
+  //         [
+  //           parseInt(l.pieces[8]),
+  //           parseInt(l.pieces[9]),
+  //           parseInt(l.pieces[10]),
+  //           parseInt(l.pieces[11]),
+  //         ],
+  //       ];
+  //     }
+  //   });
+  // };
+
+  // const dividePlantGem = (hydro) => {
+  //   const plants = [];
+  //   const gms = [];
+  //   hydro.map((h) => {
+  //     if (h.id === 8) {
+  //       gms = [...gms, h];
+  //     } else plants = [...plants, h];
+  //   });
+
+  //   console.log("index.js:dividePlantGem:gem...");
+  //   console.log(gms[0]);
+
+  //   // plants 를 id 에 따라 내림차순 정렬합니다
+  //   plants.sort((a, b) => {
+  //     return a.id - b.id;
+  //   });
+
+  //   return [gms[0], plants];
+  // };
+
+  // const processSetGems = (gem) => {
+  //   // const seeds = gem.pieces.split(",");
+  //   // const seedsGauges = [
+  //   //   parseInt(gem.waterGauge / 10000),
+  //   //   parseInt((gem.waterGauge % 10000) / 100),
+  //   //   gem.waterGauge % 100,
+  //   // ];
+  //   const { seeds, seedsGauges } = unzipGemData(gem);
+  //   console.log("index.js:processSetGems:seeds, seedsGauges ...");
+  //   console.log(seeds, seedsGauges);
+
+  //   setGems([
+  //     {
+  //       id: 1,
+  //       seedNames: [seeds[0], seeds[1]],
+  //       waterGauge: seedsGauges[0],
+  //       warning: 0,
+  //     },
+  //     {
+  //       id: 2,
+  //       seedNames: [seeds[2], seeds[3]],
+  //       waterGauge: seedsGauges[1],
+  //       warning: 0,
+  //     },
+  //     {
+  //       id: 3,
+  //       seedNames: [seeds[4], seeds[5]],
+  //       waterGauge: seedsGauges[2],
+  //       warning: 0,
+  //     },
+  //   ]);
+  // };
+
+  // const getHydros = async () => {
+  //   console.log("getHydros() async rendered");
+  //   // console.log("getMemos rendered");
+  //   const res = await fetch(`/hydro/api/listjs`);
+  //   // const res = await fetch(`/api/listjs`);
+  //   const hydros = await res.json();
+  //   // setHydroList(hydros);
+  //   hydros = [...dividePlantGem(hydros)];
+  //   makePiecesArray(hydros[1]);
+
+  //   console.log("index.js:getHydros:hydros[1]: " + hydros[1]);
+  //   console.log(hydros[1]);
+  //   setObjectPlanters(hydros[1]);
+  //   // setPlanters(hydros[1]);
+  //   console.log("index.js:before setgemed..");
+  //   console.log(hydros[0]);
+  //   processSetGems(hydros[0]);
+  //   console.log("index.js:after setgemed..");
+  //   console.log(gems);
+  //   // setGems([
+  //   //   { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
+  //   //   { seedNames: ["케일", "시금치"], waterGauge: 45, warning: 1 },
+  //   //   { seedNames: ["시금치", "곱슬아삭이"], waterGauge: 90, warning: 0 },
+  //   // ]);
+  // };
 
   const setObjectPlanters = (arr) => {
     // setPlanters(arr.map((a) => ({ [a.id]: a })));
@@ -26,63 +150,15 @@ const PlantersProvider = ({ children }) => {
 
   // const [curPlanterSetter, setCurPlanterSetter] = useState();
 
-  // // 변경한 planter 객체만 리렌더 하기위해서입니다
-  // const getCurPlanterSetter = () => {
-  //   return curPlanterSetter;
-  // };
-
-  // const setCurPlanterHook = (c) => {
-  // setCurPlanter(c => c);
-  // };
-
-  // const getCurPlanter = useCallback(() => {
-  //   return curPlanter;
-  //   // }, []);
-  // }, [curPlanter]);
-  //
-  // const getCurPlanter = () => {
-  //   return curPlanter;
-  // };
-
-  // 그냥 planters컨텍스트를 가져와서 쓰기로 합니다
-  // const getPlanters = useCallback(() => {
-  //   return planters;
-  // }, [planters]);
-  // const getPlanters = () => {
-  //   return planters;
-  // };
-  // const getGems = () => {
-  //   return gems;
-  // };
-
-  // const dispatch = {
-  //   getCurPlanter,
-  //   setPlanters,
-  //   setCurPlanter,
-  //   setGems,
-  //   getPlanters,
-  //   getGems,
-  //   setCurPlanterSetter,
-  //   getCurPlanterSetter,
-  // };
-
-  // const setEachSetter = useCallback((i, func) => {
-  // setSetters(setters => (setters.filter(setter)=> { ...setters, { id: i, func: func }}));
-  // }, []);
-  //
-
   const setEachPlanterSetter = (obj) => {
-    // setSetters((setters) => [...setters, { id: 0, func: () => {} }]);
-    // setSetters((setters) => {
-    //   const remains = setters.filter((s) => s.id != obj.id);
-    //   return [...remains, { id: obj.id, func: obj.func }];
-    // });
-
     Object.assign(setters, { [obj.id]: obj.func });
   };
 
   const setEachGemSetter = (obj) => {
-    Object.assign(gemSetters, { [obj.id]: obj.func });
+    // Object.assign(gemSetters, { [obj.id]: obj.func });
+    // 오직 전체 하나만 하면 됩니다
+    // Object.assign(gemSetters, { [0]: obj.func });
+    setGemSetters(obj);
   };
 
   const unzipGemData = (gem) => {
@@ -107,7 +183,7 @@ const PlantersProvider = ({ children }) => {
 
   const postJson = async (plt) => {
     const tempPlt = { ...plt };
-    zipPieces(tempPlt);
+    plt.id != 8 ? zipPieces(tempPlt) : null;
     console.log("postJson:plant: " + tempPlt);
     const requestOptions = {
       method: "POST",
@@ -187,45 +263,23 @@ const PlantersProvider = ({ children }) => {
     }),
     []
   );
-  // const dispatch = useMemo(
-  //   () => ({
-  //     setPlanters,
-  //     setGems,
-  //     setSetters,
-  //   }),
-  //   []
-  // );
-
-  // setCurPlanter,
-  // setCurPlanterHook,
-  // const dispatch = useMemo(
-  //   () => ({
-  //     getCurPlanter,
-  //     setPlanters,
-  //     setCurPlanter,
-  //     setGems,
-  //     getPlanters,
-  //     getGems,
-  //     setCurPlanterSetter,
-  //     getCurPlanterSetter,
-  //   }),
-  //   /* planters state가 변경될 때는 재생성하게끔 해줍니다.
-  //    * 그럴경우 useMemo의 실익이 사라지는 게 아닌가 하는 아쉬움은 있습니다
-  //    * */
-  //   // [planters, curPlanter]
-  //   // [planters]
-  //   []
-  // );
 
   return (
-    <PlantersStateContext.Provider
-      value={{ planters, gems, setters, gemSetters }}
-    >
-      {/* <PlantersStateContext.Provider value={{ planters, gems }}> */}
-      <PlantersDispatchContext.Provider value={dispatch}>
-        {children}
-      </PlantersDispatchContext.Provider>
-    </PlantersStateContext.Provider>
+    <PlantersPlantersContext.Provider value={planters}>
+      <PlantersGemsContext.Provider value={gems}>
+        <PlantersSettersContext.Provider value={setters}>
+          <PlantersGemSettersContext.Provider value={gemSetters}>
+            <PlantersDispatchContext.Provider value={dispatch}>
+              {children}
+              {/* <PlantersStateContext.Provider */}
+              {/*   value={{ planters, gems, setters, gemSetters }} */}
+              {/* > */}
+              {/* </PlantersStateContext.Provider> */}
+            </PlantersDispatchContext.Provider>
+          </PlantersGemSettersContext.Provider>
+        </PlantersSettersContext.Provider>
+      </PlantersGemsContext.Provider>
+    </PlantersPlantersContext.Provider>
   );
 };
 

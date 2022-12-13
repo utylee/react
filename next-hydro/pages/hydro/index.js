@@ -7,20 +7,13 @@ import ModalPlanter from "../../components/ModalPlanter";
 import { useDisclosure } from "@chakra-ui/react";
 import MyModal from "../../components/MyModal";
 // import PlantersProvider from "../../context/PlantersProvider";
-import { PlantersStateContext } from "../../context/PlantersContext";
+import {
+  PlantersPlantersContext,
+  PlantersGemsContext,
+  PlantersStateContext,
+} from "../../context/PlantersContext";
 import usePlanters from "../../context/usePlanters";
 import Germinatys from "../../components/Germinatys";
-// import {
-//   Button,
-//   Modal,
-//   ModalOverlay,
-//   ModalContent,
-//   ModalHeader,
-//   ModalFooter,
-//   ModalBody,
-//   ModalCloseButton,
-//   useDisclosure,
-// } from "@chakra-ui/react";
 
 export default function Home() {
   // const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,9 +21,15 @@ export default function Home() {
   // const { setPlanters, getPlanters, setGems, getGems } = usePlanter();
   const { setPlanters, setObjectPlanters, setGems, unzipGemData, zipGemData } =
     usePlanters();
-  const { planters, gems } = useContext(PlantersStateContext);
+  // const { planters, gems } = useContext(PlantersStateContext);
+  const planters = useContext(PlantersPlantersContext);
+  const gems = useContext(PlantersGemsContext);
 
   console.log("index.js rendered");
+  console.log("planters: ");
+  console.log(planters);
+  console.log("gems: ");
+  console.log(gems);
   // const [planters, setPlanters] = useState([]);
   // const [gems, setGems] = useState([]);
 
@@ -40,7 +39,7 @@ export default function Home() {
   // const typePlanter = useRef({});
   const handleRefresh = async () => {
     // console.log("handleRefresh");
-    await getHydros();
+    // await getHydros();
     return 0;
   };
   // const typeModal = useRef("modal");
@@ -102,6 +101,9 @@ export default function Home() {
       } else plants = [...plants, h];
     });
 
+    console.log("index.js:dividePlantGem:gem...");
+    console.log(gms[0]);
+
     // plants 를 id 에 따라 내림차순 정렬합니다
     plants.sort((a, b) => {
       return a.id - b.id;
@@ -109,7 +111,6 @@ export default function Home() {
 
     return [gms[0], plants];
   };
-
 
   const processSetGems = (gem) => {
     // const seeds = gem.pieces.split(",");
@@ -119,6 +120,8 @@ export default function Home() {
     //   gem.waterGauge % 100,
     // ];
     const { seeds, seedsGauges } = unzipGemData(gem);
+    console.log("index.js:processSetGems:seeds, seedsGauges ...");
+    console.log(seeds, seedsGauges);
 
     setGems([
       {
@@ -141,6 +144,7 @@ export default function Home() {
       },
     ]);
   };
+
   const getHydros = async () => {
     console.log("getHydros() async rendered");
     // console.log("getMemos rendered");
@@ -155,7 +159,11 @@ export default function Home() {
     console.log(hydros[1]);
     setObjectPlanters(hydros[1]);
     // setPlanters(hydros[1]);
+    console.log("index.js:before setgemed..");
+    console.log(hydros[0]);
     processSetGems(hydros[0]);
+    console.log("index.js:after setgemed..");
+    console.log(gems);
     // setGems([
     //   { seedNames: ["치커리", "깻잎"], waterGauge: 80, warning: 0 },
     //   { seedNames: ["케일", "시금치"], waterGauge: 45, warning: 1 },
@@ -317,6 +325,9 @@ export default function Home() {
           {/*   <Planter key={planter.id} planter={planter} /> */}
           {/* ))} */}
           {/* 씨앗 발아기 */}
+          {console.log("make Germinatys")}
+          {console.log("and gems props is..")}
+          {console.log(gems)}
           <Germinatys gems={gems} />
           {/* <Flex direction="column" ml={3} align="center"> */}
           {/*   {gems.map((gem) => ( */}
@@ -341,3 +352,5 @@ export default function Home() {
     </PullToRefresh>
   );
 }
+
+// Home.whyDidYouRender = true;

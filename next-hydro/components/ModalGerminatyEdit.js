@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import {
   Input,
   Box,
@@ -7,29 +7,89 @@ import {
   Flex,
   Button,
   ButtonGroup,
+  useDimensions,
 } from "@chakra-ui/react";
 import useModal from "../context/useModal";
 import usePlanters from "../context/usePlanters";
+import {
+  PlantersGemSettersContext,
+  PlantersStateContext,
+} from "../context/PlantersContext";
 
 // postJson 을 위해 나머지 상판의 정보를 같이 가져오기 위해 구조를
 // 현재 id 와 gems 를 같이 가져오기로 바꾸었습니다
 // {id: n, gems: []}
 const ModalGerminatyEdit = ({ curGems }) => {
+  // const { gemSetters } = useContext(PlantersStateContext);
+  const gemSetters = useContext(PlantersGemSettersContext);
   const { postJson, zipGemData } = usePlanters();
+  const { closeModal } = useModal();
 
   const firstGemRef = useRef();
   const secondGemRef = useRef();
   const inputRefs = [firstGemRef, secondGemRef];
 
+  const boxRef = useRef();
+  const gaugeDimension = useDimensions(boxRef);
+
   // const [thisGem, setThisGem] = useState(gem);
-  const [thisGem, setThisGem] = useState({ seedNames: [], waterGauge: 0 });
+  // const [thisGem, setThisGem] = useState({ seedNames: [], waterGauge: 0 });
+  const [thisGem, setThisGem] = useState(
+    curGems.gems.find((g) => g.id == curGems.id)
+  );
+  // const [thisGem, setThisGem] = useState({});
+  const otherGems = [];
   const [isWarning, setIsWarning] = useState(0);
   const [isTextEdit, setIsTextEdit] = useState(false);
   const [editPosition, setEditPosition] = useState(0);
-  // const [inputZIndex, setInputZIndex] = useState({ id: 0, value: 2 });
   const [inputZIndex, setInputZIndex] = useState([2, 2]);
+  const [ratio, setRatio] = useState(
+    curGems.gems.find((g) => g.id == curGems.id).waterGauge
+  );
 
-  const OnConfirm = () => {
+  const OnClickGauge = (e) => {
+    var rect = gaugeDimension.borderBox;
+    setRatio(parseInt(((e.clientX - rect.left) * 100) / rect.width));
+  };
+
+  const OnHiddenConfirm = () => {
+    // 인터페이스 조작부
+    setIsTextEdit(false);
+    var tempArray = [...inputZIndex];
+    tempArray[editPosition] = 2;
+    setInputZIndex(tempArray);
+
+    // 데이터 조작 및 모달 업데이트부
+    var tempThisGem = { ...thisGem };
+    tempThisGem.seedNames[editPosition] = inputRefs[editPosition].current.value;
+    setThisGem(tempThisGem);
+    console.log("thisGem..");
+    console.log(thisGem);
+
+    // index planter 업데이트부
+    UpdateFullGems();
+  };
+
+  const UpdateFullGems = () => {
+    var tempOtherGems = [];
+    tempOtherGems = curGems.gems.filter((g) => g.id != curGems.id);
+    console.log("tempOtherGems..");
+    console.log(tempOtherGems);
+    var fullGems = [...tempOtherGems];
+    fullGems.push(thisGem);
+
+    fullGems.sort((a, b) => {
+      return a.id - b.id;
+    });
+
+    console.log("fullGems..");
+    console.log(fullGems);
+    gemSetters[0](fullGems);
+    console.log("gemSetters done");
+    return fullGems;
+  };
+
+  const OnConfirm = async () => {
     var arSeeds = [];
     var arWatergauge = [];
 
@@ -41,27 +101,46 @@ const ModalGerminatyEdit = ({ curGems }) => {
     console.log("curGems.id: " + curGems.id);
     console.log("tempGems");
     console.log(tempGems);
+
+    // const { waterGauge, ...restThisGem } = thisGem;
+    // const tempThisGem = { waterGauge: ratio, ...restThisGem };
+    // setThisGem(tempThisGem);
+
+    // var fullGems = [];
+    // fullGems = UpdateFullGems();
+
     const otherGemsObj = tempGems.filter((g) => g.id != curGems.id);
     console.log("otherGemsObj");
     console.log(otherGemsObj);
+    console.log("otherGemsObj.len");
+    console.log(otherGemsObj.length);
     var thisGemObj = {
       id: curGems.id,
       seedNames: [...thisGem.seedNames],
-      waterGauge: thisGem.waterGauge,
+      // waterGauge: thisGem.waterGauge,
+      waterGauge: ratio,
       warning: 0,
     };
 
-    console.log("thisGemObj");
-    console.log(thisGemObj);
-    console.log("before pushed otherGemsObj");
-    console.log(otherGemsObj);
+    // console.log("thisGemObj");
+    // console.log(thisGemObj);
+    // console.log("before pushed otherGemsObj");
+    // console.log(otherGemsObj);
+    // console.log("otherGemsObj.len");
+    // console.log(otherGemsObj.length);
     otherGemsObj.push(thisGemObj);
     otherGemsObj.sort((a, b) => {
-      return b.id - a.id;
+      return a.id - b.id;
     });
+    // console.log("sorted");
+    // console.log(otherGemsObj);
+    // console.log("otherGemsObj.len");
+    // console.log(otherGemsObj.length);
+
     console.log("sorted");
     console.log(otherGemsObj);
 
+    // fullGems.map((obj) => {
     otherGemsObj.map((obj) => {
       // console.log("seedNames: ");
       // console.log(obj.seedNames);
@@ -70,28 +149,35 @@ const ModalGerminatyEdit = ({ curGems }) => {
       // console.log(arSeeds);
       arWatergauge.push(obj.waterGauge);
     });
+    // OnHiddenConfirm();
 
+    // 씨앗발아 전용으로 pieces는 이름들, watergauge는 6자리 정수로 변환합니다
     tempPieces = arSeeds.join(",");
     tempWaterGauge =
       arWatergauge[0] * 10000 + arWatergauge[1] * 100 + arWatergauge[2];
 
-    var tempPlanter = {};
-    tempPlanter.id = 8;
-    tempPlanter.plantName = "씨앗발아";
-    tempPlanter.waterGauge = tempWaterGauge;
-    tempPlanter.waterDate = 123456;
-    tempPlanter.warning = 0;
-    tempPlanter.pieces = tempPieces;
-    tempPlanter.rootvolume = 0;
-    tempPlanter.waterRate = 1;
-    tempPlanter.growthRate = 1;
-    tempPlanter.rootRate = 1;
-    tempPlanter.imageUrl = "";
+    var tempPlanter = {
+      id: 8,
+      plantName: "씨앗발아",
+      waterGauge: tempWaterGauge,
+      waterDate: 123456,
+      warning: 0,
+      growthGauge: 1,
+      pieces: tempPieces,
+      rootVolume: 0,
+      waterRate: 1,
+      growthRate: 1,
+      rootRate: 1,
+      imageUrl: "0",
+    };
 
     console.log("germinatyedit: completed tempPlanter: ");
     console.log(tempPlanter);
 
-    // await postJson();
+    await postJson(tempPlanter);
+
+    gemSetters[0](otherGemsObj);
+    console.log("gemSetters done");
   };
 
   const setEditProc = (n) => {
@@ -110,36 +196,30 @@ const ModalGerminatyEdit = ({ curGems }) => {
     setIsTextEdit(true);
   };
 
-  // const [currenRef, setCurrentRef] = useState(firstGemRef);
-  // const setRef = (n) => {
-  //   n ? setCurrentRef(secondGemRef) : setCurrentRef(firstGemRef);
-  // };
-  // const getRef = (n) => {
-  //   if (n) {
-  //     return secondGemRef;
-  //   } else {
-  //     return firstGemRef;
-  //   }
-  // };
-
-  // let editPosition = 0;
-  const { closeModal } = useModal();
-
   const handleFinishClick = () => {
     OnConfirm();
     closeModal();
   };
 
   useEffect(() => {
-    var tempGem = {};
-    tempGem = curGems.gems.filter((g) => g.id == curGems.id)[0];
+    // setThisGem(curGems.gems.find((g) => g.id === curGems.id));
+    otherGems = curGems.gems.filter((g) => g.id != curGems.id);
+    console.log("useEffect:thisGem...");
+    console.log(thisGem);
+    console.log("useEffect:waterGauge...");
+    console.log(thisGem.waterGauge);
+    // setRatio(thisGem.waterGauge);
+    console.log("otherGems..");
+    console.log(otherGems);
     // console.log(tempGem);
-    setThisGem(tempGem);
+    // }, [thisGem]);
   }, []);
 
   useEffect(() => {
-    thisGem.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
-  }, [thisGem.waterGauge]);
+    // thisGem.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
+    // }, [thisGem.waterGauge]);
+    ratio <= 25 ? setIsWarning(1) : setIsWarning(0);
+  }, [ratio]);
 
   return (
     <VStack mt={["3em", "1em", "2em"]}>
@@ -161,12 +241,11 @@ const ModalGerminatyEdit = ({ curGems }) => {
         <DefaultTextBoard
           thisGem={thisGem}
           inputRefs={inputRefs}
-          setEditPosition={setEditPosition}
           editPosition={editPosition}
           isTextEdit={isTextEdit}
           inputZIndex={inputZIndex}
-          setIsTextEdit={setIsTextEdit}
           setEditProc={setEditProc}
+          onHiddenConfirm={OnHiddenConfirm}
         />
 
         {/* 숨겨진 Input 상판 */}
@@ -181,16 +260,19 @@ const ModalGerminatyEdit = ({ curGems }) => {
         {/* 숨겨진 텍스트 입력완료버튼 */}
         {/* zIndex = 2 */}
         <HiddenFinishButton
-          editPosition={editPosition}
-          setInputZIndex={setInputZIndex}
-          setIsTextEdit={setIsTextEdit}
-          inputZIndex={inputZIndex}
+          onHiddenConfirm={OnHiddenConfirm}
           isTextEdit={isTextEdit}
         />
       </BaseBoard>
 
       {/* 수위게이지 */}
-      <WaterGauge thisGem={thisGem} isWarning={isWarning} />
+      <WaterGauge
+        boxRef={boxRef}
+        ratio={ratio}
+        thisGem={thisGem}
+        isWarning={isWarning}
+        onClickGauge={OnClickGauge}
+      />
 
       {/* 전체입력완료버튼 */}
       {/* <FinishButton key={keyForRender} /> */}
@@ -243,11 +325,10 @@ const DefaultTextBoard = ({
   thisGem,
   inputRefs,
   editPosition,
-  setEditPosition,
   setEditProc,
   inputZIndex,
   isTextEdit,
-  setIsTextEdit,
+  onHiddenConfirm,
 }) => {
   return (
     <Flex
@@ -325,6 +406,13 @@ const DefaultTextBoard = ({
                   fontSize={["1.1em", "1.1em", "1.4em"]}
                   fontWeight="medium"
                   variant="unstyled"
+                  onKeyPress={(e) => {
+                    e.key === "Enter"
+                      ? e.target.value.trim().length != 0
+                        ? onHiddenConfirm()
+                        : null
+                      : null;
+                  }}
                   placeholder={sn}
                   ref={inputRefs[index]}
                 />
@@ -393,13 +481,7 @@ const DefaultTextBoard = ({
 /* h={isTextEdit ? "2em" : "0em"} */
 /* px={["1em", "1em", "1em"]} */
 // mb={["0.5em", "0.5em", "1.3em"]}
-const HiddenFinishButton = ({
-  inputZIndex,
-  setInputZIndex,
-  editPosition,
-  setIsTextEdit,
-  isTextEdit,
-}) => {
+const HiddenFinishButton = ({ isTextEdit, onHiddenConfirm }) => {
   return (
     <Flex
       justify={"center"}
@@ -421,13 +503,11 @@ const HiddenFinishButton = ({
         h="2em"
         colorScheme="blue"
         onClick={() => {
-          // null;
-          // setIsTextEdit((isTextEdit) => !isTextEdit);
-          setIsTextEdit(false);
-          var tempArray = [...inputZIndex];
-          tempArray[editPosition] = 2;
-          setInputZIndex(tempArray);
-          // setInputZIndex({ id: editPosition, value: 2 });
+          onHiddenConfirm();
+          // setIsTextEdit(false);
+          // var tempArray = [...inputZIndex];
+          // tempArray[editPosition] = 2;
+          // setInputZIndex(tempArray);
         }}
       >
         입력완료
@@ -535,13 +615,16 @@ const HiddenInputBoard = ({ firstGemRef, editPosition, isTextEdit }) => {
 };
 
 /* 수위게이지 */
-const WaterGauge = ({ thisGem, isWarning }) => {
+const WaterGauge = ({ boxRef, ratio, thisGem, isWarning, onClickGauge }) => {
   return (
     <Flex
+      ref={boxRef}
       w={["13em", "13em", "16em"]}
       h={["2.2em", "1.8em", "2.3em"]}
       borderRadius={["0.6em", "0.5em", "0.8em"]}
       bg={isWarning ? "#59110c" : "blue.800"}
+      _hover={{ cursor: "pointer" }}
+      onClick={(e) => onClickGauge(e)}
     >
       {/* 바탕 */}
       {/* zIndex="2" */}
@@ -549,8 +632,9 @@ const WaterGauge = ({ thisGem, isWarning }) => {
       {/* bg={warning ? "red.700" : "blue.500"} */}
       <Flex
         w={() => {
-          // return gem.waterGauge + "%";
-          return thisGem.waterGauge + "%";
+          console.log(ratio);
+          // return thisGem.waterGauge + "%";
+          return ratio + "%";
         }}
         borderLeftRadius={["0.6em", "0.5em", "0.8em"]}
         bg={isWarning ? "red.700" : "blue.500"}
@@ -591,5 +675,7 @@ const FinishButton = ({ isTextEdit, handleFinishClick }) => {
     </Flex>
   );
 };
+
+ModalGerminatyEdit.whyDidYouRender = true;
 
 export default ModalGerminatyEdit;

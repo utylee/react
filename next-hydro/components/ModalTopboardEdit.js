@@ -5,7 +5,7 @@ import useModal from "../context/useModal";
 import { PlanterCurStateContext } from "../context/PlanterCurContext";
 import usePlanterCur from "../context/usePlanterCur";
 import usePlanters from "../context/usePlanters";
-import { PlantersStateContext } from "../context/PlantersContext";
+import { PlantersSettersContext, PlantersStateContext } from "../context/PlantersContext";
 
 // const Topboard = ({ plantName, piecess, isModal, setTypeModal }) => {
 // const ModalTopboardEdit = ({ piecess }) => {
@@ -16,7 +16,8 @@ const ModalTopboardEdit = ({ planter }) => {
 
   // const { getCurPlanter, setCurPlanter } = usePlanter();
   const { curPlanter } = useContext(PlanterCurStateContext);
-  const { setters } = useContext(PlantersStateContext);
+  // const { setters } = useContext(PlantersStateContext);
+  const { setters } = useContext(PlantersSettersContext);
 
   // const [thisPieces, setThisPieces] = useState(piecess);
   const [thisPieces, setThisPieces] = useState(planter.pieces);

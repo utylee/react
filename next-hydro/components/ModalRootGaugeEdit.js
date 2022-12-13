@@ -12,7 +12,7 @@ import {
 import useModal from "../context/useModal";
 import { GiTreeRoots } from "react-icons/gi";
 import usePlanters from "../context/usePlanters";
-import { PlantersStateContext } from "../context/PlantersContext";
+import { PlantersSettersContext, PlantersStateContext } from "../context/PlantersContext";
 import usePlanterCur from "../context/usePlanterCur";
 
 const ModalRootGaugeEdit = ({ planter }) => {
@@ -25,7 +25,8 @@ const ModalRootGaugeEdit = ({ planter }) => {
   const [ratio, setRatio] = useState(planter.rootVolume);
   const [isWarning, setIsWarning] = useState();
   const { closeModal, setModalType } = useModal();
-  const { setters } = useContext(PlantersStateContext);
+  // const { setters } = useContext(PlantersStateContext);
+  const { setters } = useContext(PlantersSettersContext);
   const { postJson } = usePlanters();
   const { setCurPlanter } = usePlanterCur();
 
