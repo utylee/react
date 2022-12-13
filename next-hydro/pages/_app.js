@@ -1,4 +1,4 @@
-// import "../scripts/wdyr";
+import "../scripts/wdyr";
 // import '../styles/globals.css'
 // import '@/modules/core/wdyr/wdyr';
 import Head from "next/head";
