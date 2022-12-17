@@ -38,8 +38,8 @@ export default function Home() {
 
   // const typePlanter = useRef({});
   const handleRefresh = async () => {
-    // console.log("handleRefresh");
-    // await getHydros();
+    console.log("handleRefresh");
+    await getHydros();
     return 0;
   };
   // const typeModal = useRef("modal");
@@ -58,6 +58,7 @@ export default function Home() {
   const makePiecesArray = (arr) => {
     // 일반상판과 새싹상판을 구분합니다
     arr.map((l) => {
+      // 6칸 구멍짜리 새싹 상판입니다
       if (l.id === 7) {
         l.pieces = [
           parseInt(l.pieces[0]),
@@ -145,6 +146,15 @@ export default function Home() {
     ]);
   };
 
+  // 각 게이지를 모두 1000으로 나눠줍니다
+  const DigitAdjust = (hydro) => {
+    hydro.map((h) => {
+      h.waterGauge = parseInt(h.waterGauge / 1000);
+      h.growthGauge = parseInt(h.growthGauge / 1000);
+      h.rootVolume = parseInt(h.rootVolume / 1000);
+    });
+  };
+
   const getHydros = async () => {
     console.log("getHydros() async rendered");
     // console.log("getMemos rendered");
@@ -152,6 +162,7 @@ export default function Home() {
     // const res = await fetch(`/api/listjs`);
     const hydros = await res.json();
     // setHydroList(hydros);
+    DigitAdjust(hydros);
     hydros = [...dividePlantGem(hydros)];
     makePiecesArray(hydros[1]);
 

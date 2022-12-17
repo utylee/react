@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, Flex, Icon, VStack } from "@chakra-ui/react";
-import { ImLeaf } from "react-icons/im";
-import { TiLeaf } from "react-icons/ti";
-import { RiLeafLine } from "react-icons/ri";
+// import { ImLeaf } from "react-icons/im";
+// import { TiLeaf } from "react-icons/ti";
+// import { RiLeafLine } from "react-icons/ri";
 
 // const GrowthGauge = ({ isModal, gauge }) => {
 const GrowthGauge = ({ planter }) => {
-  const borderLeft = [4, 5];
-  const borderRight = [5, 6];
+  // const borderLeft = [4, 5];
+  // const borderRight = [5, 6];
   return (
     <>
       {/* 게이지 바탕 */}

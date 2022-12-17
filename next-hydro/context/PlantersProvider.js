@@ -162,12 +162,18 @@ const PlantersProvider = ({ children }) => {
   };
 
   const unzipGemData = (gem) => {
+    /*
     const seeds = gem.pieces.split(",");
     const seedsGauges = [
       parseInt(gem.waterGauge / 10000),
       parseInt((gem.waterGauge % 10000) / 100),
       gem.waterGauge % 100,
     ];
+	*/
+    const seeds = gem.pieces.split(",");
+    const seedsGauges = [gem.waterGauge, gem.growthGauge, gem.rootVolume];
+
+    // 사용안되던 growthGauge와 rootVolume을 둘째 세째 waterGauge로 사용합니다
     return { seeds, seedsGauges };
   };
 
@@ -181,8 +187,20 @@ const PlantersProvider = ({ children }) => {
     return gem;
   };
 
+  const DigitExpand = (p) => {
+    p.waterGauge *= 1000;
+    p.growthGauge *= 1000;
+    p.rootVolume *= 1000;
+  };
+
   const postJson = async (plt) => {
     const tempPlt = { ...plt };
+
+    console.log("tempPlt:...");
+    console.log(tempPlt);
+    // 각 게이지에 1000을 곱해줍니다
+    DigitExpand(tempPlt);
+
     plt.id != 8 ? zipPieces(tempPlt) : null;
     console.log("postJson:plant: " + tempPlt);
     const requestOptions = {

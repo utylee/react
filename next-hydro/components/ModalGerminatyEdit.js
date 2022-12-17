@@ -153,18 +153,34 @@ const ModalGerminatyEdit = ({ curGems }) => {
 
     // 씨앗발아 전용으로 pieces는 이름들, watergauge는 6자리 정수로 변환합니다
     tempPieces = arSeeds.join(",");
-    tempWaterGauge =
-      arWatergauge[0] * 10000 + arWatergauge[1] * 100 + arWatergauge[2];
+	 
+    // tempWaterGauge =
+    //   arWatergauge[0] * 10000 + arWatergauge[1] * 100 + arWatergauge[2];
+
+    // var tempPlanter = {
+    //   id: 8,
+    //   plantName: "씨앗발아",
+    //   waterGauge: tempWaterGauge,
+    //   waterDate: 123456,
+    //   warning: 0,
+    //   growthGauge: 1,
+    //   pieces: tempPieces,
+    //   rootVolume: 0,
+    //   waterRate: 1,
+    //   growthRate: 1,
+    //   rootRate: 1,
+    //   imageUrl: "0",
+    // };
 
     var tempPlanter = {
       id: 8,
       plantName: "씨앗발아",
-      waterGauge: tempWaterGauge,
+      waterGauge: arWatergauge[0],
       waterDate: 123456,
       warning: 0,
-      growthGauge: 1,
+      growthGauge: arWatergauge[1],
       pieces: tempPieces,
-      rootVolume: 0,
+      rootVolume: arWatergauge[2],
       waterRate: 1,
       growthRate: 1,
       rootRate: 1,
