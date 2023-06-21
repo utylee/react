@@ -8,6 +8,7 @@
 
 // pages/_app.js
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import ModalProvider from "../contexts/ModalProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }) {
         },
       })}
     >
-      <Component {...pageProps} />
+      <ModalProvider>
+        <Component {...pageProps} />
+      </ModalProvider>
     </ChakraProvider>
   );
 }
