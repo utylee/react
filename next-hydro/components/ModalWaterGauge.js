@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import * as React from 'react';
 import { Box, Text, VStack, HStack, Flex, Icon } from "@chakra-ui/react";
 // import { MdWaterDrop } from "react-icons/md";
 // import { IoWaterSharp } from "react-icons/io5";
@@ -7,14 +6,14 @@ import { ImDroplet } from "react-icons/im";
 import { RiAlertFill } from "react-icons/ri";
 // import Moment from "react-moment";
 import "moment/locale/ko";
+import useModal from "../context/useModal";
 
-// const WaterGauge = ({ gauge, time, warning }) => {
-// const WaterGauge = ({ isModal, gauge, time, warning }) => {
-const WaterGauge = ({ planter }) => {
-  // const borderLeft = [5, 5];
-  // const borderRight = [6, 6];
+// const ModalWaterGauge = ({ gauge, time, warning }) => {
+const ModalWaterGauge = ({ planter }) => {
+  const borderLeft = [5, 5];
+  const borderRight = [6, 6];
   const [isWarning, setIsWarning] = useState();
-
+  const { setModalType } = useModal();
   useEffect(() => {
     planter.waterGauge <= 25 ? setIsWarning(1) : setIsWarning(0);
   }, [planter.waterGauge]);
@@ -22,8 +21,18 @@ const WaterGauge = ({ planter }) => {
   return (
     <>
       {/* 아이콘 + 게이지 */}
-      {/* pt={isModal ? ["1.6em", "2.2em"] : 1} */}
-      <Flex w="full" pt={1}>
+      {/* w="full" */}
+      {/* pt={["1.2em", "2em", "3.0em"]} */}
+      <Flex
+        pt={["1.2em", "0em", "0em"]}
+        pb={["1.2em", "1.2em", "1.2em"]}
+        w={["12em", "10em", "15em"]}
+        pl={["0em", "1em", "1.2em"]}
+        _hover={{ cursor: "pointer" }}
+        onClick={() => {
+          setModalType("watergauge");
+        }}
+      >
         {/* borderColor={warning ? "red.500" : "gray.200"} */}
         {/* borderWidth={warning ? 3 : 0} */}
         {/* <VStack align="flex-end" w="full" spacing={0}> */}
@@ -32,27 +41,27 @@ const WaterGauge = ({ planter }) => {
           {/* <Icon as={MdWaterDrop} color="blue.500" fontSize="md" /> */}
           {/* <Icon as={IoWaterSharp} color="blue.500" fontSize="md" /> */}
           {/* color={warning ? "red.700" : "blue.500"} */}
-          {/* fontSize={isModal ? ["1.1em", "1.4em"] : "0.75em"} */}
-          {/* color={planter.gauge <= 25 ? "red.700" : "blue.500"} */}
+          {/* color={gauge <= 25 ? "red.700" : "blue.500"} */}
           <Icon
             as={ImDroplet}
             color={isWarning ? "red.700" : "blue.500"}
-            fontSize={"0.75em"}
+            fontSize={["1.1em", "1.4em"]}
           />
         </Flex>
+
         {/* <Flex bg="blue.800" h={5} w="full" borderRadius="md"> */}
+
         {/* 게이지 바탕 */}
         {/* bg={warning ? "#59110c" : "blue.800"} */}
-        {/* h={isModal ? [6, 8] : 4} */}
-        {/* bg={planter.gauge <= 25 ? "#59110c" : "blue.800"} */}
-        {/* w="full" */}
+        {/* bg={gauge <= 25 ? "#59110c" : "blue.800"} */}
+        {/* w={["10em", "6em"]} */}
         <Flex
           bg={isWarning ? "#59110c" : "blue.800"}
+          h={["1.4em", "2.0em", "2em"]}
           w="full"
-          h={4}
-          borderRadius={5}
-          ml={1}
-          mr={2}
+          borderRadius={borderLeft}
+          ml={2}
+          mr={3}
           position="relative"
         >
           {/* w={() => parseInt(gauge) + "%"} */}
@@ -63,20 +72,19 @@ const WaterGauge = ({ planter }) => {
             {/* w="30%" */}
             {/* bg={warning ? "red.700" : "blue.500"} */}
             <Flex w="full" h="full" position="absolute" borderRadius={5}></Flex>
-            {/* bg={planter.gauge <= 25 ? "red.700" : "blue.500"} */}
-            {console.log("planter.waterGauge: " + planter.waterGauge)}
+            {/* bg={gauge <= 25 ? "red.700" : "blue.500"} */}
             <Flex
               w={() => planter.waterGauge + "%"}
               h="full"
               bg={isWarning ? "red.700" : "blue.500"}
-              borderLeftRadius={5}
-              borderRightRadius={4}
+              borderLeftRadius={borderLeft}
+              borderRightRadius={borderRight}
               position="absolute"
               zIndex="3"
             ></Flex>
             {/* 경고 아이콘 */}
             {/* display={warning ? "flex" : "none"} */}
-            {/* display={planter.gauge <= 25 ? "flex" : "none"} */}
+            {/* display={gauge <= 25 ? "flex" : "none"} */}
             <Flex
               position="absolute"
               zIndex="4"
@@ -86,7 +94,11 @@ const WaterGauge = ({ planter }) => {
               align="center"
               display={isWarning ? "flex" : "none"}
             >
-              <Icon as={RiAlertFill} color="yellow.400" fontSize={"1em"} />
+              <Icon
+                as={RiAlertFill}
+                color="yellow.400"
+                fontSize={["1.4em", "1.6em"]}
+              />
             </Flex>
           </Flex>
           {/* <Flex */}
@@ -110,4 +122,4 @@ const WaterGauge = ({ planter }) => {
   );
 };
 
-export default WaterGauge;
+export default ModalWaterGauge;
