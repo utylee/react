@@ -1,7 +1,7 @@
 import React, { useState, useContext, useMemo } from "react";
 import { ModalStateContext, ModalDispatchContext } from "./ModalContext";
 import { useDisclosure } from "@chakra-ui/react";
-import MyModal from "../components/MyModal";
+// import MyModal from "../components/MyModal";
 
 const ModalProvider = ({ children }) => {
   let { isOpen, onOpen, onClose } = useDisclosure();
@@ -11,7 +11,6 @@ const ModalProvider = ({ children }) => {
     return [1, 2];
   };
   const open = () => {
-    console.log("came here");
     onOpen();
   };
   const close = () => {
@@ -30,7 +29,7 @@ const ModalProvider = ({ children }) => {
     <ModalStateContext.Provider value={{ value, isOpen, curFile }}>
       <ModalDispatchContext.Provider value={dispatch}>
         {children}
-        <MyModal />
+        {/* <MyModal /> */}
       </ModalDispatchContext.Provider>
     </ModalStateContext.Provider>
   );

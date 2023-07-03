@@ -1,14 +1,17 @@
 import { VStack, HStack, Flex } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 import FileItem from "../components/FileItem";
+import MyModal from "../components/MyModal";
 
 export default function Home() {
   const [files, setFiles] = useState();
+  const [myconfirm, setMyconfirm] = useState("");
   console.log("rendered!");
 
   useEffect(() => {
+    console.log("index.js::useEffect");
     const getItems = async () => {
-      console.log("came here");
+      console.log("came index.js::useEffect");
       const res = await fetch("/uploader/api/listjs");
       const js = await res.json();
       console.log(js);
@@ -18,7 +21,7 @@ export default function Home() {
       console.log(files);
     };
     getItems();
-  }, []);
+  }, [myconfirm]);
 
   return (
     <>
@@ -27,13 +30,15 @@ export default function Home() {
         {/*   핑두 */}
         {/* </Flex> */}
         {/* <FileItem />; */}
+        {/* return <FileItem file={f} key={index} />; */}
         {files != null
           ? files.map((f, index) => {
-              console.log(f.filename);
-              return <FileItem file={f} key={index}/>;
+              // console.log("indexs.js:map::" + f.filename);
+              return <FileItem file={f} key={parseInt(f.timestamp)} />;
             })
           : 0}
       </VStack>
+      <MyModal setMyconfirm={setMyconfirm} />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import { Text, Icon, Flex, HStack, VStack, Box } from "@chakra-ui/react";
 import {
   FaStarOfLife,
@@ -12,10 +12,13 @@ import { MdAddToPhotos } from "react-icons/md";
 import useModal from "./useModal";
 
 const FileItem = ({ file }) => {
+  // const isHover = true;
   const [isHover, setIshover] = useState(false);
+  // const [thisFile, setThisfile] = useState(file);
+  // console.log("FileItem::rendered");
 
   // 투명도 설정 함수입니다
-  const opacitying = (s) => {
+  const opacitying = useCallback((s) => {
     let ret = 0;
     // 로컬 영역입니다
     if (s == 1) {
@@ -42,8 +45,8 @@ const FileItem = ({ file }) => {
     } else ret = 0.1;
 
     return ret;
-  };
-  const gradienting = (s) => {
+  }, []);
+  const gradienting = useCallback((s) => {
     let ret = "";
     // 첫번째 로컬 영역 그라디언트 설정입니다
     if (s == 1) {
@@ -67,11 +70,13 @@ const FileItem = ({ file }) => {
       // 세번째 유튜브 영역 그라디언트 설정입니다
       if (file.uploading == 2)
         ret = "linear(to-r, red.100, pink.700  , pink.800)";
-      else if (file.uploading == 3) ret = "linear(to-r, pink.600, pink.600)";
+      // else if (file.uploading == 3) ret = "linear(to-r, pink.600, pink.600)";
+      else if (file.uploading == 3)
+        ret = "linear(to-r, purple.600, purple.500)";
       else ret = "linear(to-r, gray.700  , gray.700)";
     }
     return ret;
-  };
+  }, []);
 
   const { openModal } = useModal();
 
@@ -115,13 +120,24 @@ const FileItem = ({ file }) => {
                 opacity={file.queueing == 1 ? "1" : "0"}
               >
                 {/* <BiAddToQueue fontSize="1.5em" /> */}
+                {/* 추가됨 아이콘입니다 */}
                 <MdAddToPhotos fontSize="1.5em" />
               </Flex>
               {/* h="30%" */}
+              {/* 유튜브 업로드 제목입니다 */}
+              {/* 유튜브 업로드가 완료된 제목은 보라색으로 표시합니다 */}
               <Flex
                 w="50%"
                 h="full"
-                color={isHover ? "pink.200" : "pink.400"}
+                color={
+                  isHover
+                    ? file.uploading === 3
+                      ? "purple.300"
+                      : "pink.200"
+                    : file.uploading === 3
+                    ? "purple.500"
+                    : "pink.400"
+                }
                 alignItems="center"
                 position="relative"
               >
@@ -131,6 +147,13 @@ const FileItem = ({ file }) => {
                   position="absolute"
                   align="center"
                   justify={isHover ? "end" : "start"}
+                  opacity={
+                    file.title !== null
+                      ? file.title.length !== 0
+                        ? "1"
+                        : "0"
+                      : "0"
+                  }
                 >
                   {/* 별 문양입니다 */}
                   <Flex mr="1em" zIndex={isHover ? 100 : 10}>
@@ -138,7 +161,7 @@ const FileItem = ({ file }) => {
                   </Flex>
                   {/* 유튜브 제목입니다 */}
                   <Flex hidden={isHover ? 1 : 0} zIndex={isHover ? -1 : 10}>
-                    hos falstad mvp
+                    {file.title}
                   </Flex>
                 </Flex>
               </Flex>
@@ -152,9 +175,12 @@ const FileItem = ({ file }) => {
             position="absolute"
             bgGradient="linear(to-r,rgba(43,42,51, 0) 40%  , rgba(43,42,51,1 ) 48%  )"
             zIndex={isHover ? -1 : 1}
+            opacity={
+              file.title !== null ? (file.title.length !== 0 ? 1 : 0) : 0
+            }
           ></Flex>
 
-          {/* 메인 플렉스입니다 */}
+          {/* 인티케이터 플렉스입니다 */}
           <Flex w="full" h="full" justify="center" position="absolute">
             {/* 전송 인디케이터입니다 */}
             <HStack h="11%" w="100%" px="0em" m="0" spacing="0.1em">

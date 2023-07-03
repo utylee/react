@@ -1,25 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 import {
   ModalDispatchContext,
   ModalStateContext,
 } from "../contexts/ModalContext";
 
 const useModal = () => {
+  // console.log("useModal rendered");
   const { isOpen, curFile } = useContext(ModalStateContext);
   const { open, close, setIsOpen, setCurfile } =
     useContext(ModalDispatchContext);
 
-  const openModal = (file) => {
+  const openModal = useCallback((file) => {
     // alert(file.timestamp);
-    console.log("open");
+    console.log("useModal:openModal:open");
     setCurfile(file);
     setIsOpen(true);
     open();
     // alert(file);
-  };
-  const closeModal = () => {
+  }, []);
+  const closeModal = useCallback(() => {
     close();
-  };
+  }, []);
 
   return { openModal, closeModal, isOpen, curFile };
 };
