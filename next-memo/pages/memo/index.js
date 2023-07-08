@@ -25,7 +25,9 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 
 // SSR, SSG 용 함수입니다
 export async function getStaticProps() {
-  const res = await fetch(`http://localhost/memo/api/listjs`);
+  // const res = await fetch(`http://localhost/memo/api/listjs`);
+  // 갑자기 npm run build에서static page 생성중 에러가 나서 변경해보았습니다
+  const res = await fetch(`http://192.168.1.203/memo/api/listjs`);
   const memos = await res.json();
   return {
     props: {
@@ -52,7 +54,8 @@ export default function Home({ memos }) {
 
   const getMemos = async () => {
     // console.log("getMemos rendered");
-    const res = await fetch(`/memo/api/listjs`);
+    // const res = await fetch(`/memo/api/listjs`);
+    const res = await fetch("/memo/api/listjs");
     // const res = await fetch(`/api/listjs`);
     const memos = await res.json();
     setMemoList(memos);
@@ -82,6 +85,15 @@ export default function Home({ memos }) {
   };
 
   useEffect(() => {
+    const getMemos = async () => {
+      // console.log("getMemos rendered");
+      // const res = await fetch(`/memo/api/listjs`);
+      const res = await fetch("/memo/api/listjs");
+      // const res = await fetch(`/api/listjs`);
+      const memos = await res.json();
+      setMemoList(memos);
+      // console.log(memoList);
+    };
     getMemos();
   }, []);
 
