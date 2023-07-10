@@ -7,5 +7,5 @@ const nextConfig = {
 //assetPrefix: "/uploader",
 // assetPrefix: "http://localhost/uploader",
 module.exports = {
-  assetPrefix: "/uploader",
+  assetPrefix: "/youtube",
 };

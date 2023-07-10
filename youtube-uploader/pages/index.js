@@ -12,7 +12,8 @@ export default function Home() {
     console.log("index.js::useEffect");
     const getItems = async () => {
       console.log("came index.js::useEffect");
-      const res = await fetch("/uploader/api/listjs");
+      const res = await fetch("/youtube/api/listjs");
+      // const res = await fetch("/uploader/api/listjs");
       const js = await res.json();
       console.log(js);
       setFiles([...js]);

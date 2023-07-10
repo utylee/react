@@ -37,7 +37,8 @@ const MyModal = ({ setMyconfirm }) => {
       header: { "Content-Type:": "application/json" },
       body: JSON.stringify({ timestamp: curFile.timestamp, title: title }),
     };
-    const res = await fetch("/uploader/api/updatejs", requestOptions);
+    // const res = await fetch("/uploader/api/updatejs", requestOptions);
+    const res = await fetch("/youtube/api/updatejs", requestOptions);
     // console.log("response:" + JSON.stringify(res));
     const js = await res.json();
     console.log("response:");
@@ -53,11 +54,11 @@ const MyModal = ({ setMyconfirm }) => {
     <>
       <Modal isOpen={isOpen} onClose={closeModal} isCentered>
         <ModalOverlay />
-        <ModalContent maxW="34em" bg="#2b2a33">
+        <ModalContent maxW={["18em", "18em", "34em"]} bg="#2b2a33">
           <ModalCloseButton _focus={{ boxShadow: "None" }} />
           <VStack w="full" h="full" justify="center" alignItems="center">
             {/* 파일명입니다 */}
-            <Flex mt="3em" mb="2em" px="2em" fontSize="1.1em">
+            <Flex mt={["0em", "0em", "3em"]} mb="2em" px="2em" fontSize="1.1em">
               {curFile != null ? curFile.filename : "없음"}
             </Flex>
             {/* 인풋 영역입니다 */}
@@ -66,7 +67,7 @@ const MyModal = ({ setMyconfirm }) => {
                 autoFocus="true"
                 ref={inputRef}
                 size="lg"
-                w="20em"
+                w={["12em", "12em",  "20em"]}
                 placeholder={curFile.title}
                 onKeyPress={(e) => {
                   e.key === "Enter" ? handleConfirm() : null;

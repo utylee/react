@@ -73,6 +73,9 @@ const FileItem = ({ file }) => {
       // else if (file.uploading == 3) ret = "linear(to-r, pink.600, pink.600)";
       else if (file.uploading == 3)
         ret = "linear(to-r, purple.600, purple.500)";
+      // 전송실패일 경우입니다
+      else if (file.uploading == 4)
+        ret = "linear(to-r, orange.600, orange.500)";
       else ret = "linear(to-r, gray.700  , gray.700)";
     }
     return ret;
@@ -101,7 +104,14 @@ const FileItem = ({ file }) => {
           openModal(file);
         }}
       >
-        <VStack w="30em" h="4em" p="0" m="0" spacing={0} position="relative">
+        <VStack
+          w={["16em", "16em", "30em"]}
+          h={["6em", "6em", "4em"]}
+          p="0"
+          m="0"
+          spacing={0}
+          position="relative"
+        >
           {/* opacity={file.local ? 0.6 : 0.1} */}
           {/* opacity={file.copying == 1 ? 1 : file.uploading ? 0.6 : 0.1} */}
           {/* bgColor={file.copying == 2 ? "gray.400" : "gray.500"} */}
@@ -133,9 +143,13 @@ const FileItem = ({ file }) => {
                   isHover
                     ? file.uploading === 3
                       ? "purple.300"
+                      : file.uploading === 4
+                      ? "orange.300"
                       : "pink.200"
                     : file.uploading === 3
                     ? "purple.500"
+                    : file.uploading === 4
+                    ? "orange.500"
                     : "pink.400"
                 }
                 alignItems="center"
@@ -181,43 +195,46 @@ const FileItem = ({ file }) => {
           ></Flex>
 
           {/* 인티케이터 플렉스입니다 */}
-          <Flex w="full" h="full" justify="center" position="absolute">
-            {/* 전송 인디케이터입니다 */}
-            <HStack h="11%" w="100%" px="0em" m="0" spacing="0.1em">
-              {/* opacity={opacitying(1)} */}
-              <Box
-                bgGradient={gradienting(1)}
-                h="100%"
-                w="33%"
-                m="0"
-                px="0"
-              ></Box>
-              {/* opacity={opacitying(2)} */}
-              <Box
-                bgGradient={gradienting(2)}
-                h="100%"
-                w="34%"
-                bgColor={"gray.600"}
-                m="0"
-                px="0"
-              ></Box>
-              {/* opacity={opacitying(3)} */}
-              <Box
-                bgGradient={gradienting(3)}
-                h="100%"
-                w="33%"
-                bgColor={"pink.600"}
-                m="0"
-                px="0"
-              ></Box>
-            </HStack>
+          {/* <Flex w="full" h="full" justify="center" position="absolute"> */}
+          {/*   {/1* 전송 인디케이터입니다 *1/} */}
+          {/*   <HStack h="11%" w="50%" px="0em" m="0" spacing="0.1em" position="absolute"> */}
+          {/*   {/1* <HStack h={["0.1%","0.1%",  "0.1%"]} w="100%" px="0em" m="0" spacing="0.1em"> *1/} */}
+          {/*     {/1* opacity={opacitying(1)} *1/} */}
+          {/*     <Box */}
+          {/*       bgGradient={gradienting(1)} */}
+          {/*       h="100%" */}
+          {/*       w="33%" */}
+          {/*       m="0" */}
+          {/*       px="0" */}
+          {/*     ></Box> */}
+          {/*     {/1* opacity={opacitying(2)} *1/} */}
+          {/*     <Box */}
+          {/*       bgGradient={gradienting(2)} */}
+          {/*       h="100%" */}
+          {/*       w="34%" */}
+          {/*       bgColor={"gray.600"} */}
+          {/*       m="0" */}
+          {/*       px="0" */}
+          {/*     ></Box> */}
+          {/*     {/1* opacity={opacitying(3)} *1/} */}
+          {/*     <Box */}
+          {/*       bgGradient={gradienting(3)} */}
+          {/*       h="100%" */}
+          {/*       w="33%" */}
+          {/*       bgColor={"pink.600"} */}
+          {/*       m="0" */}
+          {/*       px="0" */}
+          {/*     ></Box> */}
+          {/*   </HStack> */}
 
-            {/* <Icon as={FaHome} /> */}
-            {/* <Icon as={FaServer} /> */}
-            {/* <Icon as={FaYoutubeSquare} /> */}
+          {/* <Icon as={FaHome} /> */}
+          {/* <Icon as={FaServer} /> */}
+          {/* <Icon as={FaYoutubeSquare} /> */}
+          <Flex w="full" h="full" justify="center" position="absolute">
             {/* 파일명입니다 */}
-            <HStack height="full" alignItems="center" position="absolute">
-              <Flex>
+
+            <HStack h="full" alignItems="center" position="absolute">
+              <Flex mx={["1em", "1em", "0em"]} my={["1em", "1em", "0em"]}>
                 <Text>{file.filename}</Text>
               </Flex>
               {/* <Flex>{file}</Flex> */}
@@ -231,7 +248,14 @@ const FileItem = ({ file }) => {
             position="absolute"
             zIndex={100}
           >
-            <HStack h="11%" w="100%" px="0em" m="0" spacing="0.1em">
+            {/* <HStack h="11%" w="100%" px="0em" m="0" spacing="0.1em"> */}
+            <HStack
+              h={["0.4em", "0.4em", "0.4em"]}
+              w="100%"
+              px="0em"
+              m="0"
+              spacing="0.1em"
+            >
               {/* opacity={opacitying(1)} */}
               <Box
                 bgGradient={gradienting(1)}
