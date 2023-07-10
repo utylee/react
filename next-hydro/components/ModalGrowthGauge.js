@@ -1,25 +1,37 @@
 import React from "react";
-import { Box, Flex, Icon, VStack } from "@chakra-ui/react";
+import { Box, Flex, Icon } from "@chakra-ui/react";
 // import { ImLeaf } from "react-icons/im";
 // import { TiLeaf } from "react-icons/ti";
 // import { RiLeafLine } from "react-icons/ri";
 
-// const GrowthGauge = ({ isModal, gauge }) => {
-const GrowthGauge = ({ planter }) => {
-  // const borderLeft = [4, 5];
-  // const borderRight = [5, 6];
+import usePlanters from "../context/usePlanters";
+import useModal from "../context/useModal";
+
+const ModalGrowthGauge = ({ planter }) => {
+  const borderLeft = [4, 5];
+  const borderRight = [5, 6];
+  const { setModalType } = useModal();
+
   return (
     <>
       {/* 게이지 바탕 */}
-
+      {/* h={"5em"} */}
+      {/* direction="column" */}
+      {/* h={["4em", "14em", "18em"]} */}
+      {/* h="full" */}
+      {/* h="90%" */}
+      {/* alignSelf={"center"} */}
       <Flex
-        direction="column"
-        ml={1}
-        w={"2"}
-        h="full"
-        borderRadius={"2"}
-        justify="flex-end"
-        align="center"
+        align="flex-end"
+        ml={[2, 4, 5]}
+        w={["1.1em", "1.2em", "1.5em"]}
+        h={["8em", "10em", "13em"]}
+        borderRadius={borderLeft}
+        bg="green.900"
+        _hover={{ cursor: "pointer" }}
+        onClick={() => {
+          setModalType("growthgauge");
+        }}
       >
         {/* bg="gray.900" */}
         {/* {console.log("growth:" + gauge)} */}
@@ -45,8 +57,8 @@ const GrowthGauge = ({ planter }) => {
           w="full"
           h={() => parseInt(planter.growthGauge) + "%"}
           bg="green.500"
-          borderBottomRadius={"2"}
-          borderTopRadius={"2"}
+          borderBottomRadius={borderLeft}
+          borderTopRadius={borderRight}
         ></Flex>
         {/* backgroundImage={ */}
         {/*   <Icon */}
@@ -60,4 +72,4 @@ const GrowthGauge = ({ planter }) => {
   );
 };
 
-export default GrowthGauge;
+export default ModalGrowthGauge;
