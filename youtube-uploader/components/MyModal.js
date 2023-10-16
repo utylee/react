@@ -58,16 +58,21 @@ const MyModal = ({ setMyconfirm }) => {
           <ModalCloseButton _focus={{ boxShadow: "None" }} />
           <VStack w="full" h="full" justify="center" alignItems="center">
             {/* 파일명입니다 */}
-            <Flex mt={["0em", "0em", "3em"]} mb="2em" px="2em" fontSize="1.1em">
+            <Flex
+              mt={["1em", "1em", "3em"]}
+              mb={["0.5em", "0.5em", "2em"]}
+              px={["1em", "1em", "2em"]}
+              fontSize="1.1em"
+            >
               {curFile != null ? curFile.filename : "없음"}
             </Flex>
             {/* 인풋 영역입니다 */}
-            <Flex my="3em">
+            <Flex mb={["0.5em", "0.5em", "3em"]}>
               <Input
                 autoFocus="true"
                 ref={inputRef}
                 size="lg"
-                w={["12em", "12em",  "20em"]}
+                w={["14em", "14em", "20em"]}
                 placeholder={curFile.title}
                 onKeyPress={(e) => {
                   e.key === "Enter" ? handleConfirm() : null;
@@ -77,49 +82,50 @@ const MyModal = ({ setMyconfirm }) => {
             {/* 버튼 영역입니다 */}
             <HStack
               w="full"
-              pt="3em"
-              pb="3em"
-              px="2.2em"
+              pt={["1em", "1em", "3em"]}
+              pb={["1.5em", "1.5em", "3em"]}
+              px={["0.2em", "0.2em", "2.2em"]}
               justify="space-between"
             >
-              <HStack alignSelf="start" spacing="0.5em">
+              <HStack alignSelf="start" spacing={["0.1em", "0.1em", "0.5em"]}>
                 <Button
                   color="gray.500"
                   variant="outline"
-                  size="sm"
+                  size={["xs", "xs", "sm"]}
                   alignSelf="start"
                   borderColor="gray.500"
                 >
-                  상태수정
+                  <Flex fontSize={["0.9em", "0.9em", "1em"]}>상태수정</Flex>
                 </Button>
                 <Button
                   color="gray.500"
                   variant="outline"
-                  size="sm"
+                  size={["xs", "xs", "sm"]}
                   alignSelf="start"
                   borderColor="gray.500"
                 >
-                  재전송
+                  <Flex fontSize={["0.9em", "0.9em", "1em"]}>재전송</Flex>
                 </Button>
               </HStack>
               <HStack alignSelf="end">
                 <Button
                   leftIcon={<FaYoutube fontSize="1.5em" />}
                   colorScheme="red"
-                  size="lg"
+                  size={["sm", "sm", "lg"]}
                   alignSelf="end"
                   onClick={() => handleConfirm()}
                 >
-                  제목설정
+                  <Flex fontSize={["1.1em", "1.1em", "1em"]}>설정</Flex>
                 </Button>
                 <Button
                   colorScheme="gray"
                   variant="outline"
-                  size="lg"
+                  size={["sm", "sm", "lg"]}
                   alignSelf="end"
                   _hover={{ bg: "gray.400" }}
+                  onClick={() => closeModal()}
                 >
-                  취소
+                  <Flex fontSize={["1.1em", "1.1em", "1em"]}>취소</Flex>
                 </Button>
               </HStack>
             </HStack>
