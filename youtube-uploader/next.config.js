@@ -6,6 +6,7 @@ const nextConfig = {
 //module.exports = nextConfig
 //assetPrefix: "/uploader",
 // assetPrefix: "http://localhost/uploader",
+// assetPrefix: "/uploader",
 module.exports = {
-  assetPrefix: "/uploader",
+  assetPrefix: "/youtube",
 };
