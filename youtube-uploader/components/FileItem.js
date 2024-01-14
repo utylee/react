@@ -46,6 +46,41 @@ const FileItem = ({ file }) => {
 
     return ret;
   }, []);
+  const gradienting = (s) => {
+    let ret = "";
+    // 첫번째 로컬 영역 그라디언트 설정입니다
+    if (s == 1) {
+      if (file.local == 1)
+        if (file.copying == 1) {
+          ret = "linear(to-r, cyan.900  , cyan.900, teal.100 )";
+        } else if (file.making == 1) {
+          ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
+        } else ret = "linear(to-r, cyan.900  , cyan.900 )";
+      else ret = "linear(to-r, gray.700  , gray.700)";
+    } else if (s == 2) {
+      // 두번째 원격 영역 그라디언트 설정입니다
+      if (file.copying == 1)
+        ret = "linear(to-r, teal.100, gray.600  , gray.600)";
+      else if (file.copying == 2) {
+        if (file.uploading == 2)
+          ret = "linear(to-r, gray.600, gray.600, gray.500, pink.100)";
+        else ret = "linear(to-r, gray.500, gray.500)";
+      } else ret = "linear(to-r, gray.700, gray.700)";
+    } else if (s == 3) {
+      // 세번째 유튜브 영역 그라디언트 설정입니다
+      if (file.uploading == 2)
+        ret = "linear(to-r, red.100, pink.700  , pink.800)";
+      // else if (file.uploading == 3) ret = "linear(to-r, pink.600, pink.600)";
+      else if (file.uploading == 3)
+        ret = "linear(to-r, purple.600, purple.500)";
+      // 전송실패일 경우입니다
+      else if (file.uploading == 4)
+        ret = "linear(to-r, orange.600, orange.500)";
+      else ret = "linear(to-r, gray.700  , gray.700)";
+    }
+    return ret;
+  };
+  /*
   const gradienting = useCallback((s) => {
     let ret = "";
     // 첫번째 로컬 영역 그라디언트 설정입니다
@@ -80,6 +115,7 @@ const FileItem = ({ file }) => {
     }
     return ret;
   }, []);
+  */
 
   const { openModal } = useModal();
 
@@ -241,6 +277,8 @@ const FileItem = ({ file }) => {
             </HStack>
             {/* 숨겨진 인풋창입니다 */}
           </Flex>
+
+          {/* 실제 인디케이터 구현부입니다 */}
           <Flex
             w="full"
             h="full"
