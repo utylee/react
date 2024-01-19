@@ -15,8 +15,9 @@ const FileItem = ({ file }) => {
   // const isHover = true;
   const [isHover, setIshover] = useState(false);
   // const [thisFile, setThisfile] = useState(file);
-  // console.log("FileItem::rendered");
+  console.log("FileItem::rendered");
 
+  /*
   // 투명도 설정 함수입니다
   const opacitying = useCallback((s) => {
     let ret = 0;
@@ -46,6 +47,10 @@ const FileItem = ({ file }) => {
 
     return ret;
   }, []);
+  */
+
+  // useCallback 을 제거했습니다. 해당 인디케이터박스가 변화없음으로 인식되어
+  //업데이트가 안되는 문제가 발생하였습니다
   const gradienting = (s) => {
     let ret = "";
     // 첫번째 로컬 영역 그라디언트 설정입니다
