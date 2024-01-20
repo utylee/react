@@ -29,6 +29,32 @@ const MyModal = ({ setMyconfirm }) => {
   // }, []);
   // }, [curFile.timestamp]);
 
+  const handleDelete = async () => {
+    const file = curFile.filename;
+    console.log("MyModal::handleDelete::filename:...");
+    console.log(file);
+    const requestOptions = {
+      method: "POST",
+      header: { "Content-Type:": "application/json" },
+      body: JSON.stringify({
+        timestamp: curFile.timestamp,
+        filename: curFile.filename,
+      }),
+    };
+    // const res = await fetch("/uploader/api/updatejs", requestOptions);
+    const res = await fetch("/youtube/api/deletejs", requestOptions);
+    // console.log("response:" + JSON.stringify(res));
+    // const js = await res.json();
+    const txt = await res.text();
+    console.log("MyModal::handleDelete::response:...");
+    console.log(txt);
+
+    // if (title !== curFile.title) {
+    //   setMyconfirm(Math.random());
+    // }
+    closeModal();
+  };
+
   const handleConfirm = async () => {
     const title = inputRef.current.value.trim();
     console.log("handleConfirm::title:" + title);
@@ -95,16 +121,25 @@ const MyModal = ({ setMyconfirm }) => {
                   alignSelf="start"
                   borderColor="gray.500"
                 >
-                  <Flex fontSize={["0.9em", "0.9em", "1em"]}>상태수정</Flex>
+                  <Flex fontSize={["0.9em", "0.9em", "1em"]}>재전송</Flex>
                 </Button>
+                {/* colorScheme="red" */}
+                {/* color="gray.500" */}
+                {/* borderColor="gray.500" */}
                 <Button
-                  color="gray.500"
+                  color="red.800"
+                  borderColor="red.700"
                   variant="outline"
                   size={["xs", "xs", "sm"]}
                   alignSelf="start"
-                  borderColor="gray.500"
+                  _hover={{
+                    bg: "#770000",
+                    color: "#CCCCCC",
+                    borderColor: "#FF0000",
+                  }}
+                  onClick={() => handleDelete()}
                 >
-                  <Flex fontSize={["0.9em", "0.9em", "1em"]}>재전송</Flex>
+                  <Flex fontSize={["0.9em", "0.9em", "1em"]}>삭제</Flex>
                 </Button>
               </HStack>
               <HStack alignSelf="end">
