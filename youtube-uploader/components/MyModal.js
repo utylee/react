@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -14,10 +14,39 @@ import {
 } from "@chakra-ui/react";
 import { FaHome, FaServer, FaYoutube, FaYoutubeSquare } from "react-icons/fa";
 import useModal from "./useModal";
+import useWS from "./useWS";
+import useRefreshing from "./useRefreshing";
+// import {
+//   RefreshingStateContext,
+//   RefreshingDispatchContext,
+// } from "../contexts/RefreshingContext";
 
-const MyModal = ({ setMyconfirm }) => {
+const MyModal = ({ setMyconfirm, setSocketConnected, ws }) => {
   const { openModal, isOpen, setIsOpen, closeModal, curFile } = useModal();
+
+  const { checkConnection, forceReconnect, msg, send, setCallbackFunc } =
+    useWS();
+
+  const { getIndexRefreshingFunction } = useRefreshing();
+  // const { refreshingFunc } = useContext(RefreshingStateContext);
+
   const inputRef = useRef(undefined);
+
+  // useEffect(() => {
+  //   console.log("MyModal::useEffect[msg]::came in::msg...");
+  //   console.log(msg);
+
+  //   if (msg === "processing" || msg === "finished") {
+  //     console.log("MyModal::useEffect[msg]::set auth_status:...");
+  //     console.log(msg);
+  //     // auth_status.current = evt.data;
+  //     // setAuth_status(msg);
+  //   } else if (msg === "needRefresh") {
+  //     console.log("needRefresh ws came");
+  //     // setMyconfirm(Math.random());
+  //     // getIndexRefreshingFunction(Math.random());
+  //   }
+  // }, [msg]);
 
   // autoFocus 를 사용하기에 문제해결도 못했겠다 제거해보았습니다
   // useEffect(() => {
@@ -33,6 +62,47 @@ const MyModal = ({ setMyconfirm }) => {
     const file = curFile.filename;
     console.log("MyModal::handleDelete::filename:...");
     console.log(file);
+
+    if (!checkConnection()) {
+      console.log("MyModal::handleDelete::connection lost::reconnecting...");
+      console.log("MyModal::handleDelete::getIndexRefreshingFunction is...");
+      // console.log(getIndexRefreshingFunction());
+      // console.log(getIndexRefreshingFunction);
+      console.log(getIndexRefreshingFunction());
+      // console.log(refreshingFunc);
+      // console.log("MyModal::handleDelete::callbackFunc::is...");
+      // setCallbackFunc(getIndexRefreshingFunction());
+      // if (refreshingFunc) {
+      //   refreshingFunc(Math.random());
+      // }
+		  
+      // if (getIndexRefreshingFunction()) {
+      //   getIndexRefreshingFunction()(Math.random());
+      // }
+      forceReconnect();
+    }
+
+    /*
+    if (ws.current.readyState == 3) {
+      console.log(
+        "MyModal::handleDelete::ws socket not connected so refreshing and reconnect"
+      );
+
+      // ws를 null로 할당하고 setSocketConnected 함수를 호출해서 소켓생성 useEffect를
+      // 실행하게끔합니다
+      ws.current.close();
+      ws.current = null;
+      setSocketConnected(false);
+      // getIndexRefreshingFunction(Math.random());
+      // setTimeout(getIndexRefreshingFunction(Math.random()), 8000);
+    }
+	*/
+    // console.log("MyModal::handleDelete::getIndexRefreshingFunction::...");
+    // console.log(getIndexRefreshingFunction);
+    // console.log(refreshingFunc);
+    // console.log("MyModal::handleDelete::getIndexRefreshingFunction()::...");
+    // console.log(getIndexRefreshingFunction());
+
     const requestOptions = {
       method: "POST",
       header: { "Content-Type:": "application/json" },
@@ -43,15 +113,25 @@ const MyModal = ({ setMyconfirm }) => {
     };
     // const res = await fetch("/uploader/api/updatejs", requestOptions);
     const res = await fetch("/youtube/api/deletejs", requestOptions);
+    console.log("MyModal::handleDelete::fetch request sended");
     // console.log("response:" + JSON.stringify(res));
     // const js = await res.json();
     const txt = await res.text();
     console.log("MyModal::handleDelete::response:...");
     console.log(txt);
 
+    // setMyconfirm(Math.random());
+
     // if (title !== curFile.title) {
     //   setMyconfirm(Math.random());
     // }
+    //
+
+    console.log("MyModal::handleDelete::refreshing!");
+    getIndexRefreshingFunction()(Math.random());
+    // refreshingFunc(Math.random());
+    // setMyconfirm(Math.random())
+    // setTimeout(getIndexRefreshingFunction(Math.random()), 4000);
     closeModal();
   };
 
@@ -70,7 +150,11 @@ const MyModal = ({ setMyconfirm }) => {
     console.log("response:");
     console.log(js);
     if (title !== curFile.title) {
-      setMyconfirm(Math.random());
+      // refreshingFunc(Math.random());
+      getIndexRefreshingFunction()(Math.random());
+
+      // setMyconfirm(Math.random());
+      // getIndexRefreshingFunction(Math.random());
       // setMyconfirm(inputRef.current.value);
     }
     closeModal();

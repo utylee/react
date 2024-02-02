@@ -1,18 +1,35 @@
 import { VStack, HStack, Flex } from "@chakra-ui/react";
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from "react";
 import FileItem from "../components/FileItem";
 import MyModal from "../components/MyModal";
 import LoginJson from "../components/LoginJson";
+// import useModal from "../components/useModal";
+import useRefreshing from "../components/useRefreshing";
+// import { RefreshingDispatchContext } from "../contexts/RefreshingContext";
 
 export default function Home() {
   const [files, setFiles] = useState({});
   // const [files, setFiles] = useState({ json_date: "", files: [] });
   const [myconfirm, setMyconfirm] = useState(""); // refresh 함수로 사용됩니다
+
   const [socketConnected, setSocketConnected] = useState(true);
   const [auth_status, setAuth_status] = useState("");
+  const { setIndexRefreshingFunction } = useRefreshing();
+  // const { setRefreshingFunc } = useContext(RefreshingDispatchContext);
+
   // const [loginjson, setLoginjson] = useState("");
   // let json_date = "791031-21:00:00";
   console.log("index::js rendered!");
+  console.log("index.js::setMyconfirm::is...");
+  console.log(setMyconfirm);
+  // console.log("index.js::setMyconfirmMemo::is...");
+  // console.log(setMyconfirmMemo);
   // const websocketUrl = "ws://utylee.duckdns.org/youtube/api/ws";
   const websocketUrl = "ws://utylee.duckdns.org/youtube/uploader/ws";
   let ws = useRef(null);
@@ -32,9 +49,41 @@ export default function Home() {
   // 최초실행: 소켓 연결 함수 연결을 위해 set해줍니다
   useEffect(() => {
     setSocketConnected(false);
+
+    // MyModal에서 index.js의 refreshing함수(listjs 및 state리프레이 다시 실행하는 함수)
+    // 사용하기 위해 지정해줍니다
+
+    // console.log(
+    //   "index.js::useEffect[]::setIndexRefreshingFunction::setMyconfirm is..."
+    // );
+    // console.log(setMyconfirmMemo);
+    // console.log(setMyconfirm);
+    // useState에 함수를 저장하고 싶을 때는 꼭 함수형으로 한 번 더 감싸야 한답니다
+    // 참고)) https://stackoverflow.com/questions/55621212/is-it-possible-to-react-usestate-in-react
+    setIndexRefreshingFunction(() => setMyconfirm);
+    // setRefreshingFunc(() => setMyconfirm);
+    // setIndexRefreshingFunction(3);
+    // setIndexRefreshingFunction(setMyconfirmMemo);
+    // setRefreshingFunc(setMyconfirm);
   }, []);
 
+  // useEffect(() => {
+  //   setIndexRefreshingFunction(() => setMyconfirm);
+  // }, [setIndexRefreshingFunction, getIndexRefreshingFunction, setMyconfirm]);
+
+  // useEffect(() => {
+  //   console.log("index.js::setMyconfirm changed::resetting...");
+  //   console.log(setMyconfirm);
+  //   // console.log(setMyconfirmMemo);
+  //   // setIndexRefreshingFunction(setMyconfirm);
+  //   // setIndexRefreshingFunction(3);
+  //   // setIndexRefreshingFunction(setMyconfirmMemo);
+  //   setRefreshingFunc(setMyconfirm);
+  //   // }, [setMyconfirmMemo, setMyconfirm]);
+  // }, [setMyconfirm]);
+
   // 소켓 연결 useEffect
+  // dep: [socketConnected]
   useEffect(() => {
     console.log("index.js::useEffect[socketConnected]::ws.current is... ");
     console.log(ws.current);
@@ -89,6 +138,7 @@ export default function Home() {
           setAuth_status(evt.data);
         } else if (evt.data === "needRefresh") {
           console.log("needRefresh ws came");
+          // setMyconfirmMemo(Math.random());
           setMyconfirm(Math.random());
         }
       };
@@ -96,6 +146,7 @@ export default function Home() {
   }, [socketConnected]);
   //}, []);
 
+  // dep: [myconfirm]
   useEffect(() => {
     console.log("index.js::useEffect[myconfirm] for /api/listjs");
     const getItems = async () => {
@@ -123,11 +174,12 @@ export default function Home() {
         {/* <LoginJson auth_status={auth_status.current} /> */}
         {/* <LoginJson auth_status={auth_status} /> */}
         {/* <LoginJson json_date={json_date} auth_status={auth_status} /> */}
+        {/* refresh_function={setMyconfirmMemo} */}
+        {/* refresh_function={setMyconfirm} */}
         <LoginJson
           json_date={files.json_date}
           auth_status={auth_status}
           setSocketConnected={setSocketConnected}
-          refresh_function={setMyconfirm}
           ws={ws}
         />
 
@@ -154,7 +206,9 @@ export default function Home() {
             : 0
           : 0}
       </VStack>
-      <MyModal setMyconfirm={setMyconfirm} />
+      {/* setMyconfirm={setMyconfirmMemo} */}
+      {/* setMyconfirm={setMyconfirm} */}
+      <MyModal setSocketConnected={setSocketConnected} ws={ws} />
     </>
   );
 }

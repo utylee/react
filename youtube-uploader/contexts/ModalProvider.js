@@ -1,12 +1,20 @@
-import React, { useState, useContext, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { ModalStateContext, ModalDispatchContext } from "./ModalContext";
 import { useDisclosure } from "@chakra-ui/react";
 // import MyModal from "../components/MyModal";
 
 const ModalProvider = ({ children }) => {
   let { isOpen, onOpen, onClose } = useDisclosure();
-  const [value, setValue] = useState(0);
+  const [val, setVal] = useState(0);
   const [curFile, setCurfile] = useState({});
+  const [websocket, setWebsocket] = useState();
+
   const dummyFunc = () => {
     return [1, 2];
   };
@@ -21,12 +29,20 @@ const ModalProvider = ({ children }) => {
     isOpen = b;
   };
   const dispatch = useMemo(
-    () => ({ dummyFunc, setValue, open, close, setIsOpen, setCurfile }),
+    () => ({
+      dummyFunc,
+      setVal,
+      open,
+      close,
+      setIsOpen,
+      setCurfile,
+      setWebsocket,
+    }),
     []
   );
 
   return (
-    <ModalStateContext.Provider value={{ value, isOpen, curFile }}>
+    <ModalStateContext.Provider value={{ val, isOpen, curFile, websocket }}>
       <ModalDispatchContext.Provider value={dispatch}>
         {children}
         {/* <MyModal /> */}

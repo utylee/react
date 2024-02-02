@@ -10,6 +10,8 @@
 import Head from "next/head";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ModalProvider from "../contexts/ModalProvider";
+import WSProvider from "../contexts/WSProvider";
+import RefreshingProvider from "../contexts/RefreshingProvider";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -27,14 +29,18 @@ function MyApp({ Component, pageProps }) {
       })}
     >
       <ModalProvider>
-        <Head>
-          {/* <link rel="icon" href="/memo/images/favicon.ico" /> */}
-          {/* <link rel="icon" href="/memo/public/favicon2.ico" /> */}
-          {/* <link rel="icon" href="./favicon.ico" /> */}
-          <link rel="icon" href="/youtube/favicon.ico" />
-          {/* <link rel="icon" href="/favicon.ico" /> */}
-        </Head>
-        <Component {...pageProps} />
+        <RefreshingProvider>
+          <WSProvider>
+            <Head>
+              {/* <link rel="icon" href="/memo/images/favicon.ico" /> */}
+              {/* <link rel="icon" href="/memo/public/favicon2.ico" /> */}
+              {/* <link rel="icon" href="./favicon.ico" /> */}
+              <link rel="icon" href="/youtube/favicon.ico" />
+              {/* <link rel="icon" href="/favicon.ico" /> */}
+            </Head>
+            <Component {...pageProps} />
+          </WSProvider>
+        </RefreshingProvider>
       </ModalProvider>
     </ChakraProvider>
   );

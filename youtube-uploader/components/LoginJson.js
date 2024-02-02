@@ -59,7 +59,9 @@ const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
 
       // ws를 null로 할당하고 setSocketConnected 함수를 호출해서 소켓생성 useEffect를
       // 실행하게끔합니다
+      ws.current.close();
       ws.current = null;
+      // ws.current = null;
       setSocketConnected(false);
       // is_connected.current = false;
       // refresh_function(Math.random());
