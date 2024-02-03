@@ -21,7 +21,8 @@ import useRefreshing from "./useRefreshing";
 //   RefreshingDispatchContext,
 // } from "../contexts/RefreshingContext";
 
-const MyModal = ({ setMyconfirm, setSocketConnected, ws }) => {
+// const MyModal = ({ setMyconfirm, setSocketConnected, ws }) => {
+const MyModal = () => {
   const { openModal, isOpen, setIsOpen, closeModal, curFile } = useModal();
 
   const { checkConnection, forceReconnect, msg, send, setCallbackFunc } =

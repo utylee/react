@@ -7,22 +7,15 @@ const WSProvider = ({ children }) => {
   const [msg, setMsg] = useState();
   const ws = useRef(null);
   const [dummy, setDummy] = useState(); // 오직 forceReconnect를 위한 state 선언입니다
-  const [callbackFunc, setCallbackFunc] = useState();
-  // const [callbackFunc, setCallbackFunc] = useState(() => {});
-  const forceReconnect = () => {
-    console.log(
-      "WSProvider::forceReconnect()::setDummy calling...::setDummy is... "
-    );
-    console.log(setDummy);
-    setDummy({});
-  };
+  // const [callbackFunc, setCallbackFunc] = useState();
   console.log("WSProvider::rendering...");
   useEffect(() => {
-    console.log("WSProvider::useEffect[]::setDummy is ...");
-    console.log(setDummy);
+    // console.log("WSProvider::useEffect[]::setDummy is ...");
+    // console.log(setDummy);
     setDummy({});
   }, []);
 
+  // dep: [dummy]
   useEffect(() => {
     console.log("WSProvider::useEffect[]::starting::ws.current is... ");
     console.log(ws.current);
@@ -33,15 +26,17 @@ const WSProvider = ({ children }) => {
       console.log("WSProvider::ws connected");
       setIsReady(true);
       console.log("WSProvider::ws.onopen::callbackFunc calling...");
-      console.log(callbackFunc);
-      callbackFunc ? callbackFunc() : 0;
+      // console.log(callbackFunc);
+      // callbackFunc ? callbackFunc() : 0;
     };
 
     ws.current.onclose = (evt) => {
       console.log("WSProvider::useEffect::websocket closed ");
       setIsReady(false);
-      // ws.current.close();
-      // ws.current = null;
+      if (ws.current) {
+        ws.current.close();
+        ws.current = null;
+      }
     };
 
     ws.current.onmessage = (evt) => {
@@ -83,20 +78,22 @@ const WSProvider = ({ children }) => {
     };
   }, [dummy]);
 
+  let binded_send = ws.current ? ws.current.send.bind(ws.current) : null;
+
   const getReadyState = () => {
-    return ws.current.readyState;
+    // 혹시 끊겨있다면 그냥 3을 전달해줘서 끊겨있는 상태로 그대로 처리하게 합니다
+    return ws.current ? ws.current.readyState : 3;
   };
 
   const dispatch = useMemo(
     () => ({
       getReadyState,
-      forceReconnect,
-      setCallbackFunc,
+      setDummy,
+      // forceReconnect,
+      // setCallbackFunc,
     }),
     []
   );
-
-  let binded_send = ws.current ? ws.current.send.bind(ws.current) : null;
 
   return (
     <WSStateContext.Provider value={{ isReady, msg, binded_send }}>

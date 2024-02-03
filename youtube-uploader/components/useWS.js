@@ -3,10 +3,17 @@ import { WSDispatchContext, WSStateContext } from "../contexts/WSContext";
 
 const useWS = () => {
   const { isReady, msg, binded_send } = useContext(WSStateContext);
-  const { getReadyState, forceReconnect, setCallbackFunc } =
-    useContext(WSDispatchContext);
+  // const { getReadyState, forceReconnect } = useContext(WSDispatchContext);
+  const { getReadyState, setDummy } = useContext(WSDispatchContext);
 
-  const checkConnection = useCallback(() => {
+  const correctConnection = () => {
+    console.log("useWS::correctConnection::");
+    if (!checkConnection) {
+      forceReconnect();
+    }
+  };
+
+  const checkConnection = () => {
     console.log("useWS::checkConnection::getReadyState::...");
     console.log(getReadyState());
     let ret = true;
@@ -14,13 +21,35 @@ const useWS = () => {
       ret = false;
     }
     return ret;
-  }, []);
+  };
 
-  const send = useCallback((val) => {
+  const send = (val) => {
     binded_send(val);
-  }, []);
+  };
 
-  return { checkConnection, forceReconnect, msg, send, setCallbackFunc };
+  // const checkConnection = useCallback(() => {
+  //   console.log("useWS::checkConnection::getReadyState::...");
+  //   console.log(getReadyState());
+  //   let ret = true;
+  //   if (getReadyState() == 3) {
+  //     ret = false;
+  //   }
+  //   return ret;
+  // }, []);
+
+  // const send = useCallback((val) => {
+  //   binded_send(val);
+  // }, []);
+
+  const forceReconnect = () => {
+    console.log(
+      "useWS::forceReconnect()::setDummy calling...::setDummy is... "
+    );
+    console.log(setDummy);
+    setDummy({});
+  };
+
+  return { correctConnection, checkConnection, forceReconnect, msg, send };
 };
 
 export default useWS;

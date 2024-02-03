@@ -1,9 +1,13 @@
 import { Flex, HStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import useWS from "./useWS";
 
-const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
+// const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
+const LoginJson = ({ json_date, auth_status }) => {
   console.log("LoginJson::auth_status::" + auth_status);
   const [isHover, setIshover] = useState(false);
+  const { correctConnection, checkConnection, forceReconnect, msg, send } =
+    useWS();
 
   const msging = () => {
     let result = "login.json   " + json_date;
@@ -45,33 +49,36 @@ const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
     return result;
   };
 
-  const sendRefreshing = async () => {
-    console.log("LoginJson.js::sendRefreshing");
+  // 재인증 명령을 전송합니다
+  const sendAuthoring = async () => {
+    console.log("LoginJson.js::sendAuthoring");
 
     //클라이트 리프레싱 루틴도 추가합니다
-    console.log("LoginJson.js::sendRefreshing::ws socket is ", ws.current);
-    console.log(ws.current);
+    // console.log("LoginJson.js::sendAuthoring::ws socket is ", ws.current);
+    // console.log(ws.current);
     // if (is_connected == false) {
-    if (ws.current.readyState == 3) {
-      console.log(
-        "LoginJson::sendRefreshing::ws socket not connected so refreshing and reconnect"
-      );
+	  
+    // if (ws.current.readyState == 3) {
+    //   console.log(
+    //     "LoginJson::sendAuthoring::ws socket not connected so refreshing and reconnect"
+    //   );
 
-      // ws를 null로 할당하고 setSocketConnected 함수를 호출해서 소켓생성 useEffect를
-      // 실행하게끔합니다
-      ws.current.close();
-      ws.current = null;
-      // ws.current = null;
-      setSocketConnected(false);
-      // is_connected.current = false;
-      // refresh_function(Math.random());
-    }
+    //   // ws를 null로 할당하고 setSocketConnected 함수를 호출해서 소켓생성 useEffect를
+    //   // 실행하게끔합니다
+    //   ws.current.close();
+    //   ws.current = null;
+    //   // ws.current = null;
+    //   setSocketConnected(false);
+    //   // is_connected.current = false;
+    //   // refresh_function(Math.random());
+    // }
+    correctConnection();
 
     const res = await fetch("/youtube/uploader/loginjson");
     // const res = await fetch("/uploader/api/listjs");
     // const js = await res.json();
     const txt = await res.text();
-    console.log("LoginJson::sendRefreshing::after loginjson fetch::...");
+    console.log("LoginJson::sendAuthoring::after loginjson fetch::...");
     console.log(txt);
 
     // setFiles([...js]);
@@ -102,7 +109,7 @@ const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
         overflow="hidden"
         onMouseEnter={() => setIshover(true)}
         onMouseLeave={() => setIshover(false)}
-        onClick={() => sendRefreshing()}
+        onClick={() => sendAuthoring()}
         sx={{
           bg: bging(),
           cursor: isHover ? "pointer" : "none",

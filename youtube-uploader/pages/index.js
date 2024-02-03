@@ -11,6 +11,7 @@ import MyModal from "../components/MyModal";
 import LoginJson from "../components/LoginJson";
 // import useModal from "../components/useModal";
 import useRefreshing from "../components/useRefreshing";
+import useWS from "../components/useWS";
 // import { RefreshingDispatchContext } from "../contexts/RefreshingContext";
 
 export default function Home() {
@@ -18,8 +19,10 @@ export default function Home() {
   // const [files, setFiles] = useState({ json_date: "", files: [] });
   const [myconfirm, setMyconfirm] = useState(""); // refresh 함수로 사용됩니다
 
-  const [socketConnected, setSocketConnected] = useState(true);
+  // const [socketConnected, setSocketConnected] = useState(true);
   const [auth_status, setAuth_status] = useState("");
+
+  const { correctConnection, msg, send } = useWS();
   const { setIndexRefreshingFunction } = useRefreshing();
   // const { setRefreshingFunc } = useContext(RefreshingDispatchContext);
 
@@ -30,10 +33,25 @@ export default function Home() {
   console.log(setMyconfirm);
   // console.log("index.js::setMyconfirmMemo::is...");
   // console.log(setMyconfirmMemo);
-  // const websocketUrl = "ws://utylee.duckdns.org/youtube/api/ws";
-  const websocketUrl = "ws://utylee.duckdns.org/youtube/uploader/ws";
-  let ws = useRef(null);
-  // let ws_connected = useRef(false);
+
+  // const websocketUrl = "ws://utylee.duckdns.org/youtube/uploader/ws";
+  // let ws = useRef(null);
+
+  useEffect(() => {
+    console.log("index.js::useEffect[msg]::msg:" + msg);
+
+    // json 객체로 주고 받기로 변경하였습니다
+    // 잠시만...
+    if (msg === "processing" || msg === "finished") {
+      console.log("index.js::useEffect[msg]::set auth_status:" + msg);
+      // auth_status.current = evt.data;
+      setAuth_status(msg);
+    } else if (msg === "needRefresh") {
+      console.log("index.js::useEffect[msg]::needRefresh ws came");
+      // setMyconfirmMemo(Math.random());
+      setMyconfirm(Math.random());
+    }
+  }, [msg]);
 
   /*
   useEffect(() => {
@@ -48,7 +66,7 @@ export default function Home() {
 
   // 최초실행: 소켓 연결 함수 연결을 위해 set해줍니다
   useEffect(() => {
-    setSocketConnected(false);
+    // setSocketConnected(false);
 
     // MyModal에서 index.js의 refreshing함수(listjs 및 state리프레이 다시 실행하는 함수)
     // 사용하기 위해 지정해줍니다
@@ -82,72 +100,74 @@ export default function Home() {
   //   // }, [setMyconfirmMemo, setMyconfirm]);
   // }, [setMyconfirm]);
 
-  // 소켓 연결 useEffect
-  // dep: [socketConnected]
-  useEffect(() => {
-    console.log("index.js::useEffect[socketConnected]::ws.current is... ");
-    console.log(ws.current);
-    if (!ws.current && socketConnected == false) {
-      // if (!ws.current || ws_connected.current == false) {
-      ws.current = new WebSocket(websocketUrl);
+  //// 소켓 연결 useEffect
+  //// dep: [socketConnected]
+  //useEffect(() => {
+  //  console.log("index.js::useEffect[socketConnected]::ws.current is... ");
+  //  console.log(ws.current);
+  //  if (!ws.current && socketConnected == false) {
+  //    // if (!ws.current || ws_connected.current == false) {
+  //    ws.current = new WebSocket(websocketUrl);
 
-      ws.current.onopen = () => {
-        console.log("index.js::ws connected");
-        setSocketConnected(true);
-        // ws_connected.current = true;
+  //    ws.current.onopen = () => {
+  //      console.log("index.js::ws connected");
+  //      setSocketConnected(true);
+  //      // ws_connected.current = true;
 
-        // 굳이 필요없는 것 같습니다
-        //setSocketConnected(true);
+  //      // 굳이 필요없는 것 같습니다
+  //      //setSocketConnected(true);
 
-        // setMyconfirm(Math.random());
-      };
+  //      // setMyconfirm(Math.random());
+  //    };
 
-      ws.current.onclose = (evt) => {
-        // ws_connected.current = false;
-        console.log(
-          "index.js::useEffect[socketConnected]::websocket closed ",
-          evt
-        );
-        ws.current.close();
-        console.log("index.js::useEffect[socketConnected]::socket closing");
-        // ws.current = null;
-      };
+  //    ws.current.onclose = (evt) => {
+  //      // ws_connected.current = false;
+  //      console.log(
+  //        "index.js::useEffect[socketConnected]::websocket closed ",
+  //        evt
+  //      );
+  //      ws.current.close();
+  //      console.log("index.js::useEffect[socketConnected]::socket closing");
+  //      // ws.current = null;
+  //    };
 
-      ws.current.onmessage = (evt) => {
-        console.log("index.js::useEffect[socketConnected]::msg:" + evt.data);
+  //    ws.current.onmessage = (evt) => {
+  //      console.log("index.js::useEffect[socketConnected]::msg:" + evt.data);
 
-        // parsed = JSON.parse(evt.data);
-        // if (typeof parsed.type != "undefined && parsed.type) {
-        //   if (parsed.type === "processing") {
-        //     console.log("set auth_status:" + parsed.type);
-        //     setAuth_status(parsed.type);
-        //   } else if (parsed.type === "finished") {
-        //     console.log("set auth_status:" + parsed.type);
-        //     setAuth_status(parsed.type);
-        //   } else if (parsed.type === "needRefresh") {
-        //     console.log("needRefresh ws came");
-        //     setMyconfirm(Math.random());
-        //   }
-        // }
+  //      // parsed = JSON.parse(evt.data);
+  //      // if (typeof parsed.type != "undefined && parsed.type) {
+  //      //   if (parsed.type === "processing") {
+  //      //     console.log("set auth_status:" + parsed.type);
+  //      //     setAuth_status(parsed.type);
+  //      //   } else if (parsed.type === "finished") {
+  //      //     console.log("set auth_status:" + parsed.type);
+  //      //     setAuth_status(parsed.type);
+  //      //   } else if (parsed.type === "needRefresh") {
+  //      //     console.log("needRefresh ws came");
+  //      //     setMyconfirm(Math.random());
+  //      //   }
+  //      // }
 
-        // json 객체로 주고 받기로 변경하였습니다
-        // 잠시만...
-        if (evt.data === "processing" || evt.data === "finished") {
-          console.log("set auth_status:" + evt.data);
-          // auth_status.current = evt.data;
-          setAuth_status(evt.data);
-        } else if (evt.data === "needRefresh") {
-          console.log("needRefresh ws came");
-          // setMyconfirmMemo(Math.random());
-          setMyconfirm(Math.random());
-        }
-      };
-    }
-  }, [socketConnected]);
-  //}, []);
+  //      // json 객체로 주고 받기로 변경하였습니다
+  //      // 잠시만...
+  //      if (evt.data === "processing" || evt.data === "finished") {
+  //        console.log("set auth_status:" + evt.data);
+  //        // auth_status.current = evt.data;
+  //        setAuth_status(evt.data);
+  //      } else if (evt.data === "needRefresh") {
+  //        console.log("needRefresh ws came");
+  //        // setMyconfirmMemo(Math.random());
+  //        setMyconfirm(Math.random());
+  //      }
+  //    };
+  //  }
+  //}, [socketConnected]);
+  ////}, []);
 
   // dep: [myconfirm]
   useEffect(() => {
+    console.log("index.js::correctConnection::");
+    correctConnection();
     console.log("index.js::useEffect[myconfirm] for /api/listjs");
     const getItems = async () => {
       console.log("came index.js::useEffect");
@@ -176,12 +196,9 @@ export default function Home() {
         {/* <LoginJson json_date={json_date} auth_status={auth_status} /> */}
         {/* refresh_function={setMyconfirmMemo} */}
         {/* refresh_function={setMyconfirm} */}
-        <LoginJson
-          json_date={files.json_date}
-          auth_status={auth_status}
-          setSocketConnected={setSocketConnected}
-          ws={ws}
-        />
+        {/* setSocketConnected={setSocketConnected} */}
+        {/* ws={ws} */}
+        <LoginJson json_date={files.json_date} auth_status={auth_status} />
 
         {/* <Flex p={3} bg="gray.500" rounded="md"> */}
         {/*   핑두 */}
@@ -208,7 +225,8 @@ export default function Home() {
       </VStack>
       {/* setMyconfirm={setMyconfirmMemo} */}
       {/* setMyconfirm={setMyconfirm} */}
-      <MyModal setSocketConnected={setSocketConnected} ws={ws} />
+      {/* <MyModal setSocketConnected={setSocketConnected} ws={ws} /> */}
+      <MyModal />
     </>
   );
 }
