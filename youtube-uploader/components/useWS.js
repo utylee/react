@@ -2,13 +2,14 @@ import React, { useCallback, useContext, useState } from "react";
 import { WSDispatchContext, WSStateContext } from "../contexts/WSContext";
 
 const useWS = () => {
-  const { isReady, msg, binded_send } = useContext(WSStateContext);
-  // const { getReadyState, forceReconnect } = useContext(WSDispatchContext);
+  // const { isReady, msg, binded_send } = useContext(WSStateContext);
+  const { isReady, msgObj, binded_send } = useContext(WSStateContext);
   const { getReadyState, setDummy } = useContext(WSDispatchContext);
 
   const correctConnection = () => {
     console.log("useWS::correctConnection::");
-    if (!checkConnection) {
+    if (!checkConnection()) {
+      console.log("useWS::correctConnection::disconnected, so trying reconnect");
       forceReconnect();
     }
   };
@@ -49,7 +50,7 @@ const useWS = () => {
     setDummy({});
   };
 
-  return { correctConnection, checkConnection, forceReconnect, msg, send };
+  return { correctConnection, checkConnection, forceReconnect, msgObj, send };
 };
 
 export default useWS;

@@ -15,7 +15,8 @@ const FileItem = ({ file }) => {
   // const isHover = true;
   const [isHover, setIshover] = useState(false);
   // const [thisFile, setThisfile] = useState(file);
-  console.log("FileItem::rendered");
+  console.log("FileItem::rendering...");
+  if (file.title) console.log('--- "' + file.title + '"');
 
   /*
   // 투명도 설정 함수입니다

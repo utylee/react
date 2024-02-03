@@ -21,7 +21,7 @@ const RefreshingProvider = ({ children }) => {
   //   console.log("RefreshingProvider::useEffect[]::refreshingFunc is...");
   //   console.log(refreshingFunc);
   // }, []);
-  const [refreshingFunc, setRefreshingFunc] = useState(1);
+  const [refreshingFunc, setRefreshingFunc] = useState(() => () => {});
   // const setRefreshingFunction = useCallback(
   //   (f) => {
   //     console.log("RefreshingProvider::cameinto setRefreshingFunction::f is..");

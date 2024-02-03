@@ -4,7 +4,8 @@ import useWS from "./useWS";
 
 // const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
 const LoginJson = ({ json_date, auth_status }) => {
-  console.log("LoginJson::auth_status::" + auth_status);
+  if (auth_status === "processing" || auth_status === "finished")
+    console.log("LoginJson::auth_status::" + auth_status);
   const [isHover, setIshover] = useState(false);
   const { correctConnection, checkConnection, forceReconnect, msg, send } =
     useWS();
@@ -57,7 +58,7 @@ const LoginJson = ({ json_date, auth_status }) => {
     // console.log("LoginJson.js::sendAuthoring::ws socket is ", ws.current);
     // console.log(ws.current);
     // if (is_connected == false) {
-	  
+
     // if (ws.current.readyState == 3) {
     //   console.log(
     //     "LoginJson::sendAuthoring::ws socket not connected so refreshing and reconnect"
@@ -78,8 +79,8 @@ const LoginJson = ({ json_date, auth_status }) => {
     // const res = await fetch("/uploader/api/listjs");
     // const js = await res.json();
     const txt = await res.text();
-    console.log("LoginJson::sendAuthoring::after loginjson fetch::...");
-    console.log(txt);
+    console.log("LoginJson::sendAuthoring::loginjson fetch Response::...");
+    console.log("\ttxt");
 
     // setFiles([...js]);
     // console.log("files:");

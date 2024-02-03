@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 const WSProvider = ({ children }) => {
   // const [ws, setWs] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const [msg, setMsg] = useState();
+  // const [msg, setMsg] = useState();
+  const [msgObj, setMsgObj] = useState({ msg: "" });
   const ws = useRef(null);
   const [dummy, setDummy] = useState(); // 오직 forceReconnect를 위한 state 선언입니다
   // const [callbackFunc, setCallbackFunc] = useState();
@@ -25,7 +26,7 @@ const WSProvider = ({ children }) => {
     ws.current.onopen = () => {
       console.log("WSProvider::ws connected");
       setIsReady(true);
-      console.log("WSProvider::ws.onopen::callbackFunc calling...");
+      // console.log("WSProvider::ws.onopen::callbackFunc calling...");
       // console.log(callbackFunc);
       // callbackFunc ? callbackFunc() : 0;
     };
@@ -41,7 +42,8 @@ const WSProvider = ({ children }) => {
 
     ws.current.onmessage = (evt) => {
       console.log("WSProvider::useEffect::msg:" + evt.data);
-      setMsg(evt.data);
+      // setMsg(evt.data);
+      setMsgObj({ msg: evt.data });
 
       // parsed = JSON.parse(evt.data);
       // if (typeof parsed.type != "undefined && parsed.type) {
@@ -96,8 +98,8 @@ const WSProvider = ({ children }) => {
   );
 
   return (
-    <WSStateContext.Provider value={{ isReady, msg, binded_send }}>
-      {/* <WSStateContext.Provider value={{ isReady, msg, ws.current?.send.bind(ws.current) }}> */}
+    <WSStateContext.Provider value={{ isReady, msgObj, binded_send }}>
+      {/* <WSStateContext.Provider value={{ isReady, msg, binded_send }}> */}
       <WSDispatchContext.Provider value={dispatch}>
         {children}
       </WSDispatchContext.Provider>

@@ -22,23 +22,23 @@ export default function Home() {
   // const [socketConnected, setSocketConnected] = useState(true);
   const [auth_status, setAuth_status] = useState("");
 
-  const { correctConnection, msg, send } = useWS();
+  const { correctConnection, msgObj, send } = useWS();
   const { setIndexRefreshingFunction } = useRefreshing();
   // const { setRefreshingFunc } = useContext(RefreshingDispatchContext);
 
   // const [loginjson, setLoginjson] = useState("");
   // let json_date = "791031-21:00:00";
-  console.log("index::js rendered!");
-  console.log("index.js::setMyconfirm::is...");
-  console.log(setMyconfirm);
-  // console.log("index.js::setMyconfirmMemo::is...");
-  // console.log(setMyconfirmMemo);
+  console.log("index.js::rendering...");
+  // console.log("index.js::setMyconfirm::is...");
+  // console.log(setMyconfirm);
 
   // const websocketUrl = "ws://utylee.duckdns.org/youtube/uploader/ws";
   // let ws = useRef(null);
 
   useEffect(() => {
-    console.log("index.js::useEffect[msg]::msg:" + msg);
+    console.log("index.js::useEffect[msgObj]::msg:" + msgObj.msg);
+
+    let msg = msgObj.msg;
 
     // json 객체로 주고 받기로 변경하였습니다
     // 잠시만...
@@ -51,7 +51,8 @@ export default function Home() {
       // setMyconfirmMemo(Math.random());
       setMyconfirm(Math.random());
     }
-  }, [msg]);
+  }, [msgObj]);
+  // }, [msg]);
 
   /*
   useEffect(() => {
@@ -166,24 +167,23 @@ export default function Home() {
 
   // dep: [myconfirm]
   useEffect(() => {
-    console.log("index.js::correctConnection::");
+    console.log("index.js::useEffect[myconfirm]::correctConnection()");
     correctConnection();
-    console.log("index.js::useEffect[myconfirm] for /api/listjs");
+    console.log("index.js::useEffect[myconfirm] get /api/listjs ...");
     const getItems = async () => {
-      console.log("came index.js::useEffect");
       const res = await fetch("/youtube/api/listjs");
       // const res = await fetch("/uploader/api/listjs");
       let js = await res.json();
       js = JSON.parse(js);
-      console.log("index.js::useEffect::js::");
-      console.log(js);
-      console.log("js.json_date:");
-      console.log(js.json_date);
+      console.log("index.js::useEffect[myconfirm]::get js::");
+      console.log("\t" + js);
+      console.log("\tjs.json_date:");
+      console.log("\t" + js.json_date);
       setFiles({ ...js });
       // setFiles([...js]);
       // console.log("dddd");
-      console.log("files:");
-      console.log(files);
+      console.log("\tfiles:");
+      console.log("\t" + files);
     };
     getItems();
   }, [myconfirm]);
