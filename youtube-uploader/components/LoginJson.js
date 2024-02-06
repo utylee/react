@@ -10,8 +10,17 @@ const LoginJson = ({ json_date, auth_status }) => {
   const { correctConnection, checkConnection, forceReconnect, msg, send } =
     useWS();
 
+  const [touchpoints, setTouchpoints] = useState();
+
+  // iOS 및 터치OS에서는 isHover를 처리하지 않습니다
+  useEffect(() => {
+    let p = navigator?.maxTouchPoints; //|| "unknown";
+    setTouchpoints(p);
+  }, []);
+
   const msging = () => {
     let result = "login.json   " + json_date;
+
     if (auth_status === "processing") {
       // result = "authorizing...";
       return <Flex>authorizing...</Flex>;
@@ -108,8 +117,12 @@ const LoginJson = ({ json_date, auth_status }) => {
         alignItems="center"
         borderColor="purple.800"
         overflow="hidden"
-        onMouseEnter={() => setIshover(true)}
-        onMouseLeave={() => setIshover(false)}
+        onMouseEnter={() => {
+          if (!touchpoints) setIshover(true);
+        }}
+        onMouseLeave={() => {
+          if (!touchpoints) setIshover(false);
+        }}
         onClick={() => sendAuthoring()}
         sx={{
           bg: bging(),
