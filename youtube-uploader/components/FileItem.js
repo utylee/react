@@ -12,6 +12,7 @@ import { MdAddToPhotos } from "react-icons/md";
 import useModal from "./useModal";
 
 const FileItem = ({ file }) => {
+  const { openModal } = useModal();
   // const isHover = true;
   const [isHover, setIshover] = useState(false);
   // const [thisFile, setThisfile] = useState(file);
@@ -122,8 +123,6 @@ const FileItem = ({ file }) => {
     return ret;
   }, []);
   */
-
-  const { openModal } = useModal();
 
   return (
     <>

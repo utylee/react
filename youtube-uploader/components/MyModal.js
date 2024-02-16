@@ -13,6 +13,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { FaHome, FaServer, FaYoutube, FaYoutubeSquare } from "react-icons/fa";
+import Playlists from "./Playlists";
 import useModal from "./useModal";
 import useWS from "./useWS";
 import useRefreshing from "./useRefreshing";
@@ -23,7 +24,17 @@ import useRefreshing from "./useRefreshing";
 
 // const MyModal = ({ setMyconfirm, setSocketConnected, ws }) => {
 const MyModal = () => {
-  const { openModal, isOpen, setIsOpen, closeModal, curFile } = useModal();
+  const {
+    openModal,
+    isOpen,
+    setIsOpen,
+    closeModal,
+    changed,
+    setChanged,
+    curFile,
+    setCurfile,
+    playlists,
+  } = useModal();
 
   const { checkConnection, forceReconnect, msg, send, setCallbackFunc } =
     useWS();
@@ -76,7 +87,7 @@ const MyModal = () => {
       // if (refreshingFunc) {
       //   refreshingFunc(Math.random());
       // }
-		  
+
       // if (getIndexRefreshingFunction()) {
       //   getIndexRefreshingFunction()(Math.random());
       // }
@@ -138,11 +149,15 @@ const MyModal = () => {
 
   const handleConfirm = async () => {
     const title = inputRef.current.value.trim();
-    console.log("handleConfirm::title:" + title);
+    console.log("handleConfirm::title:", title);
     const requestOptions = {
       method: "POST",
       header: { "Content-Type:": "application/json" },
-      body: JSON.stringify({ timestamp: curFile.timestamp, title: title }),
+      body: JSON.stringify({
+        timestamp: curFile.timestamp,
+        title: title,
+        playlist: curFile.playlist,
+      }),
     };
     // const res = await fetch("/uploader/api/updatejs", requestOptions);
     const res = await fetch("/youtube/api/updatejs", requestOptions);
@@ -150,13 +165,10 @@ const MyModal = () => {
     const js = await res.json();
     console.log("response:");
     console.log(js);
-    if (title !== curFile.title) {
-      // refreshingFunc(Math.random());
+    // getIndexRefreshingFunction()(Math.random());
+    if (title !== curFile.title || changed == true) {
+      // if (title !== curFile.title) {
       getIndexRefreshingFunction()(Math.random());
-
-      // setMyconfirm(Math.random());
-      // getIndexRefreshingFunction(Math.random());
-      // setMyconfirm(inputRef.current.value);
     }
     closeModal();
   };
@@ -169,16 +181,36 @@ const MyModal = () => {
           <ModalCloseButton _focus={{ boxShadow: "None" }} />
           <VStack w="full" h="full" justify="center" alignItems="center">
             {/* 파일명입니다 */}
+            {/* mb={["0.5em", "0.5em", "2em"]} */}
             <Flex
               mt={["1em", "1em", "3em"]}
-              mb={["0.5em", "0.5em", "2em"]}
+              mb={["0.2em", "0.2em", "0.2em"]}
               px={["1em", "1em", "2em"]}
               fontSize="1.1em"
             >
               {curFile != null ? curFile.filename : "없음"}
             </Flex>
+            {/* 카테고리 영역입니다 */}
+            {/* mt={["1em", "1em", "3em"]} */}
+            {/* px={["1em", "1em", "2em"]} */}
+            <Flex
+              width="100%"
+              justify="center"
+              pb={["0.5em", "0.5em", "0.5em"]}
+            >
+              {/* curPlaylist={curFile.playlist} */}
+              <Playlists
+                fontSize="1.1em"
+                curFile={curFile}
+                wholePlaylists={playlists}
+                setCurfile={setCurfile}
+                setChanged={setChanged}
+              />
+            </Flex>
+
+            {/* <Flex mb={["0.5em", "0.5em", "3em"]}> */}
             {/* 인풋 영역입니다 */}
-            <Flex mb={["0.5em", "0.5em", "3em"]}>
+            <Flex mb={["0.5em", "0.5em", "1em"]}>
               <Input
                 autoFocus="true"
                 ref={inputRef}

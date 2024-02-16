@@ -5,9 +5,17 @@ import {
 } from "../contexts/ModalContext";
 
 const useModal = () => {
-  const { isOpen, curFile, websocket } = useContext(ModalStateContext);
-  const { open, close, setIsOpen, setCurfile, setWebsocket } =
-    useContext(ModalDispatchContext);
+  const { changed, isOpen, curFile, websocket, playlists } =
+    useContext(ModalStateContext);
+  const {
+    open,
+    close,
+    setChanged,
+    setIsOpen,
+    setCurfile,
+    setPlaylists,
+    setWebsocket,
+  } = useContext(ModalDispatchContext);
 
   const getCurrentWebsocket = useMemo(() => {
     websocket;
@@ -31,8 +39,13 @@ const useModal = () => {
   return {
     openModal,
     closeModal,
+    changed,
+    setChanged,
     isOpen,
     curFile,
+    setCurfile,
+    playlists,
+    setPlaylists,
     setCurrentWebsocket,
     getCurrentWebsocket,
   };

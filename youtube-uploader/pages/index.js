@@ -12,6 +12,7 @@ import LoginJson from "../components/LoginJson";
 // import useModal from "../components/useModal";
 import useRefreshing from "../components/useRefreshing";
 import useWS from "../components/useWS";
+import useModal from "../components/useModal";
 // import { RefreshingDispatchContext } from "../contexts/RefreshingContext";
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
   const { correctConnection, msgObj, send } = useWS();
   const { setIndexRefreshingFunction } = useRefreshing();
   // const { setRefreshingFunc } = useContext(RefreshingDispatchContext);
+  const { setPlaylists } = useModal();
 
   // const [loginjson, setLoginjson] = useState("");
   // let json_date = "791031-21:00:00";
@@ -176,14 +178,16 @@ export default function Home() {
       let js = await res.json();
       js = JSON.parse(js);
       console.log("index.js::useEffect[myconfirm]::get js::");
-      console.log("\t" + js);
+      console.log("\t", js);
       console.log("\tjs.json_date:");
-      console.log("\t" + js.json_date);
+      console.log("\t", js.json_date);
       setFiles({ ...js });
+      setPlaylists(js.playlists);
       // setFiles([...js]);
       // console.log("dddd");
       console.log("\tfiles:");
-      console.log("\t" + files);
+      // console.log("\t" + files);
+      console.log("\t", js);
     };
     getItems();
   }, [myconfirm]);
@@ -218,6 +222,7 @@ export default function Home() {
           ? typeof files.files !== undefined && files.files
             ? files.files.map((f, index) => {
                 // console.log("indexs.js:map::" + f.filename);
+                // return <FileItem file={f} key={parseInt(f.timestamp)} />;
                 return <FileItem file={f} key={parseInt(f.timestamp)} />;
               })
             : 0

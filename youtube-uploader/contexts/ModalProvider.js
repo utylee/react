@@ -11,8 +11,10 @@ import { useDisclosure } from "@chakra-ui/react";
 
 const ModalProvider = ({ children }) => {
   let { isOpen, onOpen, onClose } = useDisclosure();
-  const [val, setVal] = useState(0);
+  // const [val, setVal] = useState(0);
+  const [changed, setChanged] = useState(false);
   const [curFile, setCurfile] = useState({});
+  const [playlists, setPlaylists] = useState({});
   const [websocket, setWebsocket] = useState();
 
   const dummyFunc = () => {
@@ -22,6 +24,7 @@ const ModalProvider = ({ children }) => {
     onOpen();
   };
   const close = () => {
+    setChanged(false);
     onClose();
   };
 
@@ -31,18 +34,21 @@ const ModalProvider = ({ children }) => {
   const dispatch = useMemo(
     () => ({
       dummyFunc,
-      setVal,
+      setChanged,
       open,
       close,
       setIsOpen,
       setCurfile,
+      setPlaylists,
       setWebsocket,
     }),
     []
   );
 
   return (
-    <ModalStateContext.Provider value={{ val, isOpen, curFile, websocket }}>
+    <ModalStateContext.Provider
+      value={{ changed, isOpen, curFile, playlists, websocket }}
+    >
       <ModalDispatchContext.Provider value={dispatch}>
         {children}
         {/* <MyModal /> */}
