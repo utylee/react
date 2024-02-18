@@ -32,17 +32,17 @@ const Playlists = ({ curFile, wholePlaylists, setCurfile, setChanged }) => {
 
     // if (t !== curPlaylist) {
     if (k == 0) {
-      color = "gray.600";
+      color = "gray.600"; //etc
     } else if (k == 1) {
-      color = "red.800";
+      color = "red.800"; //finals
     } else if (k == 2) {
-      color = "pink.800";
+      color = "pink.800"; //sombra
     } else if (k == 3) {
-      color = "yellow.800";
+      color = "green.700"; //wow
     } else if (k == 4) {
-      color = "purple.700";
+      color = "yellow.800"; //apex
     } else if (k == 5) {
-      color = "blue.700";
+      color = "blue.700"; //hos
     }
     // }
     return (
@@ -50,8 +50,9 @@ const Playlists = ({ curFile, wholePlaylists, setCurfile, setChanged }) => {
         <Flex
           alignItems="center"
           height={curplaylist == t ? "1.8em" : "1.2em"}
-          px="0.5em"
-          pb={1}
+          px={["0.5em", "0.5em", "0.5em"]}
+          ml={["0.5em", "0.5em", "1em"]}
+          pb={[0, 1, 1]}
           borderColor={
             curplaylist == t
               ? brightenedColor(color)
@@ -59,7 +60,7 @@ const Playlists = ({ curFile, wholePlaylists, setCurfile, setChanged }) => {
               ? brightenedColor(color)
               : color
           }
-          borderWidth={1}
+          borderWidth={isHover ? 1 : 1}
           background={curplaylist == t ? brightenedColor(color) : 0}
           rounded="0.5em"
           onMouseEnter={() => setIshover(true)}
@@ -70,7 +71,8 @@ const Playlists = ({ curFile, wholePlaylists, setCurfile, setChanged }) => {
           }}
         >
           <Text
-            fontSize={curplaylist == t ? "1em" : "0.9em"}
+            fontWeight={isHover ? "bold" : "normal"}
+            fontSize={curplaylist == t ? "1em" : isHover ? "1em" : "0.9em"}
             color={
               curplaylist == t
                 ? "gray.800"
@@ -88,27 +90,67 @@ const Playlists = ({ curFile, wholePlaylists, setCurfile, setChanged }) => {
   return (
     <>
       {console.log("wholePlaylists", wholePlaylists)}
-
-      {/* overflowX: "scroll", */}
-      {/* "::-webkit-scrollbar": { display: "none" }, */}
-      {/* sx={{ */}
-      {/* overflow: "hidden", */}
-      {/* }} */}
-      {/* overflow="hidden" */}
-      {/* overflowX="auto" */}
-      <HStack
-        width="100%"
-        borderWidth={0}
-        // 큰 데스크탑 화면에서는 스크롤바가 없으므로 중앙에 배치합니다
-        justify={["flex-start", "flex-start", "center"]}
-        alignItems="center"
-        mx="4em"
-        overflowX="auto"
-      >
-        {wholePlaylists.map((i, index) => {
-          return Texting(i.nickname, index);
-        })}
-      </HStack>
+      <Flex spacing={0} width="full" height="full">
+        {/* 좌우여백의 좌측 여백입니다 */}
+        <Flex
+          width={["5%", "5%", "13%"]}
+          height="full"
+          flexGrow={1}
+          position="relative"
+        ></Flex>
+        {/* 중간 실제 태그 파트입니다 */}
+        <Flex width={["90%", "90%", "74%"]} position="relative">
+          {/* overflowX: "scroll", */}
+          {/* "::-webkit-scrollbar": { display: "none" }, */}
+          {/* sx={{ */}
+          {/* overflow: "hidden", */}
+          {/* }} */}
+          {/* overflow="hidden" */}
+          {/* overflowX="auto" */}
+          {/* 왼쪽 페이드아웃입니다 */}
+          <Flex
+            position="absolute"
+            width="7%"
+            height="full"
+            justify="flex-start"
+            flexBasis="1"
+            overflow="auto"
+            whiteSpace="nowrap"
+            bgGradient="linear(to-r,rgba(43,42,51, 1) 0%  , rgba(43,42,51,0) 80%  )"
+            zIndex="3"
+          ></Flex>
+          {/* 오른쪽 페이드아웃입니다 */}
+          <Flex
+            position="absolute"
+            ml="90%"
+            width={["10%", "10%", "0%"]}
+            height="full"
+            justify="flex-end"
+            overflow="auto"
+            whiteSpace="nowrap"
+            bgGradient="linear(to-r,rgba(43,42,51, 0) 0%  , rgba(43,42,51,1) 50%  )"
+            zIndex="4"
+          ></Flex>
+          {/* 실제 태그 구현부입니다 */}
+          <HStack
+            position="relative"
+            pl={["0.5em", "0.5em", "1em"]}
+            pr={["1.5em", "0.5em", "1em"]}
+            zIndex="2"
+            borderWidth={0}
+            // 큰 데스크탑 화면에서는 스크롤바가 없으므로 중앙에 배치합니다
+            justify={["flex-start", "flex-start", "center"]}
+            alignItems="center"
+            overflowX="auto"
+          >
+            {wholePlaylists.map((i, index) => {
+              return Texting(i.nickname, index);
+            })}
+          </HStack>
+        </Flex>
+        {/* 오른쪽 여백입니다 */}
+        <Flex width={["5%", "5%", "13%"]} position="relative"></Flex>
+      </Flex>
     </>
   );
 };
