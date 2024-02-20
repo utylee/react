@@ -61,7 +61,23 @@ const FileItem = ({ file }) => {
         if (file.copying == 1) {
           ret = "linear(to-r, cyan.900  , cyan.900, teal.100 )";
         } else if (file.making == 1) {
-          ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
+          if (file.upscale_pct != -1) {
+            // console.log(
+            //   "linear(to-r, blue.700 0%, cyan.300 ",
+            //   file.upscale_pct,
+            //   "%, blue.800 100%)"
+            // );
+            console.log(
+              "linear(to-r, blue.700 0%, cyan.300 ",
+              file.upscale_pct,
+              "%)"
+            );
+            // "linear(to-r, blue.800 0%, cyan.100 " +
+            ret =
+              "linear(to-r, yellow.700 0%, yellow.100 " +
+              file.upscale_pct +
+              "%, cyan.800 100%)";
+          } else ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
         } else ret = "linear(to-r, cyan.900  , cyan.900 )";
       else ret = "linear(to-r, gray.700  , gray.700)";
     } else if (s == 2) {
@@ -299,6 +315,7 @@ const FileItem = ({ file }) => {
               m="0"
               spacing="0.1em"
             >
+              {/* 로컬부 */}
               {/* opacity={opacitying(1)} */}
               <Box
                 bgGradient={gradienting(1)}
@@ -308,6 +325,7 @@ const FileItem = ({ file }) => {
                 m="0"
                 px="0"
               ></Box>
+              {/* 리모트부 */}
               {/* opacity={opacitying(2)} */}
               <Box
                 bgGradient={gradienting(2)}
@@ -317,6 +335,7 @@ const FileItem = ({ file }) => {
                 m="0"
                 px="0"
               ></Box>
+              {/* 유튜브부 */}
               {/* opacity={opacitying(3)} */}
               <Box
                 bgGradient={gradienting(3)}
