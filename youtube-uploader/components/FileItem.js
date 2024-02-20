@@ -59,7 +59,11 @@ const FileItem = ({ file }) => {
     if (s == 1) {
       if (file.local == 1)
         if (file.copying == 1) {
-          ret = "linear(to-r, cyan.900  , cyan.900, teal.100 )";
+          // 복사중일 경우입니다
+          ret =
+            file.upscale_pct != 100
+              ? "linear(to-r, cyan.900  , cyan.900, teal.100 )"
+              : "linear(to-r, blue.700  , blue.700, teal.100 )";
         } else if (file.making == 1) {
           if (file.upscale_pct != -1) {
             // console.log(
@@ -78,7 +82,11 @@ const FileItem = ({ file }) => {
               file.upscale_pct +
               "%, cyan.800 100%)";
           } else ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
-        } else ret = "linear(to-r, cyan.900  , cyan.900 )";
+          // 생성완료일 경우입니다
+        } else if (file.upscale_pct == 100)
+          ret = "linear(to-r, blue.700  , blue.700 )";
+        else ret = "linear(to-r, cyan.900  , cyan.900 )";
+      // 복사완료일 경우입니다
       else ret = "linear(to-r, gray.700  , gray.700)";
     } else if (s == 2) {
       // 두번째 원격 영역 그라디언트 설정입니다
