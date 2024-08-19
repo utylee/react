@@ -212,6 +212,7 @@ const PrintInput = ({ getPrints }) => {
           {/* cols={15} */}
           <Textarea
             placeholder="미리보기 영역"
+            _placeholder={{ color: "gray.500" }}
             size="lg"
             cols="40"
             rows="10"
@@ -481,6 +482,7 @@ const PrintInput = ({ getPrints }) => {
         {/* cols={15} */}
         <Textarea
           placeholder="미리보기 영역"
+          _placeholder={{ color: "gray.500" }}
           rows="10"
           cols="10"
           fontSize={(printCur.font_size / 10 + 0.3).toString() + "em"}
