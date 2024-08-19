@@ -88,7 +88,7 @@ const PageInput = ({ prints }) => {
       <Flex
         pl={2}
         ml={0}
-        w={["20em", "65em"]}
+        w={["20em", "40em", "65em"]}
         grow="revert"
         flexWrap="wrap"
         justifyContent="center"

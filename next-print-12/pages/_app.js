@@ -3,6 +3,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import PrintProvider from "../context/PrintProvider";
 import PageProvider from "../context/PageProvider";
 import "@kfonts/nanum-square";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -24,6 +25,9 @@ function MyApp({ Component, pageProps }) {
       >
         <PageProvider>
           <PrintProvider>
+            <Head>
+              <link rel="icon" href="/print/favicon.ico" />
+            </Head>
             <Component {...pageProps} />
           </PrintProvider>
         </PageProvider>

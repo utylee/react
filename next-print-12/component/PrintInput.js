@@ -9,6 +9,8 @@ import {
   Icon,
   Flex,
   Divider,
+  Show,
+  Hide,
 } from "@chakra-ui/react";
 // import { IoIosPrint } from "react-icons/io";
 // import { PiPrinterLight } from "react-icons/pi";
@@ -179,14 +181,56 @@ const PrintInput = ({ getPrints }) => {
   return (
     <>
       {/* 전체 인풋 row */}
+      {/* maxW="25em" */}
+      {/* w="full" */}
       <HStack
-        w="full"
-        px={["1.5em", "0.5em"]}
+        w={["100%", "100%", "25em"]}
+        px={["1.5em", "4em", "0.5em"]}
+        ml={["0em", "0em", "0em"]}
         pt={["2em", "1em"]}
-        maxW="25em"
         justifyContent="space-between"
-        spacing={2}
+        spacing={["2", "2", "2"]}
       >
+        {/* <Show above="2280px"> */}
+        {/* <Show breakpoint="(min-width: 1800px, max-width: 1900px)"> */}
+        {/* <Show breakpoint="(min-width: 40em)"> */}
+        {/* <Show breakpoint="(max-width: 80em)"> */}
+
+        {/* 가로모드에서만 보이는 미리보기 영역입니다 */}
+        {/* fontSize={(printCur.font_size / 10).toString() - 0.5 + "em"} */}
+        <Flex
+          display={["none", "flex", "none"]}
+          w="12em"
+          h="6em"
+          mr="0.5em"
+          overflow="hidden"
+        >
+          {/* size="8em" */}
+          {/* h="4em" */}
+          {/* fontSize={printCur.font_size} */}
+          {/* rows={5} */}
+          {/* cols={15} */}
+          <Textarea
+            placeholder="미리보기 영역"
+            size="lg"
+            cols="40"
+            rows="10"
+            fontSize={(printCur.font_size / 10 - 0.2).toString() + "em"}
+            bgColor="gray.400"
+            color="black"
+            isDisabled
+            value={printCur.text}
+            justifyItemss="center"
+          ></Textarea>
+        </Flex>
+        {/* 세로 세퍼레이터입니다 */}
+        <Divider
+          display={["none", "flex", "none"]}
+          orientation="vertical"
+          h="5em"
+          borderColor="gray.600"
+        />
+
         {/* borderBottomWidth={1} */}
         {/* borderBottomColor="gray.700" */}
         {/* spacing={6} */}
@@ -285,8 +329,10 @@ const PrintInput = ({ getPrints }) => {
 
         {/* 입력 textarea 란입니다 */}
         {/* mb="-1.2em" */}
+        {/* size={["sm", "sm", "sm"]} */}
         <Textarea
-          size="sm"
+          w={["8em", "9em", "10em"]}
+          h={["6.5em", "6em", "7em"]}
           rows={5}
           value={printCur.text}
           onChange={handleInputText}
@@ -297,18 +343,21 @@ const PrintInput = ({ getPrints }) => {
 
         {/* 젤우측 컬럼 */}
         <VStack justifyContent="center" alignItems="center">
-          {/* 출력버튼입니다 */}
+          {/* 프린트출력버튼입니다 */}
           {/* <Box pr={2}> */}
           <Box>
             {/* <NoRenderButton getHandleClick={getHandleClick} /> */}
             {/* icon={<BsPlusLg />} */}
             {/* icon={<SlPrinter size="1.4em" />} */}
             {/* icon={<PiPrinter size="1.4em" />} */}
+            {/* size="lg" */}
             <IconButton
+              w={["3.3em", "4em", "4.5em"]}
+              h={["1.4em", "1.3em", "1.5em"]}
               color="gray.800"
-              w={["6em", "10em"]}
               aria-label="print input"
-              icon={<IoPrintOutline size="1.7em" />}
+              icon={<IoPrintOutline />}
+              fontSize={["2em", "2.2em", "2em"]}
               colorScheme="teal"
               onClick={handlePrintClick}
             />
@@ -418,21 +467,23 @@ const PrintInput = ({ getPrints }) => {
         borderColor="blue.800"
       />
       {/* 미리보기 영역입니다 */}
+      {/* <Hide breakpoint="(min-width: 60em)"> */}
+      {/* <Hide breakpoint="(min-width:22rem) and (max-width:80rem)"> */}
+      {/* <Hide breakpoint="(max-width: 63em)"> */}
       {/* h={(["8em"], ["10em"])} */}
       {/* h={(["8em"], ["10em"])} */}
-      <Flex
-        w={["10em", "15em"]}
-        h={(["4em"], ["6.5em"])}
-        fontSize={(printCur.font_size / 10).toString() + "em"}
-      >
+      {/* fontSize={(printCur.font_size / 10).toString() + "em"} */}
+      <Flex display={["flex", "none", "flex"]} w={["12em", "18em"]} h="6em">
         {/* size="8em" */}
         {/* h="4em" */}
         {/* fontSize={printCur.font_size} */}
         {/* rows={5} */}
         {/* cols={15} */}
         <Textarea
-          rows={[10, 20]}
-          fontSize={(printCur.font_size / 10).toString() + "em"}
+          placeholder="미리보기 영역"
+          rows="10"
+          cols="10"
+          fontSize={(printCur.font_size / 10 + 0.3).toString() + "em"}
           bgColor="gray.400"
           color="black"
           isDisabled
@@ -443,12 +494,14 @@ const PrintInput = ({ getPrints }) => {
 
       {/* 미리보기 바로 아래의 세퍼레이터입니다 */}
       <Divider
+        display={["flex", "none", "flex"]}
         mt="0.5em"
         mb="1em"
         orientaion="horizontal"
         width={["80%", "23em"]}
         borderColor="blue.800"
       />
+
       {/* <div>{inputValue}</div> */}
     </>
   );

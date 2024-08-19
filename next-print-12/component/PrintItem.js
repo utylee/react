@@ -105,7 +105,7 @@ const PrintItem = ({ print, getPrints }) => {
       <VStack
         onClick={handleClick}
         spacing={0}
-        w={["9em", "13em"]}
+        w={["9em", "11em", "13em"]}
         h={["8em", "8em"]}
         color="black"
         bg="gray.700"
@@ -159,7 +159,7 @@ const PrintItem = ({ print, getPrints }) => {
           readOnly
           outline="none"
           w={["6em", "10em"]}
-          fontSize={(print.font_size / 10).toString() + "em"}
+          fontSize={(print.font_size / 22 + 0.5).toString() + "em"}
           ml={[0, 0]}
           color="gray.400"
           _hover={{ cursor: "pointer" }}
