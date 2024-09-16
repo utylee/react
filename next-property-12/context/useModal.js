@@ -1,12 +1,24 @@
 import React, { useCallback, useContext } from "react";
 import { ModalDispatchContext, ModalStateContext } from "./ModalContext";
+import useProperty from "./useProperty";
 
 const useModal = () => {
-  const { isOpen, curRoom } = useContext(ModalStateContext);
-  const { open, close, setCurRoom, setIsOpen } =
+  const { isOpen, curRoom, curModalContent } = useContext(ModalStateContext);
+  const { open, close, setCurRoom, setIsOpen, setCurModalContent } =
     useContext(ModalDispatchContext);
 
-  const openModal = useCallback((cur) => {
+  const {
+    fetchOccupantDetails,
+    fetchRoomDetails,
+    getCurRoomDetails,
+    getCurOccupantDetails,
+  } = useProperty();
+
+  const openModal = useCallback(async (cur, content) => {
+    await fetchRoomDetails(cur.apartment, cur.room_no);
+    await fetchOccupantDetails(cur.occupant_id);
+
+    setCurModalContent(content);
     setCurRoom(cur);
     setIsOpen(true);
     open();
@@ -18,7 +30,10 @@ const useModal = () => {
   }, []);
 
   return {
+    isOpen,
     curRoom,
+    curModalContent,
+    setCurModalContent,
     openModal,
     closeModal,
   };

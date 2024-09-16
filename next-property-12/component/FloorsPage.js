@@ -14,13 +14,19 @@ import { PropertyStateContext } from "../context/PropertyContext";
 import { FaDog } from "react-icons/fa6";
 import { IoIosPaw } from "react-icons/io";
 import { FaCar } from "react-icons/fa6";
-import { ImAngry } from "react-icons/im";
+import { ImAngry, ImAngry2 } from "react-icons/im";
 import { GiNightSleep } from "react-icons/gi";
 import { RiZzzLine } from "react-icons/ri";
+import {
+  BsExclamationOctagonFill,
+  BsExclamationTriangleFill,
+} from "react-icons/bs";
+
 import useModal from "../context/useModal";
 
 const FloorsPage = ({ apartment }) => {
-  const { fetchAll, getFullProperties, setCurPage, getCurPage } = useProperty();
+  const { getCurOccupant, getFullProperties, setCurPage, getCurPage } =
+    useProperty();
   const { fullProperties } = useContext(PropertyStateContext);
 
   const bottomRef = useRef(null);
@@ -173,9 +179,10 @@ const FloorsPage = ({ apartment }) => {
 
 // 각 아파트의 총 층 호수를 렌더합니다
 const Floors = ({ apartment }) => {
+  // const { fullProperties, curRoomDetails, curOccupantDetails } =
   const { fullProperties } = useContext(PropertyStateContext);
   const [curProperties, setCurProperties] = useState(fullProperties[apartment]);
-  const { openModal, closeModal, curRoom } = useModal();
+  const { openModal, curRoom } = useModal();
 
   useEffect(() => {
     // console.log("FloorsPage::Floors::useEffect::apartment..");
@@ -187,7 +194,7 @@ const Floors = ({ apartment }) => {
   const renderFloors = () => {
     let result0 = [];
     let result2 = [];
-    let flag = 0;
+    // let flag = 0;
     let j = 0;
     result2.push(
       <Flex key={j} direction="column">
@@ -226,30 +233,46 @@ const Floors = ({ apartment }) => {
         result1.push(
           <>
             {/* 각 층의 한 방들 렌더 */}
-            {/* {console.log("came into return... i is")} */}
-            {/* {console.log(i)} */}
-            {(() => {
-              console.log("flag cur is ");
-            })()}
-            {(() => {
-              console.log(flag);
-            })()}
+            {/* {(() => { */}
+            {/* console.log("flag cur is "); */}
+            {/* })()} */}
+            {/* {(() => { */}
+            {/* console.log(flag); */}
+            {/* })()} */}
             {/* <Flex w="3em" h="3em" rounded="md" bgColor="gray.400"> */}
             {/* h="5em" */}
             <Flex
+              position="relative"
               direction="column"
               alignItems="center"
               mb="2rem"
               _hover={{ cursor: "pointer" }}
-              onClick={(rm) => {
+              onClick={() => {
                 console.log("room");
                 console.log(room.room_no);
                 console.log("clicked");
-                openModal(rm);
+                // fetchOccupant(room.occupant_id);
+                openModal(room, "full");
               }}
             >
               {/* 호수 */}
-              <Flex ml="-1.0em" bgColor="gray.600" rounded="lg" p="0.2em">
+              {/* bgColor="gray.600" */}
+              {/* bgGradient={ */}
+              {/*   room.has_issue > 0 */}
+              {/*     ? "linear-gradient(to right, rgba(155,155,0,0.5) 5%, rgba(111,111,111,0.8) 70%)" */}
+              {/*     : "0" */}
+              {/* } */}
+              {/* bgColor={room.has_issue > 0 ? "yellow.500" : "gray.600"} */}
+              {/* borderColor="gray.500" */}
+              <Flex
+                ml="-1.0em"
+                borderWidth={1}
+                borderColor={room.has_issue > 0 ? "yellow.500" : "gray.500"}
+                rounded="lg"
+                bgColor="gray.600"
+                p="0.2em"
+              >
+                {/* 호수 text */}
                 <Text
                   fontSize="2xl"
                   fontWeight="semibold"
@@ -263,6 +286,20 @@ const Floors = ({ apartment }) => {
                 >
                   {room.room_no}호
                 </Text>
+                <Flex
+                  display={room.has_issue > 0 ? "flex" : "none"}
+                  position="absolute"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Icon
+                    mt={["1.6em"]}
+                    ml={["1.6em"]}
+                    color="yellow.500"
+                    as={BsExclamationTriangleFill}
+                    boxSize="0.8rem"
+                  />
+                </Flex>
               </Flex>
 
               {/* 월세 / 보증금 / 납입일 표시하는 외부박스입니다 /*/}
@@ -361,6 +398,14 @@ const Floors = ({ apartment }) => {
                       ? "cyan.800"
                       : "cyan.900"
                   }
+                  borderColor={
+                    room.non_pay_continues > 0
+                      ? "pink.500"
+                      : room.occupant_id > 0
+                      ? "cyan.700"
+                      : "cyan.900"
+                  }
+                  borderWidth={1}
                   justifyContent="center"
                   alignItems="center"
                   rounded="md"
@@ -415,78 +460,87 @@ const Floors = ({ apartment }) => {
               >
                 {/* 공실일 경우 투명도를 0으로 설정합니다 */}
                 {/* 반려동물 유무 */}
+                {/* bgColor="green.600" */}
+                {/* bgColor="gray.600" */}
                 <Flex
                   rounded="md"
                   w={["1.5em"]}
                   h={["1.5em"]}
-                  bgColor="green.600"
+                  borderWidth={1}
+                  borderColor="green.600"
                   opacity={room.pets > 0 ? "1" : "0"}
                   justifyContent="center"
                   alignItems="center"
                 >
                   {/* <IoIosPaw /> */}
                   {/* <FaCar /> */}
-                  <Icon color="gray.700" as={IoIosPaw} boxSize="1.3rem" />
+                  {/* <Icon color="gray.700" as={IoIosPaw} boxSize="1.3rem" /> */}
+                  <Icon color="green.600" as={IoIosPaw} boxSize="1.3rem" />
                 </Flex>
                 {/* 차량 유무 */}
+                {/* bgColor="blue.700" */}
                 <Flex
                   justifyContent="center"
                   opacity={room.cars > 0 ? "1" : "0"}
                   rounded="md"
                   w={["1.5em"]}
                   h={["1.5em"]}
-                  bgColor="blue.700"
+                  borderWidth={1}
+                  borderColor="blue.600"
                   pl="-4em"
-                  borderWidth={0}
                   alignItems="center"
                 >
                   {/* <IoIosPaw /> */}
                   {/* <FaCar /> */}
+                  {/* color="gray.800" */}
                   <Icon
                     ml="-0.02em"
-                    color="gray.800"
+                    color="blue.700"
                     as={FaCar}
                     boxSize="1.1rem"
                   />
                 </Flex>
                 {/* 요주 세입자 */}
                 {/* pr="0.2em" */}
+                {/* bgColor="orange.600" */}
                 <Flex
                   justifyContent="center"
                   opacity={room.defectiveness > 0 ? "1" : "0"}
                   rounded="md"
                   w={["1.5em"]}
                   h={["1.5em"]}
-                  bgColor="orange.600"
                   alignItems="center"
+                  borderWidth={1}
+                  borderColor="orange.600"
                 >
                   {/* <IoIosPaw /> */}
                   {/* <FaCar /> */}
+                  {/* color="gray.700" */}
                   <Icon
                     ml="-0.05em"
-                    color="gray.700"
-                    as={ImAngry}
-                    boxSize="1.2rem"
+                    color="orange.700"
+                    as={ImAngry2}
+                    boxSize="1.1rem"
                   />
                 </Flex>
               </HStack>
             </Flex>
             {/* 총 카드 */}
 
-            {(() => {
-              flag = flag + 1;
-              j++;
-            })()}
-            {(() => {
-              console.log("j is...");
-              console.log(j);
-            })()}
+            {/* {(() => { */}
+            {/*   flag = flag + 1; */}
+            {/*   j++; */}
+            {/* })()} */}
+            {/* {(() => { */}
+            {/*   console.log("j is..."); */}
+            {/*   console.log(j); */}
+            {/* })()} */}
           </>
         );
       });
     }
-    console.log("last flag:");
-    console.log(flag);
+    // console.log("last flag:");
+    // console.log(flag);
     return result2;
   };
 

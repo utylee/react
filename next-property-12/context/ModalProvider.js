@@ -1,10 +1,11 @@
-import { useDisclosure } from "@chakra-ui/hooks";
+import { useDisclosure } from "@chakra-ui/react";
 import React, { useState, useMemo } from "react";
 import { ModalDispatchContext, ModalStateContext } from "./ModalContext";
 
 const ModalProvider = ({ children }) => {
-  let { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [curRoom, setCurRoom] = useState({});
+  const [curModalContent, setCurModalContent] = useState("");
 
   const open = () => {
     onOpen();
@@ -18,11 +19,11 @@ const ModalProvider = ({ children }) => {
   };
 
   const dispatch = useMemo(() => {
-    return { open, close, setCurRoom, setIsOpen };
+    return { open, close, setCurRoom, setIsOpen, setCurModalContent };
   }, []);
 
   return (
-    <ModalStateContext.Provider value={{ isOpen, curRoom }}>
+    <ModalStateContext.Provider value={{ isOpen, curRoom, curModalContent }}>
       <ModalDispatchContext.Provider value={dispatch}>
         {children}
       </ModalDispatchContext.Provider>
