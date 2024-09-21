@@ -17,6 +17,9 @@ import {
 import { PropertyStateContext } from "./PropertyContext";
 import ModalFullInfo from "../component/ModalFullInfo";
 import ModalPhoneContact from "../component/ModalPhoneContact";
+import ModalEdit from "../component/ModalEdit";
+import ModalNameSexEdit from "../component/ModalNameSexEdit";
+import ModalPhoneEdit from "../component/ModalPhoneEdit";
 
 const MyModal = () => {
   const { closeModal, curRoom, curModalContent, isOpen } = useModal();
@@ -42,6 +45,37 @@ const MyModal = () => {
           room_no={curRoom.room_no}
           name={curRoomDetails.occupant_name}
           phone={curOccupantDetails.phone}
+        />
+      );
+    else if (
+      typeof curModalContent !== "undefined" &&
+      curModalContent == "edit"
+    )
+      return (
+        <ModalEdit
+          curRoom={curRoom}
+          curRoomDetails={curRoomDetails}
+          curOccupantDetails={curOccupantDetails}
+        />
+      );
+    else if (
+      typeof curModalContent !== "undefined" &&
+      curModalContent == "namesex_edit"
+    )
+      return (
+        <ModalNameSexEdit
+          curRoomDetails={curRoomDetails}
+          curOccupantDetails={curOccupantDetails}
+        />
+      );
+    else if (
+      typeof curModalContent !== "undefined" &&
+      curModalContent == "phone_edit"
+    )
+      return (
+        <ModalPhoneEdit
+          curRoomDetails={curRoomDetails}
+          curOccupantDetails={curOccupantDetails}
         />
       );
   };

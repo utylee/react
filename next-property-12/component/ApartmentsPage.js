@@ -119,7 +119,8 @@ const ApartmentsPage = ({}) => {
         px="0.2rem"
         _hover={{ cursor: "pointer" }}
         onClick={() => {
-          setCurPage("maxvill_page");
+          setCurPage("richvill_page");
+          // setCurPage("maxvill_page");
           // setCurPage("floors_page");
         }}
       >
@@ -140,12 +141,15 @@ const ApartmentsPage = ({}) => {
             overflow="hidden"
           >
             {/* 맥스빌 이미지입니다 */}
+            {/* src="property/public/maxvill.png" */}
+            {/* style={{ transform: "scale(1.1)" }} */}
+            {/* objectFit="cover" */}
             <Img
-              objectFit="cover"
+            objectFit="cover"
               w="100%"
               h="100%"
               style={{ transform: "scale(1.1)" }}
-              src="property/public/maxvill.png"
+              src="property/public/richvill.png"
             />
           </Flex>
         </Flex>
@@ -179,34 +183,39 @@ const ApartmentsPage = ({}) => {
             {/* 맥스빌4층 */}
             {(() => {
               // if (fullFloors.maxvill[2] !== undefined) {
-              if (fullFloors.maxvill !== undefined) {
+              // if (fullFloors.maxvill !== undefined) {
+              if (fullFloors.richvill !== undefined) {
                 console.log("rendering floors [2]::if");
                 console.log("  fullFloors [2]::");
                 // console.log(fullFloors[2]);
-                return <Floor floors={fullFloors.maxvill[2]} />;
+                // return <Floor floors={fullFloors.maxvill[2]} />;
+                return <Floor floors={fullFloors.richvill[2]} />;
               }
             })()}
             <Divider borderColor="gray.500" width="60%" my="3" />
             {/* 맥스빌3층 */}
             {(() => {
               // if (fullFloors.maxvill[1] !== undefined) {
-              if (fullFloors.maxvill !== undefined) {
+              // if (fullFloors.maxvill !== undefined) {
+              if (fullFloors.richvill !== undefined) {
                 console.log("rendering floors [1]::if");
                 console.log("  fullFloors [1]::");
                 // console.log(fullFloors[1]);
-
-                return <Floor floors={fullFloors.maxvill[1]} />;
+                // return <Floor floors={fullFloors.maxvill[1]} />;
+                return <Floor floors={fullFloors.richvill[1]} />;
               }
             })()}
             <Divider borderColor="gray.500" width="60%" my="3" />
             {/* 맥스빌2층 */}
             {(() => {
               // if (fullFloors.maxvill[0] !== undefined) {
-              if (fullFloors.maxvill !== undefined) {
+              // if (fullFloors.maxvill !== undefined) {
+              if (fullFloors.richvill !== undefined) {
                 console.log("rendering floors [0]::if");
                 console.log("  fullFloors [0]::");
                 // console.log(fullFloors[0]);
-                return <Floor floors={fullFloors.maxvill[0]} />;
+                // return <Floor floors={fullFloors.maxvill[0]} />;
+                return <Floor floors={fullFloors.richvill[0]} />;
               }
             })()}
           </Flex>

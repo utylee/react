@@ -25,12 +25,13 @@ const ApartmentPage = ({}) => {
             rounded="full"
             overflow="hidden"
           >
+              {/* src="property/public/maxvill.png" */}
             <Img
               objectFit="cover"
               w="100%"
               h="100%"
               style={{ transform: "scale(1.1)" }}
-              src="property/public/maxvill.png"
+              src="property/public/richvill.png"
             />
           </Flex>
         </Flex>

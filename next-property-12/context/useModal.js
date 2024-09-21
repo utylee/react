@@ -3,9 +3,16 @@ import { ModalDispatchContext, ModalStateContext } from "./ModalContext";
 import useProperty from "./useProperty";
 
 const useModal = () => {
-  const { isOpen, curRoom, curModalContent } = useContext(ModalStateContext);
-  const { open, close, setCurRoom, setIsOpen, setCurModalContent } =
-    useContext(ModalDispatchContext);
+  const { isOpen, curRoom, curModalContent, curModalPosition } =
+    useContext(ModalStateContext);
+  const {
+    open,
+    close,
+    setCurRoom,
+    setIsOpen,
+    setCurModalContent,
+    setCurModalPosition,
+  } = useContext(ModalDispatchContext);
 
   const {
     fetchOccupantDetails,
@@ -33,7 +40,9 @@ const useModal = () => {
     isOpen,
     curRoom,
     curModalContent,
+    curModalPosition,
     setCurModalContent,
+    setCurModalPosition,
     openModal,
     closeModal,
   };

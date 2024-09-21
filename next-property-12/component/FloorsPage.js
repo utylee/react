@@ -33,7 +33,8 @@ const FloorsPage = ({ apartment }) => {
 
   const apartGradient = () => {
     let ret = "";
-    if (apartment == "maxvill") {
+    // if (apartment == "maxvill") {
+    if (apartment == "richvill") {
       ret =
         "linear-gradient(to right, rgba(170, 180, 180, 1) 40%, rgba(0, 0, 0, 0.6) 70%, rgba(0, 0, 0, 0) 80%), url('property/public/maxvill.png') no-repeat";
     } else if (apartment == "dochon") {
@@ -92,8 +93,8 @@ const FloorsPage = ({ apartment }) => {
               h="100%"
               style={{ transform: "scale(1.1)" }}
               src={
-                apartment == "maxvill"
-                  ? "property/public/maxvill.png"
+                apartment == "richvill"
+                  ? "property/public/richvill.png"
                   : "property/public/dochon.png"
               }
             />
@@ -147,8 +148,8 @@ const FloorsPage = ({ apartment }) => {
                 h="100%"
                 style={{ transform: "scale(1.1)" }}
                 src={
-                  apartment == "maxvill"
-                    ? "property/public/maxvill.png"
+                  apartment == "richvill"
+                    ? "property/public/richvill.png"
                     : "property/public/dochon.png"
                 }
               />

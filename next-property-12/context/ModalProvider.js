@@ -6,6 +6,7 @@ const ModalProvider = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [curRoom, setCurRoom] = useState({});
   const [curModalContent, setCurModalContent] = useState("");
+  const [curModalPosition, setCurModalPosition] = useState("");
 
   const open = () => {
     onOpen();
@@ -19,11 +20,20 @@ const ModalProvider = ({ children }) => {
   };
 
   const dispatch = useMemo(() => {
-    return { open, close, setCurRoom, setIsOpen, setCurModalContent };
+    return {
+      open,
+      close,
+      setCurRoom,
+      setIsOpen,
+      setCurModalContent,
+      setCurModalPosition,
+    };
   }, []);
 
   return (
-    <ModalStateContext.Provider value={{ isOpen, curRoom, curModalContent }}>
+    <ModalStateContext.Provider
+      value={{ isOpen, curRoom, curModalContent, curModalPosition }}
+    >
       <ModalDispatchContext.Provider value={dispatch}>
         {children}
       </ModalDispatchContext.Provider>

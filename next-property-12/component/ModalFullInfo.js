@@ -8,12 +8,141 @@ import { ImPhone } from "react-icons/im";
 import { IoIosPaw } from "react-icons/io";
 import { FaCar } from "react-icons/fa6";
 import { ImAngry } from "react-icons/im";
+import { FiEdit } from "react-icons/fi";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import { MdOutlineAttachMoney } from "react-icons/md";
+import { PiStackDuotone } from "react-icons/pi";
+import { MdTimelapse } from "react-icons/md";
+import { BiMoneyWithdraw } from "react-icons/bi";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { MdPhoneForwarded } from "react-icons/md";
+import { TbArrowBigRightLineFilled } from "react-icons/tb";
+
 import { BsExclamationOctagon, BsExclamationTriangle } from "react-icons/bs";
 import { RiFileUnknowFill } from "react-icons/ri";
 import useModal from "../context/useModal";
 
 const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
   const { setCurModalContent } = useModal();
+
+  const processEtc = () => {
+    return (
+      <>
+        {curRoomDetails.description?.length > 0 ? (
+          <Flex
+            borderColor="#6d7d99"
+            rounded="sm"
+            w={["12em"]}
+            mt={["0.3em"]}
+            mb={["0.5em"]}
+            ml={["2.6em"]}
+            direction="column"
+            alignItems="center"
+            px="0.7em"
+            py="0.3em"
+          >
+            {/* color="gray.300" */}
+            <Text color="gray.300" fontSize="md">
+              {curRoomDetails.description}
+            </Text>
+          </Flex>
+        ) : (
+          <Flex
+            borderColor="#6d7d99"
+            rounded="sm"
+            w={["12em"]}
+            mt={["-0.7em"]}
+            mb={["0.7em"]}
+            ml={["1.6em"]}
+            direction="column"
+            alignItems="center"
+          >
+            {/* color="gray.300" */}
+            <Text color="gray.400" fontSize="md">
+              없음
+            </Text>
+          </Flex>
+        )}
+      </>
+    );
+  };
+
+  const processDepositHistory = () => {
+    let flag = 0;
+    let result = [];
+
+    curRoomDetails.deposit_history?.map((l) => {
+      result.push(
+        <>
+          <Flex mx={["0.5em"]}>
+            {/* borderWidth={1} */}
+            {/* <Flex mt="0.4em" px="0.2em"> */}
+            <Flex>
+              <Text fontSize="sm" fontWeight="normal" color="gray.300">
+                {depositFormatter(l[0])}
+              </Text>
+              <Flex mt="-0.35em" ml="0.7em">
+                <Text
+                  mt={["0.05em"]}
+                  fontSize="lg"
+                  fontWeight="semibold"
+                  color="gray.300"
+                >
+                  {l[1]}
+                </Text>
+                <Text
+                  mt={["0.4em"]}
+                  ml={["0.2em"]}
+                  fontSize="sm"
+                  fontWeight="normal"
+                  color="gray.300"
+                >
+                  만원
+                </Text>
+              </Flex>
+            </Flex>
+          </Flex>
+          {flag < curRoomDetails.deposit_history.length - 1 ? (
+            <Divider mb={["0.2em"]} alignSelf="center" w="85%" />
+          ) : (
+            ""
+          )}
+          {(() => {
+            flag++;
+          })()}
+        </>
+      );
+    });
+
+    return result;
+  };
+
+  const phoneFormatter = (str) => {
+    let company = str.slice(0, 3);
+    let middle = str.slice(3, str.length - 4);
+    let last = str.slice(-4);
+
+    return company + "-" + middle + "-" + last;
+  };
+
+  const depositFormatter = (str) => {
+    // 2024-08-31 18:17:32.777 을 변환하는 함수입니다
+    // 24/08/31-18시17분
+    let [day, time] = str.split(" ");
+
+    // day = day.replace("-", "/").slice(2); // 24/08/31
+    // 위의 표현은 오직 한번만 교체하는 방법입니다. 모든 경우를 위해선 regExp를 사용하는
+    // 아래 방법을 사용하라고 합니다
+    // 참고: https://www.geeksforgeeks.org/how-to-remove-a-character-from-string-in-javascript/
+    // day = day.replace(/-/g, "/").slice(2); // 24/08/31
+    day = day.replace(/-/g, ".").slice(2); // 24/08/31
+
+    let [hour, min] = time.split(":");
+    time = hour + ":" + min;
+    // time = hour + "시" + min + "분";
+
+    return day + " " + time;
+  };
 
   const dateFormatter = (str, add) => {
     // 240702 를 24년7월2일로 변환하는 함수입니다
@@ -46,14 +175,16 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
       {/* <Flex direction="column" w="100%" h="30em" alignItems="center"> */}
       <Flex direction="column" w="100%" alignItems="center" overflowY="auto">
         {/* 룸 flex 입니다 */}
+        {/* bgColor="gray.600" */}
+        {/* borderColor="gray.500" */}
         <Flex
           w="15em"
           h="5em"
-          bgColor="gray.600"
+          bgColor={curRoom.non_pay_continues > 0 ? "pink.700" : "gray.600"}
           rounded="lg"
           alignItems="center"
           direction="column"
-          borderColor="gray.500"
+          borderColor={curRoom.non_pay_continues > 0 ? "pink.400" : "gray.500"}
           borderWidth={1}
         >
           {/* 호수 flex */}
@@ -62,9 +193,9 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             <Text
               mt={["0.1em", "0em"]}
               ml="0.5em"
+              color="gray.300"
               fontSize="4xl"
               fontWeight="semibold"
-              color="gray.300"
             >
               {curRoom.room_no}
             </Text>
@@ -146,45 +277,60 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
 
           {/* 전화번호입니다 */}
           <Flex
-            mb={["1em"]}
+            mt={["0.3em"]}
+            mb={["0.4em"]}
             _hover={{ cursor: "pointer" }}
+            borderColor="gray.300"
+            borderWidth={1}
+            rounded="md"
+            px={["1.0em"]}
+            py={["0.4em"]}
+            alignSelf="center"
             onClick={() => {
               setCurModalContent("phone");
             }}
           >
+            {/* ml={["2em", "1.8em"]} */}
             <Icon
               mt={["0.3em", "0.4em"]}
-              ml={["2em", "1.8em"]}
-              color="gray.500"
+              color="gray.400"
               as={ImPhone}
+              boxSize="1.1rem"
+            />
+            <Icon
+              mt={["0.2em", "0.2em"]}
+              ml={["-0.4em", "-0.4em"]}
+              color="gray.500"
+              as={TbArrowBigRightLineFilled}
               boxSize="1rem"
             />
             <Text
               mt="0.0em"
-              ml={["0.8em", "0.8em"]}
+              ml={["0.5em", "0.6em"]}
               fontSize="lg"
               fontWeight="semibold"
               color="gray.300"
             >
-              {curOccupantDetails.phone}
+              {/* {curOccupantDetails.phone} */}
+              {phoneFormatter(curOccupantDetails.phone)}
             </Text>
           </Flex>
 
           {/* 차량및 반려동물 악성도 등 정보 표시 */}
-          <Divider
-            mt={["-0.5em"]}
-            borderColor="gray.500"
-            w="30%"
-            alignSelf="center"
-            display={
-              (typeof curRoom.pets !== "undefined" && curRoom.pets > 0) ||
-              (typeof curRoom.cars !== "undefined" && curRoom.cars > 0) ||
-              (typeof curRoom.defectiveness !== "undefined" &&
-                curRoom.defectiveness > 0)
-                ? "flex"
-                : "none"
-            }
-          />
+          {/* <Divider */}
+          {/*   mt={["-0.5em"]} */}
+          {/*   borderColor="gray.500" */}
+          {/*   w="30%" */}
+          {/*   alignSelf="center" */}
+          {/*   display={ */}
+          {/*     (typeof curRoom.pets !== "undefined" && curRoom.pets > 0) || */}
+          {/*     (typeof curRoom.cars !== "undefined" && curRoom.cars > 0) || */}
+          {/*     (typeof curRoom.defectiveness !== "undefined" && */}
+          {/*       curRoom.defectiveness > 0) */}
+          {/*       ? "flex" */}
+          {/*       : "none" */}
+          {/*   } */}
+          {/* /> */}
 
           {/* 반려동물 차량 악성도 표시 열입니다 */}
           <Flex
@@ -340,8 +486,17 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
         >
           {/* 계약종류와 월세금액입니다 */}
           {/* <Flex alignSelf="center"> */}
-          <Flex ml="1em">
+          {/* <Flex ml="1em"> */}
+          <Flex ml="0.2em">
             <Flex>
+              <Icon
+                mt="0.76em"
+                mr={["-0.1em"]}
+                color="gray.500"
+                as={MdOutlineAttachMoney}
+                boxSize="1.0rem"
+              />
+
               <Text
                 mt="0.8em"
                 fontSize="sm"
@@ -393,8 +548,16 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
 
           {/* 보증금입니다 */}
           {/* <Flex mt={["-0.3em"]} alignSelf="center"> */}
-          <Flex mt={["-0.3em"]} ml="2.2em">
+          {/* <Flex mt={["-0.3em"]} ml="2.2em"> */}
+          <Flex mt={["-0.3em"]} ml="1.1em">
             <Flex>
+              <Icon
+                mt="0.85em"
+                mr="0.3em"
+                color="gray.500"
+                as={PiStackDuotone}
+                boxSize="0.9rem"
+              />
               <Text
                 mt="0.8em"
                 fontSize="sm"
@@ -427,8 +590,16 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
 
           {/* 입금일입니다 */}
           {/* <Flex mt={["-0.3em"]} alignSelf="center"> */}
-          <Flex mt={["-0.3em"]} ml="2.2em">
+          {/* <Flex mt={["-0.3em"]} ml="2.2em"> */}
+          <Flex mt={["-0.3em"]} ml="1.2em">
             <Flex>
+              <Icon
+                mt="0.85em"
+                mr="0.2em"
+                color="gray.500"
+                as={MdOutlineCalendarMonth}
+                boxSize="0.9rem"
+              />
               <Text
                 mt="0.8em"
                 fontSize="sm"
@@ -460,25 +631,48 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
 
           <Divider />
           {/* 계약기간입니다 */}
-          <Flex mt={["-0.3em"]} ml="1.4em">
+          {/* <Flex mt={["-0.3em"]} mb={["0.3em"]} ml="1.4em"> */}
+          <Flex mt={["-0.3em"]} mb={["0.3em"]} ml="0.5em">
             <Flex>
+              <Icon
+                mt="1.75em"
+                mr="0.2em"
+                color="gray.500"
+                as={MdTimelapse}
+                boxSize="0.9rem"
+              />
+
               <Text
-                mt="0.8em"
+                mt="1.8em"
                 fontSize="sm"
                 fontWeight="semibold"
                 color="gray.400"
               >
                 계약기간:
               </Text>
-              <Text
-                mt="0.4em"
-                ml="1em"
-                fontSize="lg"
-                fontWeight="semibold"
-                color="gray.300"
+              <Flex
+                mt="1.1em"
+                ml="0.7em"
+                px="0.7em"
+                py="0.0em"
+                rounded="lg"
+                borderColor="#3a4352"
+                borderWidth={1}
+                bgColor="#454f61"
               >
-                {curRoom.contract_period}개월
-              </Text>
+                <Text fontSize="lg" fontWeight="semibold" color="gray.300">
+                  {curRoom.contract_period}
+                </Text>
+                <Text
+                  mt={["0.15em"]}
+                  ml={["0.1em"]}
+                  fontSize="md"
+                  fontWeight="semibold"
+                  color="gray.400"
+                >
+                  개월
+                </Text>
+              </Flex>
             </Flex>
           </Flex>
           <Flex mt={["-0.3em"]} ml="4.6em">
@@ -503,7 +697,7 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               </Text>
             </Flex>
           </Flex>
-          <Flex mt={["-0.3em"]} ml="4.6em">
+          <Flex mt={["-0.3em"]} mb={["0.2em"]} ml="4.6em">
             <Flex mt="-0.2em" mb="0.4em">
               {/* {curRoom.contract_startdate} */}
               <Text
@@ -532,10 +726,17 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
           <Divider />
 
           {/* 입금내역입니다 */}
-          <Flex mt={["-0.3em"]} ml="1.4em">
+          <Flex mt={["-0.1em"]} ml="0.4em">
             <Flex>
+              <Icon
+                mt="0.9em"
+                mr="0.1em"
+                color="gray.500"
+                as={BiMoneyWithdraw}
+                boxSize="1rem"
+              />
               <Text
-                mt="0.8em"
+                mt="0.9em"
                 fontSize="sm"
                 fontWeight="semibold"
                 color="gray.400"
@@ -543,44 +744,118 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 입금내역:
               </Text>
             </Flex>
+            {/* 연체횟수 */}
+            {/* <Flex display={curRoom.non_pay_continues > 0 ? "flex" : "none"}> */}
+            <Flex
+              ml="1em"
+              mt="0.86em"
+              display={curRoom.non_pay_continues > 0 ? "flex" : "none"}
+              borderWidth={1}
+              borderColor="pink.400"
+              bgColor="pink.500"
+              px="1em"
+              pt="0.2em"
+              h={["1.3em"]}
+              rounded="sm"
+              alignItems="center"
+              alignItems="center"
+            >
+              <Text fontSize="md" fontWeight="semibold" color="gray.800">
+                연체:
+              </Text>
+              <Text
+                ml="0.4em"
+                fontSize="md"
+                fontWeight="semibold"
+                color="gray.800"
+              >
+                {curRoom.non_pay_continues}회
+              </Text>
+            </Flex>
           </Flex>
-          <Flex mt={["0.3em"]} mb={["1em"]} ml="4.6em" direction="column">
-            {/* {(() => { */}
-            {/*   console.log("deposit_history"); */}
-            {/*   console.log(curRoomDetails.deposit_history); */}
-            {/* })()} */}
-            {curRoomDetails.deposit_history.map((l) => {
-              return (
-                <>
-                  <Flex>
-                    <Text
-                      mt="0.4em"
-                      ml="-3em"
-                      fontSize="xs"
-                      fontWeight="semibold"
-                      color="gray.300"
-                    >
-                      {l[0]}
-                    </Text>
-                    <Text
-                      mt="0.2em"
-                      ml="-2em"
-                      fontSize="sm"
-                      fontWeight="semibold"
-                      color="gray.300"
-                    >
-                      {l[1]}만원
-                    </Text>
-                  </Flex>
-                </>
-              );
-            })}
+
+          {/* 입금내역 어두운 표박스입니다 */}
+          {curRoomDetails.deposit_history?.length > 0 ? (
+            <Flex
+              mt={["0.3em"]}
+              mb={["1em"]}
+              ml="1.4em"
+              pt={["0.5em"]}
+              pb={["0.3em"]}
+              px={["0.5em"]}
+              direction="column"
+              borderColor="#515e73"
+              borderWidth={1}
+              bgColor="#454f61"
+              rounded="md"
+              alignSelf="center"
+            >
+              {processDepositHistory()}
+            </Flex>
+          ) : (
+            <Flex h="1em"></Flex>
+          )}
+
+          <Divider />
+          {/* 기타사항입니다 */}
+          <Flex mt={["-0.1em"]} ml="0.4em">
+            <Flex>
+              <Icon
+                mt="0.95em"
+                mr="0.1em"
+                color="gray.500"
+                as={IoChatboxEllipsesOutline}
+                boxSize="1rem"
+              />
+              <Text
+                mt="0.9em"
+                fontSize="sm"
+                fontWeight="semibold"
+                color="gray.400"
+              >
+                기타사항:
+              </Text>
+            </Flex>
           </Flex>
-          {/* <Link */}
-          {/*   href={"sms:" + curOccupantDetails.phone} */}
-          {/*   style={{ textDecoration: "none" }} */}
-          {/* > */}
-          {/* </Link> */}
+
+          {/* 기타사항박스 */}
+          {processEtc()}
+        </Flex>
+
+        {/* 수정 버튼입니다 */}
+        <Flex
+          _hover={{ cursor: "pointer" }}
+          onClick={() => {
+            setCurModalContent("edit");
+          }}
+          borderWidth={1}
+          borderColor="gray.600"
+          rounded="lg"
+          w={["14.5em"]}
+          h={["2.3em"]}
+          mt={["1.6em"]}
+          mb={["0.8em"]}
+          direction="column"
+          alignSelf="center"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Flex>
+            <Icon
+              mt={["0.2em"]}
+              color="gray.300"
+              as={FiEdit}
+              boxSize="1.1rem"
+            />
+            <Text
+              ml={["0.4em"]}
+              color="gray.200"
+              fontSize="md"
+              fontWeight="bold"
+            >
+              내용수정
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
     </>

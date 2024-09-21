@@ -1,7 +1,5 @@
 import { Flex, VStack } from "@chakra-ui/react";
 import React, { useEffect, useContext, useState } from "react";
-import ApartmentsPage from "../../component/ApartmentsPage.js";
-import MaxvillPage from "../../component/MaxvillPage.js";
 import {
   PropertyDispatchContext,
   PropertyStateContext,
