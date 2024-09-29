@@ -20,64 +20,56 @@ import ModalPhoneContact from "../component/ModalPhoneContact";
 import ModalEdit from "../component/ModalEdit";
 import ModalNameSexEdit from "../component/ModalNameSexEdit";
 import ModalPhoneEdit from "../component/ModalPhoneEdit";
+import ModalSpecialtyEdit from "../component/ModalSpecialtyEdit";
+import useProperty from "./useProperty";
 
 const MyModal = () => {
   const { closeModal, curRoom, curModalContent, isOpen } = useModal();
   const { curRoomDetails, curOccupantDetails } =
     useContext(PropertyStateContext);
 
+  const { fetchOccupantDetails, fetchRoomDetails } = useProperty();
+
   // 모달 컨텐츠를 선택합니다
   const renderModalContent = () => {
-    if (typeof curModalContent !== "undefined" && curModalContent == "full")
-      return (
-        <ModalFullInfo
-          curRoom={curRoom}
-          curRoomDetails={curRoomDetails}
-          curOccupantDetails={curOccupantDetails}
-        />
-      );
-    else if (
+    if (typeof curModalContent !== "undefined" && curModalContent == "full") {
+      return <ModalFullInfo curRoom={curRoom} />;
+    } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "phone"
-    )
+    ) {
       return (
-        <ModalPhoneContact
-          room_no={curRoom.room_no}
-          name={curRoomDetails.occupant_name}
-          phone={curOccupantDetails.phone}
-        />
+        <>
+          <ModalPhoneContact
+            room_no={curRoom.room_no}
+            name={curRoomDetails.occupant_name}
+            phone={curOccupantDetails.phone}
+          />
+        </>
       );
-    else if (
+    } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "edit"
-    )
-      return (
-        <ModalEdit
-          curRoom={curRoom}
-          curRoomDetails={curRoomDetails}
-          curOccupantDetails={curOccupantDetails}
-        />
-      );
-    else if (
+    ) {
+      return <ModalEdit curRoom={curRoom} />;
+    } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "namesex_edit"
-    )
-      return (
-        <ModalNameSexEdit
-          curRoomDetails={curRoomDetails}
-          curOccupantDetails={curOccupantDetails}
-        />
-      );
-    else if (
+    ) {
+      return <ModalNameSexEdit curRoom={curRoom} />;
+    } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "phone_edit"
-    )
-      return (
-        <ModalPhoneEdit
-          curRoomDetails={curRoomDetails}
-          curOccupantDetails={curOccupantDetails}
-        />
-      );
+    ) {
+      return <ModalPhoneEdit curRoom={curRoom} />;
+    }
+     else if (
+      typeof curModalContent !== "undefined" &&
+      curModalContent == "specialty_edit"
+    ) {
+      // return <ModalSpecialtyEdit curRoom={curRoom} />;
+      return <ModalSpecialtyEdit uid={curRoom.uid} />;
+    }
   };
 
   return (

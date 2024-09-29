@@ -12,8 +12,16 @@ const useProperty = () => {
     curRoomDetails,
     curRoom,
   } = useContext(PropertyStateContext);
-  const { setCurPage, fetchAll, fetchOccupantDetails, fetchRoomDetails } =
-    useContext(PropertyDispatchContext);
+  const {
+    setCurPage,
+    fetchAll,
+    fetchOccupantDetails,
+    fetchRoomDetails,
+    fetchProperty,
+    updateOccupantDetails,
+    updateRoomDetails,
+    updateProperty,
+  } = useContext(PropertyDispatchContext);
 
   const getCurPage = () => curPage;
   const getCurOccupantDetails = () => curOccupantDetails;
@@ -25,10 +33,16 @@ const useProperty = () => {
     getCurPage,
     getCurOccupantDetails,
     getCurRoomDetails,
+    curRoomDetails,
+    curOccupantDetails,
     curRoom,
     fetchAll,
     fetchOccupantDetails,
     fetchRoomDetails,
+    fetchProperty,
+    updateOccupantDetails,
+    updateRoomDetails,
+    updateProperty,
     getFullProperties,
   };
 };

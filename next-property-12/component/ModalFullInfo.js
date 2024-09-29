@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Flex, Text, Icon, Divider, Link } from "@chakra-ui/react";
 
@@ -17,13 +17,27 @@ import { BiMoneyWithdraw } from "react-icons/bi";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { MdPhoneForwarded } from "react-icons/md";
 import { TbArrowBigRightLineFilled } from "react-icons/tb";
+import { RxDotFilled } from "react-icons/rx";
 
 import { BsExclamationOctagon, BsExclamationTriangle } from "react-icons/bs";
 import { RiFileUnknowFill } from "react-icons/ri";
 import useModal from "../context/useModal";
+import useProperty from "../context/useProperty";
 
-const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
+// const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
+const ModalFullInfo = ({ curRoom }) => {
   const { setCurModalContent } = useModal();
+  const {
+    fetchRoomDetails,
+    fetchOccupantDetails,
+    curRoomDetails,
+    curOccupantDetails,
+  } = useProperty();
+
+  useEffect(() => {
+    fetchRoomDetails(curRoom.apartment, curRoom.room_no);
+    fetchOccupantDetails(curRoom.occupant_id);
+  }, []);
 
   const processEtc = () => {
     return (
@@ -220,7 +234,7 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             pt="-0.3em"
           >
             <Text fontSize="sm" fontWeight="semibold" color="gray.400">
-              {curRoomDetails.type} / {curRoomDetails.sq_footage}평형
+              {curRoomDetails.room_type} / {curRoomDetails.sq_footage}평형
             </Text>
           </Flex>
         </Flex>
@@ -268,6 +282,27 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   />
                 );
             })()}
+
+            <Icon
+              mt={["1.1em", "1.1em"]}
+              ml={["0.1em", "0.1em"]}
+              color="gray.400"
+              as={RxDotFilled}
+              boxSize="0.6rem"
+            />
+            <Text
+              mt={["1.1em", "1em"]}
+              ml={["0.3em"]}
+              fontSize={["0.8em", "0.8em"]}
+              fontWeight="normal"
+              color="gray.400"
+            >
+              {(() => {
+                if (curOccupantDetails.age == "young") return "청년";
+                else if (curOccupantDetails.age == "middle") return "중년";
+                else if (curOccupantDetails.age == "old") return "노년";
+              })()}
+            </Text>
           </Flex>
           {/* <Link */}
           {/*   href={"sms:" + curOccupantDetails.phone} */}
@@ -277,7 +312,7 @@ const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
 
           {/* 전화번호입니다 */}
           <Flex
-            mt={["0.3em"]}
+            mt={["0.4em"]}
             mb={["0.4em"]}
             _hover={{ cursor: "pointer" }}
             borderColor="gray.300"

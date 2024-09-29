@@ -1,9 +1,8 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
 import ApartmentsPage from "./ApartmentsPage";
-// import MaxvillPage from "./MaxvillPage";
-import RichvillPage from "./RichvillPage";
-import DochonPage from "./DochonPage";
+// import RichvillPage from "./RichvillPage";
+// import DochonPage from "./DochonPage";
 import FloorsPage from "./FloorsPage";
 
 export const selectPage = (str_page) => {

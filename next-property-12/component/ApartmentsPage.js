@@ -95,12 +95,6 @@ const ApartmentsPage = ({}) => {
   // };
 
   // useEffect(() => sortFloor(fullFloors), [fullFloors]);
-
-  useEffect(() => {
-    makeFloors();
-    // }, [getFullProperties()]);
-  }, [fullProperties]);
-
   useEffect(() => {
     const f = async () => {
       console.log("ApartmentsPage::useEffect::f()::before fetchAll");
@@ -110,9 +104,14 @@ const ApartmentsPage = ({}) => {
     makeFloors();
   }, []);
 
+  useEffect(() => {
+    makeFloors();
+    // }, [getFullProperties()]);
+  }, [fullProperties]);
+
   return (
     <>
-      {/* 맥스빌*/}
+      {/* 리치빌*/}
       <Flex
         w={["20rem", "23rem"]}
         position="relative"
@@ -145,7 +144,7 @@ const ApartmentsPage = ({}) => {
             {/* style={{ transform: "scale(1.1)" }} */}
             {/* objectFit="cover" */}
             <Img
-            objectFit="cover"
+              objectFit="cover"
               w="100%"
               h="100%"
               style={{ transform: "scale(1.1)" }}

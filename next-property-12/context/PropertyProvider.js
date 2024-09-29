@@ -20,6 +20,22 @@ const PropertyProvider = ({ children }) => {
     // return fullProperties;
   };
 
+  const fetchProperty = async (uid) => {
+    const requestOptions = {
+      method: "POST",
+      header: { "Content-Type:": "application/json" },
+      body: JSON.stringify({
+        uid,
+      }),
+    };
+
+    const res = await fetch("/property/api/fetch_property", requestOptions);
+    const cur = await res.json();
+    console.log("PropertyProvider::curProperty is::");
+    console.log(cur);
+    setCurRoom(cur);
+  };
+
   const fetchRoomDetails = async (apartment, room_no) => {
     const requestOptions = {
       method: "POST",
@@ -30,7 +46,7 @@ const PropertyProvider = ({ children }) => {
       }),
     };
 
-    const res = await fetch("/property/api/roominfo", requestOptions);
+    const res = await fetch("/property/api/fetch_roominfo", requestOptions);
     const cur = await res.json();
     console.log("PropertyProvider::curRoomDetails is::");
     console.log(cur);
@@ -46,11 +62,53 @@ const PropertyProvider = ({ children }) => {
       }),
     };
 
-    const res = await fetch("/property/api/occupantinfo", requestOptions);
+    const res = await fetch("/property/api/fetch_occupantinfo", requestOptions);
     const cur = await res.json();
     console.log("PropertyProvider::curOccupantDetails is::");
     console.log(cur);
     setCurOccupantDetails(cur);
+  };
+
+  const updateProperty = async (obj) => {
+    const requestOptions = {
+      method: "POST",
+      header: { "Content-Type:": "application/json" },
+      body: JSON.stringify(obj),
+    };
+
+    const res = await fetch("/property/api/update_property", requestOptions);
+    const resp = await res.json();
+    console.log("PropertyProvider::updateProperty resp::");
+    console.log(resp);
+  };
+
+  const updateOccupantDetails = async (obj) => {
+    const requestOptions = {
+      method: "POST",
+      header: { "Content-Type:": "application/json" },
+      body: JSON.stringify(obj),
+    };
+
+    const res = await fetch(
+      "/property/api/update_occupantinfo",
+      requestOptions
+    );
+    const resp = await res.json();
+    console.log("PropertyProvider::updateOccupantDetails resp::");
+    console.log(resp);
+  };
+
+  const updateRoomDetails = async (obj) => {
+    const requestOptions = {
+      method: "POST",
+      header: { "Content-Type:": "application/json" },
+      body: JSON.stringify(obj),
+    };
+
+    const res = await fetch("/property/api/update_roominfo", requestOptions);
+    const resp = await res.json();
+    console.log("PropertyProvider::updateRoomDetails resp::");
+    console.log(resp);
   };
 
   const dispatch = useMemo(() => {
@@ -59,6 +117,10 @@ const PropertyProvider = ({ children }) => {
       fetchAll,
       fetchOccupantDetails,
       fetchRoomDetails,
+      fetchProperty,
+      updateOccupantDetails,
+      updateRoomDetails,
+      updateProperty,
     };
   }, []);
 

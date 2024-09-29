@@ -19,13 +19,23 @@ import { IoChatboxEllipsesOutline } from "react-icons/io5";
 import { MdPhoneForwarded } from "react-icons/md";
 import { TbArrowBigRightLineFilled } from "react-icons/tb";
 import { TbArrowBack } from "react-icons/tb";
+import { RxDotFilled } from "react-icons/rx";
 
 import { BsExclamationOctagon, BsExclamationTriangle } from "react-icons/bs";
 import { RiFileUnknowFill } from "react-icons/ri";
+import useProperty from "../context/useProperty";
 
-const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
+// const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
+const ModalEdit = ({ curRoom }) => {
   const { setCurModalContent, curModalPosition, setCurModalPosition } =
     useModal();
+
+  const {
+    fetchRoomDetails,
+    fetchOccupantDetails,
+    curOccupantDetails,
+    curRoomDetails,
+  } = useProperty();
 
   const refNamesex = useRef(null);
   const refPhone = useRef(null);
@@ -39,6 +49,13 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
   const refDescription = useRef(null);
 
   useEffect(() => {
+    console.log(
+      "ModalEdit::useEffect::fetch roomdetals and occupantdetals ..."
+    );
+
+    fetchRoomDetails(curRoom.apartment, curRoom.room_no);
+    fetchOccupantDetails(curRoom.occupant_id);
+
     console.log("ModalEdit::useEffect::curModalPosition is...");
     if (typeof curModalPosition !== "undefined") {
       console.log(curModalPosition);
@@ -93,7 +110,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             py="0.3em"
           >
             {/* color="gray.300" */}
-            <Text color="gray.300" fontSize="md">
+            <Text color="gray.400" fontSize="md">
               {curRoomDetails.description}
             </Text>
           </Flex>
@@ -129,7 +146,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             {/* borderWidth={1} */}
             {/* <Flex mt="0.4em" px="0.2em"> */}
             <Flex>
-              <Text fontSize="sm" fontWeight="normal" color="gray.300">
+              <Text fontSize="sm" fontWeight="normal" color="gray.400">
                 {depositFormatter(l[0])}
               </Text>
               <Flex mt="-0.35em" ml="0.7em">
@@ -137,7 +154,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   mt={["0.05em"]}
                   fontSize="lg"
                   fontWeight="semibold"
-                  color="gray.300"
+                  color="gray.400"
                 >
                   {l[1]}
                 </Text>
@@ -146,7 +163,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   ml={["0.2em"]}
                   fontSize="sm"
                   fontWeight="normal"
-                  color="gray.300"
+                  color="gray.400"
                 >
                   만원
                 </Text>
@@ -241,7 +258,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             <Text
               mt={["0.1em", "0em"]}
               ml="0.5em"
-              color="gray.300"
+              color="gray.400"
               fontSize="4xl"
               fontWeight="semibold"
             >
@@ -253,7 +270,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               ml="0.2em"
               fontSize="xl"
               fontWeight="medium"
-              color="gray.300"
+              color="gray.400"
             >
               호
             </Text>
@@ -268,7 +285,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             pt="-0.3em"
           >
             <Text fontSize="sm" fontWeight="semibold" color="gray.400">
-              {curRoomDetails.type} / {curRoomDetails.sq_footage}평형
+              {curRoomDetails.room_type} / {curRoomDetails.sq_footage}평형
             </Text>
           </Flex>
         </Flex>
@@ -313,7 +330,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               ml="0.8em"
               fontSize="lg"
               fontWeight="semibold"
-              color="gray.300"
+              color="gray.400"
             >
               {curRoomDetails.occupant_name}
             </Text>
@@ -338,6 +355,26 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   />
                 );
             })()}
+            <Icon
+              mt={["1.1em", "1.1em"]}
+              ml={["0.1em", "0.1em"]}
+              color="gray.400"
+              as={RxDotFilled}
+              boxSize="0.6rem"
+            />
+            <Text
+              mt={["1.1em", "1em"]}
+              ml={["0.3em"]}
+              fontSize={["0.8em", "0.8em"]}
+              fontWeight="normal"
+              color="gray.400"
+            >
+              {(() => {
+                if (curOccupantDetails.age == "young") return "청년";
+                else if (curOccupantDetails.age == "middle") return "중년";
+                else if (curOccupantDetails.age == "old") return "노년";
+              })()}
+            </Text>
           </Flex>
           {/* <Link */}
           {/*   href={"sms:" + curOccupantDetails.phone} */}
@@ -372,8 +409,8 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             {/* borderWidth={1} */}
             <Flex
               mt={["0.4em"]}
-              mb={["0.4em"]}
-              borderColor="gray.300"
+              mb={["0.2em"]}
+              borderColor="gray.400"
               rounded="md"
               px={["1.0em"]}
               py={["0.4em"]}
@@ -381,12 +418,14 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
             >
               {/* ml={["2em", "1.8em"]} */}
               <Icon
-                mt={["0.3em", "0.4em"]}
-                color="gray.400"
+                mt={["0.2em", "0.3em"]}
+                ml={["-0.5em", "-0.5em"]}
+                color="gray.500"
                 as={ImPhone}
                 boxSize="1.1rem"
               />
               <Icon
+                display="none"
                 mt={["0.2em", "0.2em"]}
                 ml={["-0.4em", "-0.4em"]}
                 color="gray.500"
@@ -395,10 +434,10 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               />
               <Text
                 mt="0.0em"
-                ml={["0.5em", "0.6em"]}
+                ml={["0.7em", "0.8em"]}
                 fontSize="lg"
                 fontWeight="semibold"
-                color="gray.300"
+                color="gray.400"
               >
                 {/* {curOccupantDetails.phone} */}
                 {phoneFormatter(curOccupantDetails.phone)}
@@ -407,20 +446,21 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
           </Flex>
 
           {/* 차량및 반려동물 악성도 등 정보 표시 */}
-          {/* <Divider */}
-          {/*   mt={["-0.5em"]} */}
-          {/*   borderColor="gray.500" */}
-          {/*   w="30%" */}
-          {/*   alignSelf="center" */}
-          {/*   display={ */}
-          {/*     (typeof curRoom.pets !== "undefined" && curRoom.pets > 0) || */}
-          {/*     (typeof curRoom.cars !== "undefined" && curRoom.cars > 0) || */}
-          {/*     (typeof curRoom.defectiveness !== "undefined" && */}
-          {/*       curRoom.defectiveness > 0) */}
-          {/*       ? "flex" */}
-          {/*       : "none" */}
-          {/*   } */}
-          {/* /> */}
+          <Divider
+            mt={["0em"]}
+            mb={["0.1em"]}
+            borderColor="gray.500"
+            w="30%"
+            alignSelf="center"
+            display={
+              (typeof curRoom.pets !== "undefined" && curRoom.pets > 0) ||
+              (typeof curRoom.cars !== "undefined" && curRoom.cars > 0) ||
+              (typeof curRoom.defectiveness !== "undefined" &&
+                curRoom.defectiveness > 0)
+                ? "flex"
+                : "none"
+            }
+          />
 
           <Flex w="100%" justifyContent="center" position="relative">
             {/* 수정버튼입니다 */}
@@ -431,12 +471,13 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               borderWidth={1}
               borderColor="gray.500"
               bgColor="gray.600"
-              mt="0.4em"
+              mt="0.35em"
               right="0.5em"
               rounded="4"
               px="0.4em"
               py="0.1em"
               opacity="0.75"
+              onClick={() => setCurModalContent("specialty_edit")}
             >
               <Text color="gray.200" fontSize="sm">
                 수정
@@ -447,7 +488,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               position="relative"
               ml={["-0.8rem"]}
               mt="0.5em"
-              mb={["1em"]}
+              mb={["1.15em"]}
               alignSelf="center"
               display={
                 (typeof curRoom.pets !== "undefined" && curRoom.pets > 0) ||
@@ -471,7 +512,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   w={["1.5em"]}
                   h={["1.5em"]}
                   mr={["0.4em"]}
-                  bgColor="green.500"
+                  bgColor="green.600"
                   display={curRoom.pets > 0 ? "flex" : "none"}
                   justifyContent="center"
                   alignItems="center"
@@ -488,7 +529,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   w={["1.5em"]}
                   h={["1.5em"]}
                   mr={["0.4em"]}
-                  bgColor="blue.500"
+                  bgColor="blue.600"
                   pl="-4em"
                   borderWidth={0}
                   alignItems="center"
@@ -511,7 +552,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   w={["1.5em"]}
                   h={["1.5em"]}
                   mr={["0.4em"]}
-                  bgColor="orange.600"
+                  bgColor="orange.700"
                   alignItems="center"
                 >
                   {/* <IoIosPaw /> */}
@@ -555,7 +596,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
               borderWidth={1}
               borderColor="gray.500"
               bgColor="gray.600"
-              mt="0.6em"
+              mt="0.4em"
               right="0.5em"
               rounded="4"
               px="0.4em"
@@ -579,7 +620,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 color={
                   typeof curOccupantDetails.complaints !== "undefined" &&
                   curOccupantDetails.complaints.length > 0
-                    ? "yellow.400"
+                    ? "yellow.600"
                     : "gray.500"
                 }
                 as={BsExclamationTriangle}
@@ -594,7 +635,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 color={
                   typeof curOccupantDetails.complaints !== "undefined" &&
                   curOccupantDetails.complaints.length > 0
-                    ? "yellow.400"
+                    ? "yellow.600"
                     : "gray.500"
                 }
                 fontSize="md"
@@ -668,7 +709,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 ml="0.8em"
                 fontSize="xl"
                 fontWeight="semibold"
-                color="gray.300"
+                color="gray.400"
               >
                 {curRoom.contract_type}
               </Text>
@@ -686,7 +727,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 ml="0.3em"
                 fontSize="2xl"
                 fontWeight="semibold"
-                color="gray.300"
+                color="gray.400"
               >
                 {curRoom.monthly_pay}
               </Text>
@@ -695,7 +736,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 ml="0.2em"
                 fontSize="md"
                 fontWeight="semibold"
-                color="gray.300"
+                color="gray.400"
               >
                 만원
               </Text>
@@ -752,7 +793,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 ml="0.6em"
                 fontSize="2xl"
                 fontWeight="semibold"
-                color="gray.300"
+                color="gray.400"
               >
                 {curRoom.reserved_pay}
               </Text>
@@ -761,7 +802,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 ml="0.2em"
                 fontSize="md"
                 fontWeight="semibold"
-                color="gray.300"
+                color="gray.400"
               >
                 만원
               </Text>
@@ -825,7 +866,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                   ml="0.2em"
                   fontSize="md"
                   fontWeight="semibold"
-                  color="gray.300"
+                  color="gray.400"
                 >
                   일
                 </Text>
@@ -888,7 +929,7 @@ const ModalEdit = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
                 borderColor="gray.600"
                 borderWidth={1}
               >
-                <Text fontSize="lg" fontWeight="semibold" color="gray.300">
+                <Text fontSize="lg" fontWeight="semibold" color="gray.400">
                   {curRoom.contract_period}
                 </Text>
                 <Text
