@@ -17,6 +17,7 @@ const useModal = () => {
   const {
     fetchOccupantDetails,
     fetchRoomDetails,
+    fetchAll,
     getCurRoomDetails,
     getCurOccupantDetails,
   } = useProperty();
@@ -32,6 +33,9 @@ const useModal = () => {
   }, []);
 
   const closeModal = useCallback(() => {
+    console.log("useModal::closeModal::fetchAll()");
+	// 닫을 때 fetchAll로 FloorsPage를 업데이트해줍니다
+    fetchAll();
     setIsOpen(false);
     close();
   }, []);

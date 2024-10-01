@@ -33,7 +33,17 @@ const MyModal = () => {
   // 모달 컨텐츠를 선택합니다
   const renderModalContent = () => {
     if (typeof curModalContent !== "undefined" && curModalContent == "full") {
-      return <ModalFullInfo curRoom={curRoom} />;
+      // return <ModalFullInfo curRoom={curRoom} />;
+      return (
+        <>
+          <ModalFullInfo
+            uid={curRoom.uid}
+            apartment={curRoom.apartment}
+            room_no={curRoom.room_no}
+            occupant_id={curRoom.occupant_id}
+          />
+        </>
+      );
     } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "phone"
@@ -51,7 +61,16 @@ const MyModal = () => {
       typeof curModalContent !== "undefined" &&
       curModalContent == "edit"
     ) {
-      return <ModalEdit curRoom={curRoom} />;
+      // return <ModalEdit curRoom={curRoom} />;
+      // return <ModalEdit uid={curRoom.uid} />;
+      return (
+        <ModalEdit
+          uid={curRoom.uid}
+          apartment={curRoom.apartment}
+          room_no={curRoom.room_no}
+          occupant_id={curRoom.occupant_id}
+        />
+      );
     } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "namesex_edit"
@@ -62,8 +81,7 @@ const MyModal = () => {
       curModalContent == "phone_edit"
     ) {
       return <ModalPhoneEdit curRoom={curRoom} />;
-    }
-     else if (
+    } else if (
       typeof curModalContent !== "undefined" &&
       curModalContent == "specialty_edit"
     ) {

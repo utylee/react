@@ -25,23 +25,33 @@ import useModal from "../context/useModal";
 import useProperty from "../context/useProperty";
 
 // const ModalFullInfo = ({ curRoom, curRoomDetails, curOccupantDetails }) => {
-const ModalFullInfo = ({ curRoom }) => {
+// const ModalFullInfo = ({ curRoom }) => {
+const ModalFullInfo = ({ uid, apartment, room_no, occupant_id }) => {
   const { setCurModalContent } = useModal();
   const {
+    fetchProperty,
     fetchRoomDetails,
     fetchOccupantDetails,
     curRoomDetails,
     curOccupantDetails,
+    curRoom,
   } = useProperty();
 
   useEffect(() => {
-    fetchRoomDetails(curRoom.apartment, curRoom.room_no);
-    fetchOccupantDetails(curRoom.occupant_id);
+    // fetchRoomDetails(curRoom.apartment, curRoom.room_no);
+    // fetchOccupantDetails(curRoom.occupant_id);
+    fetchProperty(uid);
+    fetchRoomDetails(apartment, room_no);
+    fetchOccupantDetails(occupant_id);
   }, []);
 
   const processEtc = () => {
     return (
       <>
+        {/* ModalEdit는 null 체크를 다 넣어줬더니만 */}
+        {/* 왜 이건 괜찮나 했더니만 openmodal할 때 fetch를 다 해줘서 값이 있었던 것이 */}
+        {/* 었습니다. api에 null 리턴 체크도 해주긴했는데 별 상관없었던 것 같습니다 */}
+        {/* 이건 null체크없이 그냥 놔둬도 상관없어서 그냥 놔두기로 했습니다 */}
         {curRoomDetails.description?.length > 0 ? (
           <Flex
             borderColor="#6d7d99"

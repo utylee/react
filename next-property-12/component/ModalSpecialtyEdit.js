@@ -29,20 +29,26 @@ const ModalSpecialtyEdit = ({ uid }) => {
     curOccupantDetails,
     curRoom: curProperty,
   } = useProperty();
+  // curRoom이 component 프롭과 이름이 겹쳐서 이렇게 선언했는데
+  // 일단 curRoom 프롭 전체를 사용하지는 않긴 합니다
 
   // const { curRoom: curProperty } = useContext(PropertyStateContext);
 
   // curRoom.pets,
   // curRoom.cars,
   // curRoom.defectiveness,
-  // const [checked, setChecked] = useState([
-  //   curProperty.pets,
-  //   curProperty.cars,
-  //   curProperty.defectiveness,
-  // ]);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState([
+    curProperty.pets,
+    curProperty.cars,
+    curProperty.defectiveness,
+  ]);
+  // const [checked, setChecked] = useState([]);
 
   useEffect(() => {
+    // 즉시 반영 리렌더가 안돼서 콜백형식으로 한 번 해봤는데 정확한 사용법이
+    // 아닌 것 같습니다. useState로 될 법도 한데 안돼서
+    // 그냥 디폴트 useEffect에서 fetch하고 context변화를 체크하는
+    // useEffect를 추가로 두는 방법을 사용하기로 합니다
     // setChecked(() => [
     //   curProperty.pets,
     //   curProperty.cars,
@@ -53,7 +59,7 @@ const ModalSpecialtyEdit = ({ uid }) => {
 
   useEffect(() => {
     fetchProperty(uid);
-    console.log("ModalSpecialtyEdit::useEffect::came in..");
+    // console.log("ModalSpecialtyEdit::useEffect::came in..");
   }, []);
 
   const updateSpecialtyEdit = () => {
@@ -69,6 +75,7 @@ const ModalSpecialtyEdit = ({ uid }) => {
       ...restOccupant
     } = curOccupantDetails;
 
+    // bool형식을 int로 바로 넣으려니 오류가 나서 변환해주기로 합니다
     // pets: checked[0],
     // cars: checked[1],
     // defectiveness: checked[2],
@@ -117,10 +124,10 @@ const ModalSpecialtyEdit = ({ uid }) => {
           w={["14.5em", "18em"]}
           justifySelf="center"
         >
-          <Flex ml={["2em", "4em"]} direction="column" mb={["2.5em"]}>
+          <Flex ml={["2em", "4em"]} direction="column" >
             <Checkbox
               colorScheme="cyan"
-              mt={["1em"]}
+              mt={["0em"]}
               isChecked={checked[0]}
               onChange={(e) =>
                 setChecked([e.target.checked, checked[1], checked[2]])
@@ -179,60 +186,59 @@ const ModalSpecialtyEdit = ({ uid }) => {
               </Flex>
             </Checkbox>
           </Flex>
+        </Flex>
+        {/* 수정완료 및 취소 버튼 */}
+        <Flex mb="0.4em" justifyContent="center">
+          <Flex
+            w="5.2em"
+            h="2.2em"
+            bgColor="gray.600"
+            borderWidth={1}
+            borderColor="gray.500"
+            rounded="md"
+            alignItems="center"
+            justifyContent="center"
+            _hover={{ cursor: "pointer" }}
+            onClick={() => {
+              // 변경점을 반영합니다
+              // console.log("pet is...");
+              // console.log(newpet);
+              // console.log("car is...");
+              // console.log(newsex);
+              // console.log("defectiveness is...");
+              // console.log(newage);
 
-          {/* 수정완료 및 취소 버튼 */}
-          <Flex mb="0.4em" justifyContent="center">
-            <Flex
-              w="5.2em"
-              h="2.2em"
-              bgColor="gray.600"
-              borderWidth={1}
-              borderColor="gray.500"
-              rounded="md"
-              alignItems="center"
-              justifyContent="center"
-              _hover={{ cursor: "pointer" }}
-              onClick={() => {
-                // 변경점을 반영합니다
-                // console.log("pet is...");
-                // console.log(newpet);
-                // console.log("car is...");
-                // console.log(newsex);
-                // console.log("defectiveness is...");
-                // console.log(newage);
+              // api에 수정된 정보를 전송해줍니다
+              updateSpecialtyEdit();
 
-                // api에 수정된 정보를 전송해줍니다
-                updateSpecialtyEdit();
+              // 모달페이지를 설정해줍니다
+              setCurModalPosition("namesex");
+              setCurModalContent("edit");
+            }}
+          >
+            <Text color="gray.300" fontSize="1.05em">
+              완료
+            </Text>
+          </Flex>
 
-                // 모달페이지를 설정해줍니다
-                setCurModalPosition("namesex");
-                setCurModalContent("edit");
-              }}
-            >
-              <Text color="gray.300" fontSize="1.05em">
-                완료
-              </Text>
-            </Flex>
-
-            {/* bgColor="gray.600" */}
-            <Flex
-              w="5.2em"
-              h="2.2em"
-              ml="1.7em"
-              borderWidth={1}
-              borderColor="gray.500"
-              rounded="md"
-              alignItems="center"
-              justifyContent="center"
-              _hover={{ cursor: "pointer" }}
-              onClick={() => {
-                setCurModalContent("edit");
-              }}
-            >
-              <Text color="gray.300" fontSize="1.05em">
-                취소
-              </Text>
-            </Flex>
+          {/* bgColor="gray.600" */}
+          <Flex
+            w="5.2em"
+            h="2.2em"
+            ml="1.7em"
+            borderWidth={1}
+            borderColor="gray.500"
+            rounded="md"
+            alignItems="center"
+            justifyContent="center"
+            _hover={{ cursor: "pointer" }}
+            onClick={() => {
+              setCurModalContent("edit");
+            }}
+          >
+            <Text color="gray.300" fontSize="1.05em">
+              취소
+            </Text>
           </Flex>
         </Flex>
       </Flex>

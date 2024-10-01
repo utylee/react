@@ -34,6 +34,8 @@ const PropertyProvider = ({ children }) => {
     console.log("PropertyProvider::curProperty is::");
     console.log(cur);
     setCurRoom(cur);
+
+    return cur;
   };
 
   const fetchRoomDetails = async (apartment, room_no) => {

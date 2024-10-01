@@ -168,6 +168,7 @@ export default function Home() {
 
     console.log("index.js:getHydros:hydros[1]: " + hydros[1]);
     console.log(hydros[1]);
+    // planter 를 세팅해주는 부분입니다
     setObjectPlanters(hydros[1]);
     // setPlanters(hydros[1]);
     console.log("index.js:before setgemed..");

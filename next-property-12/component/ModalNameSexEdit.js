@@ -43,31 +43,6 @@ const ModalNameSexEdit = ({ curRoom }) => {
     // fetchOccupantDetails(curRoom.occupant_id);
   };
 
-  const manipulateHiphen = (key) => {
-    console.log("ModalPhoneEdit::manipulateHiphen::key pushed");
-    let result = "";
-    let num = phoneRef.current.value.trim().replace(/-/g, "");
-    console.log("ModalPhoneEdit::manipulateHiphen::num is ");
-    console.log(num);
-
-    // backspace 일 때는 행하지 않습니다. 더이상 backspace로 지워지지 않는 문제가
-    // 생겼습니다
-    if (key !== "Backspace") {
-      if (num?.length >= 3) {
-        result = num.slice(0, 3) + "-";
-
-        if (num?.length < 7) {
-          result += num.slice(3);
-        } else {
-          result += num.slice(3, 7) + "-" + num.slice(7);
-        }
-
-        // setInputNumber(result);
-        phoneRef.current.value = result;
-      }
-    }
-  };
-
   useEffect(() => {
     console.log("ModalNameSexEdit::useEffect::setInputName..");
     console.log(curOccupantDetails.name);
