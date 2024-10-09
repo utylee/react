@@ -41,13 +41,15 @@ export default function Home() {
     console.log("index.js::useEffect[msgObj]::msg:" + msgObj.msg);
 
     // let msg = msgObj.msg;
-    let sliced = msgObj.msg.slice(0, 10);
+	// needRefresh 가 11글자라 해당글자도 읽으려니 이렇게 해야했습니다
+    let sliced = msgObj.msg.slice(0, 11);
     console.log("index.js::useEffect[msgObj]::sliced:" + sliced);
 
     // json 객체로 주고 받기로 변경하였습니다
     // 잠시만...
     // if (msg === "processing" || msg === "finished") {
-    if (sliced === "processing" || sliced === "finished") {
+	// needRefresh 가 11글자라 해당글자도 읽으려니 이렇게 해야했습니다
+    if (sliced === "processing_" || sliced === "finished") {
       console.log("index.js::useEffect[msg]::set auth_status:" + msgObj.msg);
       // auth_status.current = evt.data;
       // setAuth_status(sliced);
