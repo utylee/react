@@ -4,8 +4,9 @@ import useWS from "./useWS";
 
 // const LoginJson = ({ json_date, auth_status, setSocketConnected, ws }) => {
 const LoginJson = ({ json_date, auth_status }) => {
-  if (auth_status === "processing" || auth_status === "finished")
-    console.log("LoginJson::auth_status::" + auth_status);
+  // if (auth_status === "processing" || auth_status === "finished")
+  //   console.log("LoginJson::auth_status::" + auth_status);
+  console.log("LoginJson::auth_status::" + auth_status);
   const [isHover, setIshover] = useState(false);
   const { correctConnection, checkConnection, forceReconnect, msg, send } =
     useWS();
@@ -21,9 +22,62 @@ const LoginJson = ({ json_date, auth_status }) => {
   const msging = () => {
     let result = "login.json   " + json_date;
 
-    if (auth_status === "processing") {
-      // result = "authorizing...";
-      return <Flex>authorizing...</Flex>;
+    let prefix = auth_status.slice(0, 10);
+    let postfix = auth_status.slice(11);
+
+    console.log("LoginJson::msging()::prefix is");
+    console.log(prefix);
+    console.log("LoginJson::msging()::postfix is");
+    console.log(postfix);
+
+    // if (auth_status === "processing") {
+    if (prefix === "processing") {
+      if (postfix === "") {
+        // result = "authorizing...";
+        return <Flex>authorizing...</Flex>;
+      } else if (postfix === "openfirefox") {
+        // result = "authorizing...";
+        return <Flex>(1/9)  opening firefox...</Flex>;
+      } else if (postfix === "connectstudio") {
+        // result = "authorizing...";
+        return <Flex>(2/9)  connecting youtube studio...</Flex>;
+      } else if (postfix === "opendevconsole") {
+        // result = "authorizing...";
+        return <Flex>(3/9)  opening dev console...</Flex>;
+      } else if (postfix === "typegrst") {
+        // result = "authorizing...";
+        return <Flex>(4/9)  typing /grst...</Flex>;
+      } else if (postfix === "refreshstudio") {
+        // result = "authorizing...";
+        return <Flex>(5/9)  refreshing youtube studio...</Flex>;
+      } else if (postfix === "grsting") {
+        // result = "authorizing...";
+        return <Flex>(6/9)  manipulating grst values...</Flex>;
+      } else if (postfix === "cooking") {
+        // result = "authorizing...";
+        return <Flex>(7/9)  saving cookies.txt...</Flex>;
+      } else if (postfix === "finalizing") {
+        // result = "authorizing...";
+        return <Flex>(8/9)  making login.json file...</Flex>;
+      } else if (postfix === "closefirefox") {
+        // result = "authorizing...";
+        return <Flex>(9/9)  closing firefox...</Flex>;
+      }
+      // } else if (postfix === "finished") {
+      //   // result = "authorizing...";
+      //   // return <Flex>all finished...</Flex>;
+      //   let clr = isHover ? "gray.400" : "purple.700";
+      //   // let clr_hover = "gray.100";
+      //   return (
+      //     <HStack>
+      //       {/* <Flex color="purple.700" alignSelf="end" sx={{ fontSize: "0.7em" }}> */}
+      //       <Flex mr="0em">login.json</Flex>
+      //       <Flex color={clr} alignSelf="end" sx={{ fontSize: "0.8em" }}>
+      //         {json_date}
+      //       </Flex>
+      //     </HStack>
+      //   );
+      // }
     } else {
       let clr = isHover ? "gray.400" : "purple.700";
       // let clr_hover = "gray.100";
@@ -41,7 +95,10 @@ const LoginJson = ({ json_date, auth_status }) => {
 
   const bging = () => {
     let result = "0";
-    if (auth_status === "processing" && isHover !== true) {
+    let prefix = auth_status.slice(0, 10);
+
+    // if (auth_status === "processing" && isHover !== true) {
+    if (prefix === "processing" && isHover !== true) {
       result = "pink.700";
     } else if (isHover === true) {
       result = "purple.800";
@@ -51,7 +108,10 @@ const LoginJson = ({ json_date, auth_status }) => {
 
   const coloring = () => {
     let result = "gray.600";
-    if (auth_status === "processing" && isHover !== true) {
+    let prefix = auth_status.slice(0, 10);
+
+    // if (auth_status === "processing" && isHover !== true) {
+    if (prefix === "processing" && isHover !== true) {
       result = "gray.100";
     } else if (isHover === true) {
       result = "gray.500";

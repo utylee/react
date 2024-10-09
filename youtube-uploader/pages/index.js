@@ -40,15 +40,19 @@ export default function Home() {
   useEffect(() => {
     console.log("index.js::useEffect[msgObj]::msg:" + msgObj.msg);
 
-    let msg = msgObj.msg;
+    // let msg = msgObj.msg;
+    let sliced = msgObj.msg.slice(0, 10);
+    console.log("index.js::useEffect[msgObj]::sliced:" + sliced);
 
     // json 객체로 주고 받기로 변경하였습니다
     // 잠시만...
-    if (msg === "processing" || msg === "finished") {
-      console.log("index.js::useEffect[msg]::set auth_status:" + msg);
+    // if (msg === "processing" || msg === "finished") {
+    if (sliced === "processing" || sliced === "finished") {
+      console.log("index.js::useEffect[msg]::set auth_status:" + msgObj.msg);
       // auth_status.current = evt.data;
-      setAuth_status(msg);
-    } else if (msg === "needRefresh") {
+      // setAuth_status(sliced);
+      setAuth_status(msgObj.msg);
+    } else if (sliced === "needRefresh") {
       console.log("index.js::useEffect[msg]::needRefresh ws came");
       // setMyconfirmMemo(Math.random());
       setMyconfirm(Math.random());

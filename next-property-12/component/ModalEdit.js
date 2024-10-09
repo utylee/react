@@ -53,6 +53,106 @@ const ModalEdit = ({ uid, apartment, room_no, occupant_id }) => {
   const refDeposit = useRef(null);
   const refDescription = useRef(null);
 
+  const renderComplaints = () => {
+    console.log("ModalEdit::returnComplaints::refreshed");
+    const ret = [];
+    // const ret1 = "";
+    // const ret2 = "";
+    const ret1 = [];
+    const ret2 = [];
+    const ret3 = [];
+
+    ret.push(
+      <>
+        {/* 컴플레인 아이콘 */}
+        {/* as={BsExclamationOctagon} */}
+        {/* color="yellow.400" */}
+        <Icon
+          mt={["0.3em", "0.5em"]}
+          mb={["0.9em", "0.9em"]}
+          ml={["-0.5em", "0em"]}
+          fontWeight="bold"
+          color={ret3}
+          as={BsExclamationTriangle}
+          boxSize="1.2rem"
+        />
+        {/* 컴플레인 텍스트 */}
+        {/* {curOccupantDetails.complaints} */}
+        {/* color="yellow.400" */}
+
+        {/* typeof curOccupantDetails?.complaints !== "undefined" && */}
+        {/* curOccupantDetails?.complaints.length > 0 */}
+        {/*   ? "yellow.600" */}
+        {/*   : "gray.500" */}
+
+        {/* {typeof curOccupantDetails?.complaints !== "undefined" && */}
+        {/* curOccupantDetails?.complaints.length > 0 */}
+        {/*   ? curOccupantDetails.complaints[0][0] */}
+        {/*   : "요청사항이 없습니다"} */}
+        <Text
+          ml={["0.7em", "0.8em"]}
+          mt={["0.2em", "0.4em"]}
+          color={ret1}
+          fontSize="md"
+        >
+          {ret2}
+        </Text>
+      </>
+    );
+
+    console.log(
+      "ModalEdit::returnComplaints::before if(curOccupantDetails) .."
+    );
+    console.log(curOccupantDetails);
+
+    if (
+      curOccupantDetails &&
+      curOccupantDetails.complaints.length > 0 &&
+      curOccupantDetails.complaints[0].length > 1
+    ) {
+      // console.log('ModalEdit::returnComplaints::if::
+      // ret1 = "yellow.600";
+      // ret2 = curOccupantDetails.complaints[0][0];
+      //
+      //
+      ret1.push("yellow.600");
+      ret3.push("yellow.600");
+      // ret2.push(curOccupantDetails.complaints[0][0]);
+
+      // 모두 완료([1])일 경우에는 비활성 칼라로 최근 클레임으로 보여주기로 합니다
+      let allDone = 1;
+      // for (let i = curOccupantDetails.complaints.length - 1; i >= 0; i--) {
+      for (let i = 0; i < curOccupantDetails.complaints.length; i++) {
+        if (
+          curOccupantDetails.complaints[i][0].trim() === "" &&
+          curOccupantDetails.complaints[i][1] == "0"
+        ) {
+          // ret2 = curOccupantDetails.complaints[i][0];
+          ret2.pop();
+          ret2.push(curOccupantDetails.complaints[i][0]);
+          allDone = 0;
+          break;
+        }
+      }
+
+      if (allDone === 1) {
+        ret1.pop();
+        ret3.pop();
+        ret1.push("gray.500");
+        ret3.push("gray.500");
+        ret2.push("(최근)" + curOccupantDetails.complaints[0][0]);
+      }
+    } else {
+      // ret1 = "gray.500";
+      // ret2 = "요청사항이 없습니다";
+      ret1.push("gray.500");
+      ret3.push("gray.500");
+      ret2.push("요청사항이 없습니다");
+    }
+
+    return ret;
+  };
+
   const adjustPosition = () => {
     if (typeof curModalPosition !== "undefined") {
       console.log(curModalPosition);
@@ -98,6 +198,9 @@ const ModalEdit = ({ uid, apartment, room_no, occupant_id }) => {
   //   console.log(curRoom);
   // }
   // }, [curRoom]);
+  useEffect(() => {
+    console.log("ModalEdit::refreshed");
+  }, [curOccupantDetails.complaints]);
 
   useEffect(() => {
     console.log(
@@ -673,49 +776,35 @@ const ModalEdit = ({ uid, apartment, room_no, occupant_id }) => {
               px="0.4em"
               py="0.1em"
               opacity="0.75"
-              onClick={() => setCurModalContent("namesex_edit")}
+              onClick={() => setCurModalContent("complaints_edit")}
             >
               <Text color="gray.200" fontSize="sm">
                 수정
               </Text>
             </Flex>
             <Flex alignSelf="center" mt="0.3em">
-              {/* 컴플레인 아이콘 */}
-              {/* as={BsExclamationOctagon} */}
-              {/* color="yellow.400" */}
-              <Icon
-                mt={["0.3em", "0.5em"]}
-                mb={["0.9em", "0.9em"]}
-                ml={["-0.5em", "0em"]}
-                fontWeight="bold"
-                color={
-                  typeof curOccupantDetails?.complaints !== "undefined" &&
-                  curOccupantDetails?.complaints.length > 0
-                    ? "yellow.600"
-                    : "gray.500"
-                }
-                as={BsExclamationTriangle}
-                boxSize="1.2rem"
-              />
+              {renderComplaints()}
+
               {/* 컴플레인 텍스트 */}
               {/* {curOccupantDetails.complaints} */}
               {/* color="yellow.400" */}
-              <Text
-                ml={["0.7em", "0.8em"]}
-                mt={["0.2em", "0.4em"]}
-                color={
-                  typeof curOccupantDetails?.complaints !== "undefined" &&
-                  curOccupantDetails?.complaints.length > 0
-                    ? "yellow.600"
-                    : "gray.500"
-                }
-                fontSize="md"
-              >
-                {typeof curOccupantDetails?.complaints !== "undefined" &&
-                curOccupantDetails?.complaints.length > 0
-                  ? curOccupantDetails.complaints
-                  : "요청사항이 없습니다"}
-              </Text>
+
+              {/* <Text */}
+              {/*   ml={["0.7em", "0.8em"]} */}
+              {/*   mt={["0.2em", "0.4em"]} */}
+              {/*   color={ */}
+              {/*     typeof curOccupantDetails?.complaints !== "undefined" && */}
+              {/*     curOccupantDetails?.complaints.length > 0 */}
+              {/*       ? "yellow.600" */}
+              {/*       : "gray.500" */}
+              {/*   } */}
+              {/*   fontSize="md" */}
+              {/* > */}
+              {/*   {typeof curOccupantDetails?.complaints !== "undefined" && */}
+              {/*   curOccupantDetails?.complaints.length > 0 */}
+              {/*     ? curOccupantDetails.complaints[0][0] */}
+              {/*     : "요청사항이 없습니다"} */}
+              {/* </Text> */}
             </Flex>
           </Flex>
         </Flex>

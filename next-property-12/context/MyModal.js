@@ -21,6 +21,7 @@ import ModalEdit from "../component/ModalEdit";
 import ModalNameSexEdit from "../component/ModalNameSexEdit";
 import ModalPhoneEdit from "../component/ModalPhoneEdit";
 import ModalSpecialtyEdit from "../component/ModalSpecialtyEdit";
+import ModalComplaintsEdit from "../component/ModalComplaintsEdit";
 import useProperty from "./useProperty";
 
 const MyModal = () => {
@@ -87,6 +88,21 @@ const MyModal = () => {
     ) {
       // return <ModalSpecialtyEdit curRoom={curRoom} />;
       return <ModalSpecialtyEdit uid={curRoom.uid} />;
+    } else if (
+      typeof curModalContent !== "undefined" &&
+      curModalContent == "complaints_edit"
+    ) {
+
+      console.log(
+        "MyModal::renderModalContent::complaints_edit::complaints is.."
+      );
+      console.log(curOccupantDetails.complaints);
+      return (
+        <ModalComplaintsEdit
+          occupant_id={curRoom.occupant_id}
+          complaints={curOccupantDetails.complaints}
+        />
+      );
     }
   };
 

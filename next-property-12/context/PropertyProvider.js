@@ -53,6 +53,8 @@ const PropertyProvider = ({ children }) => {
     console.log("PropertyProvider::curRoomDetails is::");
     console.log(cur);
     setCurRoomDetails(cur);
+
+    return cur;
   };
 
   const fetchOccupantDetails = async (uid) => {
@@ -69,6 +71,8 @@ const PropertyProvider = ({ children }) => {
     console.log("PropertyProvider::curOccupantDetails is::");
     console.log(cur);
     setCurOccupantDetails(cur);
+
+    return cur;
   };
 
   const updateProperty = async (obj) => {
