@@ -66,7 +66,7 @@ const FileItem = ({ file }) => {
               ? "linear(to-r, cyan.900  , cyan.900, teal.100 )"
               : "linear(to-r, blue.700  , blue.700, teal.100 )";
         } else if (file.making == 1) {
-			// 업스케일중일 경우입니다
+			// 업스케일중일 경우입니다 / 붉고 노란 빛의 형상입니다
           if (file.upscale_pct != -1) {
             // console.log(
             //   "linear(to-r, blue.700 0%, cyan.300 ",
@@ -84,7 +84,7 @@ const FileItem = ({ file }) => {
               file.upscale_pct +
               "%, cyan.800 100%)";
           } else ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
-          // 생성완료일 경우입니다
+          // 생성완료일 경우입니다 / 파란색
         } else if (file.upscale_pct == 100)
           ret = "linear(to-r, blue.700  , blue.700 )";
         else ret = "linear(to-r, cyan.900  , cyan.900 )";

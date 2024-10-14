@@ -40,7 +40,7 @@ const LoginJson = ({ json_date, auth_status }) => {
         return <Flex>(1/9)  opening firefox...</Flex>;
       } else if (postfix === "connectstudio") {
         // result = "authorizing...";
-        return <Flex>(2/9)  connecting youtube studio...</Flex>;
+        return <Flex>(2/9)  connecting y/studio...</Flex>;
       } else if (postfix === "opendevconsole") {
         // result = "authorizing...";
         return <Flex>(3/9)  opening dev console...</Flex>;
@@ -49,16 +49,16 @@ const LoginJson = ({ json_date, auth_status }) => {
         return <Flex>(4/9)  typing /grst...</Flex>;
       } else if (postfix === "refreshstudio") {
         // result = "authorizing...";
-        return <Flex>(5/9)  refreshing youtube studio...</Flex>;
+        return <Flex>(5/9)  refresh y/studio...</Flex>;
       } else if (postfix === "grsting") {
         // result = "authorizing...";
-        return <Flex>(6/9)  manipulating grst values...</Flex>;
+        return <Flex>(6/9)  copying grst values...</Flex>;
       } else if (postfix === "cooking") {
         // result = "authorizing...";
         return <Flex>(7/9)  saving cookies.txt...</Flex>;
       } else if (postfix === "finalizing") {
         // result = "authorizing...";
-        return <Flex>(8/9)  making login.json file...</Flex>;
+        return <Flex>(8/9)  making login.json...</Flex>;
       } else if (postfix === "closefirefox") {
         // result = "authorizing...";
         return <Flex>(9/9)  closing firefox...</Flex>;
