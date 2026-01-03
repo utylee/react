@@ -139,7 +139,7 @@ const ApartmentsPage = ({}) => {
             rounded="full"
             overflow="hidden"
           >
-            {/* 맥스빌 이미지입니다 */}
+            {/* 리치빌 이미지입니다 */}
             {/* src="property/public/maxvill.png" */}
             {/* style={{ transform: "scale(1.1)" }} */}
             {/* objectFit="cover" */}
@@ -179,7 +179,7 @@ const ApartmentsPage = ({}) => {
             justifyContent="flex-end"
             alignItems="center"
           >
-            {/* 맥스빌4층 */}
+            {/* 리치빌4층 */}
             {(() => {
               // if (fullFloors.maxvill[2] !== undefined) {
               // if (fullFloors.maxvill !== undefined) {
@@ -192,7 +192,7 @@ const ApartmentsPage = ({}) => {
               }
             })()}
             <Divider borderColor="gray.500" width="60%" my="3" />
-            {/* 맥스빌3층 */}
+            {/* 리치빌3층 */}
             {(() => {
               // if (fullFloors.maxvill[1] !== undefined) {
               // if (fullFloors.maxvill !== undefined) {
@@ -205,7 +205,7 @@ const ApartmentsPage = ({}) => {
               }
             })()}
             <Divider borderColor="gray.500" width="60%" my="3" />
-            {/* 맥스빌2층 */}
+            {/* 리치빌2층 */}
             {(() => {
               // if (fullFloors.maxvill[0] !== undefined) {
               // if (fullFloors.maxvill !== undefined) {

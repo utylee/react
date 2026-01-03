@@ -66,8 +66,64 @@ const FileItem = ({ file }) => {
               ? "linear(to-r, cyan.900  , cyan.900, teal.100 )"
               : "linear(to-r, blue.700  , blue.700, teal.100 )";
         } else if (file.making == 1) {
-			// 업스케일중일 경우입니다 / 붉고 노란 빛의 형상입니다
+          // 업스케일중일 경우입니다 / 붉고 노란 빛의 형상입니다
           if (file.upscale_pct != -1) {
+            // if (file.upscale_pct != -1 && file.upscale_pct != 100) {
+            // console.log(
+            //   "linear(to-r, blue.700 0%, cyan.300 ",
+            //   file.upscale_pct,
+            //   "%, blue.800 100%)"
+            // );
+            // console.log(
+            //   "linear(to-r, blue.700 0%, cyan.300 ",
+            //   file.upscale_pct,
+            //   "%)"
+            // );
+            // "linear(to-r, blue.800 0%, cyan.100 " +
+            ret =
+              "linear(to-r, yellow.700 0%, yellow.100 " +
+              file.upscale_pct +
+              "%, cyan.800 100%)";
+          } else if (file.upscale_pct == 100) {
+            if (file.ffmpeg_pct != -1) {
+              // console.log(
+              //   "linear(to-r, blue.700 0%, cyan.300 ",
+              //   file.upscale_pct,
+              //   "%, blue.800 100%)"
+              // );
+              // console.log(
+              //   "linear(to-r, blue.700 0%, cyan.300 ",
+              //   file.ffmpeg_pct,
+              //   "%)"
+              // );
+              // "linear(to-r, blue.800 0%, cyan.100 " +
+              ret =
+                "linear(to-r, yellow.700 0%, yellow.100 " +
+                file.ffmpeg_pct +
+                "%, teal.800 100%)";
+            }
+          } else ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
+          // 생성완료일 경우입니다 / 파란색
+        } else if (file.upscale_pct == 100) {
+          ret = "linear(to-r, blue.700  , blue.700 )";
+        }
+
+        // ret = "linear(to-r, blue.700  , blue.700 )";
+        else ret = "linear(to-r, cyan.900  , cyan.900 )";
+      // 복사완료일 경우입니다
+      else ret = "linear(to-r, gray.700  , gray.700)";
+    } else if (s == 2) {
+      // 두번째 원격 영역 그라디언트 설정입니다
+      if (file.copying == 1)
+        ret = "linear(to-r, teal.100, gray.600  , gray.600)";
+      else if (file.copying == 2) {
+        if (file.uploading == 2)
+          // ret = "linear(to-r, gray.600, gray.600, gray.500, pink.100)";
+          ret = "linear(to-r, blue.700, blue.700, blue.500, pink.100)";
+        // else ret = "linear(to-r, gray.500, gray.500)";
+        else {
+          // 업스케일중일 경우입니다 / 붉고 노란 빛의 형상입니다
+          if (file.upscale_pct != -1 && file.upscale_pct != 100) {
             // console.log(
             //   "linear(to-r, blue.700 0%, cyan.300 ",
             //   file.upscale_pct,
@@ -83,21 +139,24 @@ const FileItem = ({ file }) => {
               "linear(to-r, yellow.700 0%, yellow.100 " +
               file.upscale_pct +
               "%, cyan.800 100%)";
-          } else ret = "linear(to-r, cyan.900  , cyan.800, teal.400 )";
+            // ret =
+            //   "linear(to-r, yellow.700 0%, yellow.100 " +
+            //   file.upscale_pct +
+            //   "%, cyan.800 100%)";
+          }
           // 생성완료일 경우입니다 / 파란색
-        } else if (file.upscale_pct == 100)
-          ret = "linear(to-r, blue.700  , blue.700 )";
-        else ret = "linear(to-r, cyan.900  , cyan.900 )";
-      // 복사완료일 경우입니다
-      else ret = "linear(to-r, gray.700  , gray.700)";
-    } else if (s == 2) {
-      // 두번째 원격 영역 그라디언트 설정입니다
-      if (file.copying == 1)
-        ret = "linear(to-r, teal.100, gray.600  , gray.600)";
-      else if (file.copying == 2) {
-        if (file.uploading == 2)
-          ret = "linear(to-r, gray.600, gray.600, gray.500, pink.100)";
-        else ret = "linear(to-r, gray.500, gray.500)";
+          else if (file.upscale_pct == 100) {
+            if (file.ffmpeg_pct != -1 && file.ffmpeg_pct != 100) {
+              ret =
+                "linear(to-r, blue.700 0%, blue.100 " +
+                file.ffmpeg_pct +
+                "%, yellow.800 100%)";
+            } else if (file.ffmpeg_pct == 100)
+              ret = "linear(to-r, blue.700  , blue.700 )";
+            // else ret = "linear(to-r, yellow.600  , yellow.600 )";
+            else ret = "linear(to-r, blue.700  , blue.700 )";
+          } else ret = "linear(to-r, gray.500, gray.500)";
+        }
       } else ret = "linear(to-r, gray.700, gray.700)";
     } else if (s == 3) {
       // 세번째 유튜브 영역 그라디언트 설정입니다
